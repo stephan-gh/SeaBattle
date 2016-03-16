@@ -60,6 +60,9 @@
           <bold>false</bold>
          </font>
         </property>
+        <attribute name="verticalHeaderVisible">
+         <bool>false</bool>
+        </attribute>
        </widget>
       </item>
      </layout>
