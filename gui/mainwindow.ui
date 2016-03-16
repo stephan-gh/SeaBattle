@@ -13,7 +13,26 @@
   <property name="windowTitle">
    <string>Sea Battle</string>
   </property>
-  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>-1</number>
+      </property>
+      <property name="usesScrollButtons">
+       <bool>false</bool>
+      </property>
+      <property name="tabsClosable">
+       <bool>true</bool>
+      </property>
+      <property name="tabBarAutoHide">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
@@ -31,7 +50,6 @@
     <addaction name="actionJoinGame"/>
     <addaction name="separator"/>
     <addaction name="actionSave"/>
-    <addaction name="actionPreferences"/>
     <addaction name="separator"/>
     <addaction name="actionQuit"/>
    </widget>
@@ -41,7 +59,14 @@
     </property>
     <addaction name="actionAboutQt"/>
    </widget>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Opt&amp;ions</string>
+    </property>
+    <addaction name="actionGames"/>
+   </widget>
    <addaction name="menuGame"/>
+   <addaction name="menuSettings"/>
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
@@ -63,14 +88,6 @@
     <string>&amp;Save</string>
    </property>
   </action>
-  <action name="actionPreferences">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>&amp;Preferences</string>
-   </property>
-  </action>
   <action name="actionJoinGame">
    <property name="text">
     <string>&amp;Join</string>
@@ -78,7 +95,12 @@
   </action>
   <action name="actionAboutQt">
    <property name="text">
-    <string>About &amp;Qt</string>
+    <string>About &amp;Qt...</string>
+   </property>
+  </action>
+  <action name="actionGames">
+   <property name="text">
+    <string>&amp;Game...</string>
    </property>
   </action>
  </widget>

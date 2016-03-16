@@ -5,10 +5,16 @@ TEMPLATE = lib
 CONFIG += staticlib c++14
 
 SOURCES += \
-    seabattle.cpp
+    game.cpp \
+    ship.cpp \
+    player.cpp \
+    field.cpp
 
 HEADERS += \
-    seabattle.h
+    game.h \
+    ship.h \
+    player.h \
+    field.h
 
 unix {
     target.path = /usr/lib

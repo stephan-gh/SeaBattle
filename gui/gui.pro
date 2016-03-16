@@ -6,11 +6,19 @@ CONFIG += c++14
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    gameconfigdialog.cpp \
+    gameconfig.cpp \
+    gameconfigmodel.cpp
 
-HEADERS += mainwindow.h
+HEADERS += mainwindow.h \
+    gameconfigdialog.h \
+    gameconfig.h \
+    gameconfigmodel.h
 
-FORMS += mainwindow.ui
+FORMS += mainwindow.ui \
+    gameconfigdialog.ui \
+    gameconfigeditdialog.ui
 
 RESOURCES += \
     seabattle.qrc
