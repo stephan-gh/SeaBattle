@@ -1,7 +1,9 @@
 #include <QFile>
 #include <QMessageBox>
+#include <QInputDialog>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QDebug>
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -15,6 +17,28 @@ MainWindow::MainWindow(QWidget *parent, const QString &configPath) :
 {
     ui->setupUi(this);
     loadConfig();
+
+    connect(ui->actionNewGame, &QAction::triggered, [this] () {
+        QStringList options;
+        for (GameConfig config : this->configs) {
+            options << config.name();
+        }
+
+        options << tr("Create new...");
+
+        bool ok;
+        auto selection = QInputDialog::getItem(this, tr("Select game configuration"), tr("Game configuration:"), options, 0, false, &ok);
+
+        if (ok) {
+            if (selection != options.last()) {
+                qDebug() << selection;
+                auto i = options.indexOf(selection);
+                qDebug() << i;
+            } else {
+                // TODO: Create new
+            }
+        }
+    });
 
     connect(ui->actionGames, &QAction::triggered, [this] () {
         if (GameConfigDialog{this, configs}.exec()) {

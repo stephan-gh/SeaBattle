@@ -143,22 +143,37 @@
         <translation>&amp;Spiel...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="42"/>
+        <location filename="mainwindow.cpp" line="27"/>
+        <source>Create new...</source>
+        <translation>Neue erstellen...</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="30"/>
+        <source>Select game configuration</source>
+        <translation>Spielkonfiguration auswählen</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="30"/>
+        <source>Game configuration:</source>
+        <translation>Spielkonfiguration:</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="66"/>
         <source>Failed to open configuration file</source>
         <translation>Öffnen der Konfigurationsdatei fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="42"/>
+        <location filename="mainwindow.cpp" line="66"/>
         <source>Failed to open configuration file from %1</source>
         <translation>Das Öffnen der Konfigurationsdatei von %1 ist fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="61"/>
+        <location filename="mainwindow.cpp" line="85"/>
         <source>Failed to write configuration file</source>
         <translation>Schreiben der Konfiguration fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="61"/>
+        <location filename="mainwindow.cpp" line="85"/>
         <source>Failed to write configuration to %1</source>
         <translation>Das Schreiben der Konfiguration nach %1 ist fehlgeschlagen</translation>
     </message>
