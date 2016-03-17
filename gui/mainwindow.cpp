@@ -16,7 +16,9 @@ MainWindow::MainWindow(QWidget *parent, const QString &configPath) :
     configPath(configPath)
 {
     ui->setupUi(this);
-    loadConfig();
+    if (loadConfig()) {
+        ui->statusBar->showMessage(tr("Configuration successfully loaded"), 3000);
+    }
 
     connect(ui->actionNewGame, &QAction::triggered, [this] () {
         QStringList options;
@@ -42,7 +44,9 @@ MainWindow::MainWindow(QWidget *parent, const QString &configPath) :
 
     connect(ui->actionGames, &QAction::triggered, [this] () {
         if (GameConfigDialog{this, configs}.exec()) {
-            saveConfig();
+            if (saveConfig()) {
+                ui->statusBar->showMessage(tr("Configuration successfully saved"), 3000);
+            }
         }
     });
 

@@ -9,8 +9,8 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    auto locale = QLocale::system().name();
-    //auto locale = QStringLiteral("de_DE");
+    //auto locale = QLocale::system().name();
+    auto locale = QStringLiteral("de_DE");
 
     QTranslator qtTranslator;
     qtTranslator.load("qt_" + locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
