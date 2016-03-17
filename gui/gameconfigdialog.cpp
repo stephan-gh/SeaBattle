@@ -1,3 +1,4 @@
+#include <QMessageBox>
 #include "gameconfigdialog.h"
 #include "ui_gameconfigdialog.h"
 #include "ui_gameconfigeditdialog.h"
@@ -29,19 +30,24 @@ GameConfigDialog::GameConfigDialog(QWidget *parent, GameConfigs &configs) :
     });
 
     connect(ui->pushButtonEdit, &QPushButton::clicked, [&] () {
-        auto index = ui->listView->currentIndex();
-        if (index.isValid()) {
-            GameConfig config = model.get(index);
-            if (GameConfigEditDialog{this, config}.exec()) {
-                model.update(index, config);
+        for (auto index : ui->listView->selectionModel()->selectedRows()) {
+            if (index.isValid()) {
+                GameConfig config = model.get(index);
+                if (GameConfigEditDialog{this, config}.exec()) {
+                    model.update(index, config);
+                }
             }
         }
     });
 
     connect(ui->pushButtonDelete, &QPushButton::clicked, [&] () {
-        auto index = ui->listView->currentIndex();
-        if (index.isValid()) {
-            model.removeRow(index.row());
+        for (auto index : ui->listView->selectionModel()->selectedRows()) {
+            if (index.isValid()) {
+                if (QMessageBox::warning(this, tr("Confirm deletion"), tr("Do you really want to delete '%1'?").arg(index.data().toString()),
+                                     QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
+                    model.removeRow(index.row());
+                }
+            }
         }
     });
 
@@ -63,6 +69,9 @@ GameConfigEditDialog::GameConfigEditDialog(QWidget *parent, GameConfig &config) 
 
     // Set existing name
     ui->lineEditName->setText(config.name());
+    // Set existing size
+    ui->spinBoxWidth->setValue(config.size().x());
+    ui->spinBoxHeight->setValue(config.size().y());
 
     // Set existing ships and model
     ui->tableViewShips->setModel(new GameConfigShipModel(this, config.ships()));
@@ -90,6 +99,7 @@ void GameConfigEditDialog::validateInput()
 void GameConfigEditDialog::accept()
 {
     config.setName(ui->lineEditName->text());
+    config.setSize({ui->spinBoxHeight->value(), ui->spinBoxWidth->value()});
     QDialog::accept();
 }
 

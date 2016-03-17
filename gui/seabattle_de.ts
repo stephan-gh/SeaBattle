@@ -24,9 +24,19 @@
         <translation>Spielkonfiguration</translation>
     </message>
     <message>
-        <location filename="gameconfigdialog.cpp" line="21"/>
+        <location filename="gameconfigdialog.cpp" line="22"/>
         <source>Game</source>
         <translation>Spiel</translation>
+    </message>
+    <message>
+        <location filename="gameconfigdialog.cpp" line="46"/>
+        <source>Confirm deletion</source>
+        <translation>Löschen bestätigen</translation>
+    </message>
+    <message>
+        <location filename="gameconfigdialog.cpp" line="46"/>
+        <source>Do you really want to delete &apos;%1&apos;?</source>
+        <translation>Möchtest du &apos;%1&apos; wirklich löschen?</translation>
     </message>
 </context>
 <context>
@@ -45,6 +55,16 @@
         <location filename="gameconfigeditdialog.ui"/>
         <source>Ships</source>
         <translation>Schiffe</translation>
+    </message>
+    <message>
+        <location filename="gameconfigeditdialog.ui"/>
+        <source>Size:</source>
+        <translation>Größe:</translation>
+    </message>
+    <message>
+        <location filename="gameconfigeditdialog.ui"/>
+        <source>x</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -121,6 +141,26 @@
         <location filename="mainwindow.ui"/>
         <source>&amp;Game...</source>
         <translation>&amp;Spiel...</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="42"/>
+        <source>Failed to open configuration file</source>
+        <translation>Öffnen der Konfigurationsdatei fehlgeschlagen</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="42"/>
+        <source>Failed to open configuration file from %1</source>
+        <translation>Das Öffnen der Konfigurationsdatei von %1 ist fehlgeschlagen</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="61"/>
+        <source>Failed to write configuration file</source>
+        <translation>Schreiben der Konfiguration fehlgeschlagen</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="61"/>
+        <source>Failed to write configuration to %1</source>
+        <translation>Das Schreiben der Konfiguration nach %1 ist fehlgeschlagen</translation>
     </message>
 </context>
 </TS>

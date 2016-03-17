@@ -1,8 +1,21 @@
 #include "gameconfig.h"
+#include <QJsonArray>
 
 GameConfig::GameConfig(const QString &name) :
     name_(name)
 {
+}
+
+GameConfig::GameConfig(const QJsonValue &value)
+{
+    auto json = value.toObject();
+    name_ = json["name"].toString();
+    size_ = {json["size"]};
+
+    QJsonArray ships = json["ships"].toArray();
+    for (auto ship : ships) {
+        ships_.emplace_back(ship);
+    }
 }
 
 const QString &GameConfig::name() const
@@ -15,14 +28,46 @@ void GameConfig::setName(const QString &name)
     name_ = name;
 }
 
+SeaBattle::Coordinate GameConfig::size() const
+{
+    return size_;
+}
+
+void GameConfig::setSize(SeaBattle::Coordinate size)
+{
+    size_ = size;
+}
+
 GameConfig::Ships &GameConfig::ships()
 {
     return ships_;
 }
 
+GameConfig::operator QJsonValue() const
+{
+    QJsonObject result;
+    result["name"] = name_;
+    result["size"] = size_;
+
+    QJsonArray ships;
+    for (auto ship : ships_) {
+        ships.append(ship);
+    }
+    result["ships"] = ships;
+    return result;
+}
+
 GameConfig::Ship::Ship(const QString &name) :
     name_(name)
 {
+}
+
+GameConfig::Ship::Ship(const QJsonValue &value)
+{
+    auto json = value.toObject();
+    name_ = json["name"].toString();
+    length_ = json["length"].toInt();
+    count_ = json["count"].toInt();
 }
 
 const QString &GameConfig::Ship::name() const
@@ -54,3 +99,13 @@ void GameConfig::Ship::setCount(int count)
 {
     count_ = count;
 }
+
+GameConfig::Ship::operator QJsonValue() const
+{
+    QJsonObject result;
+    result["name"] = name_;
+    result["length"] = length_;
+    result["count"] = count_;
+    return result;
+}
+

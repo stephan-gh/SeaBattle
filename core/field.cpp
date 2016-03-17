@@ -1,3 +1,4 @@
+#include <QJsonArray>
 #include "field.h"
 
 namespace SeaBattle {
@@ -11,6 +12,13 @@ Coordinate::Coordinate(int x, int y) :
     x_(x),
     y_(y)
 {
+}
+
+Coordinate::Coordinate(const QJsonValue &value)
+{
+    auto json = value.toArray();
+    x_ = json[0].toInt();
+    y_ = json[1].toInt();
 }
 
 int Coordinate::x() const
@@ -31,6 +39,11 @@ Coordinate Coordinate::operator+(const Coordinate &other) const
 Coordinate Coordinate::operator-(const Coordinate &other) const
 {
     return {this->x() + other.x(), this->y() + other.y()};
+}
+
+SeaBattle::Coordinate::operator QJsonValue() const
+{
+    return QJsonArray{x_, y_};
 }
 
 const Direction Direction::UP = {0, -1};

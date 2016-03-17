@@ -9,8 +9,8 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    auto locale = QLocale::system().name();
-    //auto locale = QStringLiteral("de_DE");
+    //auto locale = QLocale::system().name();
+    auto locale = QStringLiteral("de_DE");
 
     QTranslator qtTranslator;
     qtTranslator.load("qt_" + locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
     appTranslator.load("seabattle_" + locale, ":/translations");
     app.installTranslator(&appTranslator);
 
-    MainWindow window;
+    MainWindow window{nullptr, "seabattle.json"};
     window.show();
 
     return app.exec();

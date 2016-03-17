@@ -1,13 +1,16 @@
 #pragma once
 
+#include <QJsonArray>
+
 namespace SeaBattle {
 
 class Coordinate {
-    const int x_;
-    const int y_;
+    int x_;
+    int y_;
 
 public:
     Coordinate(int x, int y);
+    Coordinate(const QJsonValue &value);
 
     int x() const;
     int y() const;
@@ -15,6 +18,7 @@ public:
     Coordinate operator+(const Coordinate &other) const;
     Coordinate operator-(const Coordinate &other) const;
 
+    operator QJsonValue() const;
 };
 
 struct Direction : Coordinate {

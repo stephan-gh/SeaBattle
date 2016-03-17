@@ -12,10 +12,14 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
+    MainWindow(QWidget *parent, const QString &configPath);
     ~MainWindow();
+
+    bool loadConfig();
+    bool saveConfig();
 
 private:
     Ui::MainWindow *ui;
+    QString configPath;
     GameConfigs configs;
 };
