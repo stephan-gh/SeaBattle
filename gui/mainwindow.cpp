@@ -32,13 +32,21 @@ MainWindow::MainWindow(QWidget *parent, const QString &configPath) :
         auto selection = QInputDialog::getItem(this, tr("Select game configuration"), tr("Game configuration:"), options, 0, false, &ok);
 
         if (ok) {
+            int i;
             if (selection != options.last()) {
-                qDebug() << selection;
-                auto i = options.indexOf(selection);
-                qDebug() << i;
+                i = options.indexOf(selection);
             } else {
-                // TODO: Create new
+                GameConfig config{tr("Game")};
+                if (GameConfigEditDialog{this, config}.exec()) {
+                    i = configs.size();
+                    configs.push_back(config);
+                    saveConfig();
+                } else {
+                    return;
+                }
             }
+
+            qDebug() << configs[i].name();
         }
     });
 
