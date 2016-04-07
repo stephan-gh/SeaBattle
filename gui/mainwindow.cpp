@@ -9,6 +9,7 @@
 #include "ui_mainwindow.h"
 
 #include "gameconfigdialog.h"
+#include "gamewidget.h"
 
 MainWindow::MainWindow(QWidget *parent, const QString &configPath) :
     QMainWindow(parent),
@@ -46,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent, const QString &configPath) :
                 }
             }
 
-            qDebug() << configs[i].name();
+            ui->tabWidgetGames->addTab(new GamePrepareWidget{this}, configs[i].name());
         }
     });
 

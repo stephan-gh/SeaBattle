@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>600</width>
     <height>300</height>
    </rect>
   </property>
@@ -16,14 +16,14 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <widget class="QTabWidget" name="tabWidget">
+     <widget class="QTabWidget" name="tabWidgetGames">
       <property name="currentIndex">
        <number>-1</number>
       </property>
-      <property name="usesScrollButtons">
-       <bool>false</bool>
-      </property>
       <property name="tabsClosable">
+       <bool>true</bool>
+      </property>
+      <property name="movable">
        <bool>true</bool>
       </property>
       <property name="tabBarAutoHide">
@@ -38,7 +38,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>400</width>
+     <width>600</width>
      <height>22</height>
     </rect>
    </property>
@@ -61,7 +61,7 @@
    </widget>
    <widget class="QMenu" name="menuSettings">
     <property name="title">
-     <string>Opt&amp;ions</string>
+     <string>Optio&amp;ns</string>
     </property>
     <addaction name="actionGames"/>
    </widget>

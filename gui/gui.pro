@@ -9,16 +9,20 @@ SOURCES += \
     mainwindow.cpp \
     gameconfigdialog.cpp \
     gameconfig.cpp \
-    gameconfigmodel.cpp
+    gameconfigmodel.cpp \
+    gamewidget.cpp
 
 HEADERS += mainwindow.h \
     gameconfigdialog.h \
     gameconfig.h \
-    gameconfigmodel.h
+    gameconfigmodel.h \
+    gamewidget.h
 
 FORMS += mainwindow.ui \
     gameconfigdialog.ui \
-    gameconfigeditdialog.ui
+    gameconfigeditdialog.ui \
+    gamewidget.ui \
+    gamepreparewidget.ui
 
 RESOURCES += \
     seabattle.qrc

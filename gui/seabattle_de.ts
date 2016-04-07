@@ -91,6 +91,14 @@
     </message>
 </context>
 <context>
+    <name>GamePrepareWidget</name>
+    <message>
+        <location filename="gamepreparewidget.ui"/>
+        <source>Set ship</source>
+        <translation>Schiff setzen</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <location filename="mainwindow.ui"/>
@@ -134,59 +142,64 @@
     </message>
     <message>
         <location filename="mainwindow.ui"/>
-        <source>Opt&amp;ions</source>
-        <translation>Opt&amp;ionen</translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui"/>
         <source>&amp;Game...</source>
         <translation>&amp;Spiel...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="20"/>
+        <location filename="mainwindow.cpp" line="21"/>
         <source>Configuration successfully loaded</source>
         <oldsource>Configuration loaded</oldsource>
         <translation>Konfiguration erfolgreich geladen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="29"/>
+        <location filename="mainwindow.cpp" line="30"/>
         <source>Create new...</source>
         <translation>Neue erstellen...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="32"/>
+        <location filename="mainwindow.cpp" line="33"/>
         <source>Select game configuration</source>
         <translation>Spielkonfiguration auswählen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="32"/>
+        <location filename="mainwindow.cpp" line="33"/>
         <source>Game configuration:</source>
         <translation>Spielkonfiguration:</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="48"/>
+        <location filename="mainwindow.cpp" line="40"/>
+        <source>Game</source>
+        <translation>Spiel</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="57"/>
         <source>Configuration successfully saved</source>
         <translation>Konfiguration erfolgreich gespeichert</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="70"/>
+        <location filename="mainwindow.cpp" line="79"/>
         <source>Failed to open configuration file</source>
         <translation>Öffnen der Konfigurationsdatei fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="70"/>
+        <location filename="mainwindow.cpp" line="79"/>
         <source>Failed to open configuration file from %1</source>
         <translation>Das Öffnen der Konfigurationsdatei von %1 ist fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="89"/>
+        <location filename="mainwindow.cpp" line="98"/>
         <source>Failed to write configuration file</source>
         <translation>Schreiben der Konfiguration fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="89"/>
+        <location filename="mainwindow.cpp" line="98"/>
         <source>Failed to write configuration to %1</source>
         <translation>Das Schreiben der Konfiguration nach %1 ist fehlgeschlagen</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui"/>
+        <source>Optio&amp;ns</source>
+        <translation>Optio&amp;nen</translation>
     </message>
 </context>
 </TS>
