@@ -15,11 +15,12 @@
 MainWindow::MainWindow(QWidget *parent, const QString &configPath) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    configPath(configPath)
+    configPath(configPath),
+    server(nullptr)
 {
     ui->setupUi(this);
     if (loadConfig()) {
-        qInfo() << "Successfully loaded configuration from" << configPath;
+        qDebug() << "Successfully loaded configuration from" << configPath;
         ui->statusBar->showMessage(tr("Configuration successfully loaded"), 3000);
     }
 
@@ -42,11 +43,13 @@ MainWindow::MainWindow(QWidget *parent, const QString &configPath) :
             }
         }
 
-        GameConfig config = configs[index];
+        const GameConfig &config = configs[index];
         qInfo() << "Creating game:" << config.name();
 
         // TODO: Create on external server
-        ui->tabWidgetGames->addTab(new GamePrepareWidget{this}, config.name());
+        createGame(config);
+
+        // TODO: Join game
     });
 
     connect(ui->actionGames, &QAction::triggered, [&] () {
@@ -65,6 +68,21 @@ MainWindow::MainWindow(QWidget *parent, const QString &configPath) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete server;
+}
+
+void MainWindow::createGame(const GameConfig &config)
+{
+    if (server == nullptr) {
+        qDebug("Starting integrated server...");
+        server = new SeaBattle::Server{this};
+        if (!server->start()) {
+            qWarning("Retrying to start server on random port");
+            if (!server->start(0)) {
+                return;
+            }
+        }
+    }
 }
 
 bool MainWindow::loadConfig()

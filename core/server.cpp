@@ -22,12 +22,17 @@ bool SeaBattle::Server::start(unsigned int port)
         connect(socket, &QWebSocketServer::newConnection, this, &Server::accept);
         connect(socket, &QWebSocketServer::closed, this, &Server::closed);
 
-        qInfo() << "Started SeaBattle server on port:" << port;
+        qInfo() << "Started SeaBattle server on port:" << socket->serverPort();
         return true;
     } else {
         qCritical() << "Failed to bind server:" << socket->errorString();
         return false;
     }
+}
+
+unsigned int SeaBattle::Server::port() const
+{
+    return socket->serverPort();
 }
 
 void SeaBattle::Server::accept()

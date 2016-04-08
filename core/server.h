@@ -13,7 +13,9 @@ public:
     explicit Server(QObject *parent);
     ~Server();
 
-    bool start(unsigned int port);
+    bool start(unsigned int port = 43560);
+
+    unsigned int port() const;
 
 signals:
     void closed();

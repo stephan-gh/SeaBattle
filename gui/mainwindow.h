@@ -16,6 +16,8 @@ public:
     MainWindow(QWidget *parent, const QString &configPath);
     ~MainWindow();
 
+    void createGame(const GameConfig &config);
+
     bool loadConfig();
     bool saveConfig();
 
