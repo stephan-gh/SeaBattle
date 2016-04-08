@@ -9,7 +9,7 @@
 #include "ui_mainwindow.h"
 
 #include "gameconfig/gameconfigdialog.h"
-#include "gamewidget.h"
+#include "game/gamewidget.h"
 
 MainWindow::MainWindow(QWidget *parent, const QString &configPath) :
     QMainWindow(parent),
