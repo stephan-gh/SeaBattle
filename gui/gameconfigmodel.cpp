@@ -91,7 +91,7 @@ Qt::ItemFlags GameConfigShipModel::flags(const QModelIndex &) const
 
 QVariant GameConfigShipModel::data(const QModelIndex &index, int role) const
 {
-    if (role == Qt::DisplayRole && index.row() != ships.size()) {
+    if (role == Qt::DisplayRole && index.row() != static_cast<int>(ships.size())) {
         GameConfig::Ship ship = ships[index.row()];
 
         switch (index.column()) {
@@ -111,7 +111,7 @@ bool GameConfigShipModel::setData(const QModelIndex &index, const QVariant &valu
 {
     if (role == Qt::EditRole) {
         const auto row = index.row();
-        auto isNew = row == ships.size();
+        auto isNew = row == static_cast<int>(ships.size());
 
         GameConfig::Ship ship = isNew ? GameConfig::Ship{tr("Ship")} : ships[row];
 
