@@ -1,6 +1,8 @@
 #include "gameconfig.h"
 #include <QJsonArray>
 
+namespace SeaBattle {
+
 GameConfig::GameConfig(const QString &name) :
     name_(name)
 {
@@ -109,3 +111,4 @@ GameConfig::Ship::operator QJsonValue() const
     return result;
 }
 
+}

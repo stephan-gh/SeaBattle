@@ -7,6 +7,7 @@ CONFIG += staticlib c++14
 
 HEADERS += \
     game.h \
+    gameconfig.h \
     ship.h \
     player.h \
     field.h \
@@ -14,6 +15,7 @@ HEADERS += \
 
 SOURCES += \
     game.cpp \
+    gameconfig.cpp \
     ship.cpp \
     player.cpp \
     field.cpp \

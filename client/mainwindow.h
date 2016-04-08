@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QMainWindow>
-#include "gameconfig/gameconfig.h"
+#include "gameconfig.h"
 #include "server.h"
 
 namespace Ui {
@@ -16,7 +16,7 @@ public:
     MainWindow(QWidget *parent, const QString &configPath);
     ~MainWindow();
 
-    void createGame(const GameConfig &config);
+    void createGame(const SeaBattle::GameConfig &config);
 
     bool loadConfig();
     bool saveConfig();
@@ -25,7 +25,7 @@ private:
     Ui::MainWindow *ui;
 
     const QString configPath;
-    GameConfigs configs;
+    SeaBattle::GameConfigs configs;
 
     SeaBattle::Server *server;
 };

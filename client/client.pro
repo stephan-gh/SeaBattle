@@ -6,7 +6,6 @@ CONFIG += c++14
 
 HEADERS += \
     mainwindow.h \
-    gameconfig/gameconfig.h \
     gameconfig/gameconfigdialog.h \
     gameconfig/gameconfigmodel.h \
     game/gamewidget.h \
@@ -15,7 +14,6 @@ HEADERS += \
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    gameconfig/gameconfig.cpp \
     gameconfig/gameconfigdialog.cpp \
     gameconfig/gameconfigmodel.cpp \
     game/gamewidget.cpp \

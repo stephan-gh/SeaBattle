@@ -5,6 +5,8 @@
 #include <QJsonObject>
 #include "field.h"
 
+namespace SeaBattle {
+
 class GameConfig
 {    
 public:    
@@ -52,3 +54,5 @@ private:
 };
 
 using GameConfigs = std::vector<GameConfig>;
+
+}

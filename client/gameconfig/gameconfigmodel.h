@@ -5,6 +5,8 @@
 
 #include "gameconfig.h"
 
+using namespace SeaBattle;
+
 class GameConfigModel : public QAbstractListModel
 {
     Q_OBJECT
