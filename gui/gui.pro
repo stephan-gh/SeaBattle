@@ -1,4 +1,4 @@
-QT += core gui widgets
+QT += widgets websockets
 
 TARGET = gui
 TEMPLATE = app

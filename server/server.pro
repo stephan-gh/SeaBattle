@@ -1,5 +1,5 @@
-QT += core websockets
 QT -= gui
+QT += websockets
 
 CONFIG += c++14
 
