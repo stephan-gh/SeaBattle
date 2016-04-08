@@ -169,40 +169,36 @@
         <translation>&amp;Spiel...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="22"/>
+        <location filename="mainwindow.cpp" line="23"/>
         <source>Configuration successfully loaded</source>
         <oldsource>Configuration loaded</oldsource>
         <translation>Konfiguration erfolgreich geladen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="34"/>
+        <location filename="mainwindow.cpp" line="35"/>
         <source>Game</source>
         <translation>Spiel</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="54"/>
+        <location filename="mainwindow.cpp" line="56"/>
         <source>Configuration successfully saved</source>
         <translation>Konfiguration erfolgreich gespeichert</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="76"/>
+        <location filename="mainwindow.cpp" line="79"/>
+        <location filename="mainwindow.cpp" line="99"/>
         <source>Failed to open configuration file</source>
         <translation>Öffnen der Konfigurationsdatei fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="76"/>
+        <location filename="mainwindow.cpp" line="79"/>
         <source>Failed to open configuration file from %1</source>
         <translation>Das Öffnen der Konfigurationsdatei von %1 ist fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="95"/>
-        <source>Failed to write configuration file</source>
-        <translation>Schreiben der Konfiguration fehlgeschlagen</translation>
-    </message>
-    <message>
-        <location filename="mainwindow.cpp" line="95"/>
-        <source>Failed to write configuration to %1</source>
-        <translation>Das Schreiben der Konfiguration nach %1 ist fehlgeschlagen</translation>
+        <location filename="mainwindow.cpp" line="99"/>
+        <source>Failed to open configuration to %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui"/>

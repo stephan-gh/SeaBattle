@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent, const QString &configPath) :
 {
     ui->setupUi(this);
     if (loadConfig()) {
+        qInfo() << "Successfully loaded configuration from" << configPath;
         ui->statusBar->showMessage(tr("Configuration successfully loaded"), 3000);
     }
 
@@ -42,15 +43,16 @@ MainWindow::MainWindow(QWidget *parent, const QString &configPath) :
         }
 
         GameConfig config = configs[index];
-        qDebug() << "Creating game:" << config.name();
+        qInfo() << "Creating game:" << config.name();
 
         // TODO: Create on external server
         ui->tabWidgetGames->addTab(new GamePrepareWidget{this}, config.name());
     });
 
-    connect(ui->actionGames, &QAction::triggered, [this] () {
+    connect(ui->actionGames, &QAction::triggered, [&] () {
         if (GameConfigDialog{this, configs}.exec()) {
             if (saveConfig()) {
+                qDebug() << "Successfully saved configuration to" << configPath;
                 ui->statusBar->showMessage(tr("Configuration successfully saved"), 3000);
             }
         }
@@ -73,6 +75,7 @@ bool MainWindow::loadConfig()
     }
 
     if (!file.open(QIODevice::ReadOnly)) {
+        qCritical() << "Failed to open configuration file" << configPath << file.errorString();
         QMessageBox::critical(this, tr("Failed to open configuration file"), tr("Failed to open configuration file from %1").arg(configPath));
         return false;
     }
@@ -92,7 +95,8 @@ bool MainWindow::saveConfig()
 {
     QFile file{configPath};
     if (!file.open(QIODevice::WriteOnly)) {
-        QMessageBox::critical(this, tr("Failed to write configuration file"), tr("Failed to write configuration to %1").arg(configPath));
+        qCritical() << "Failed to open configuration file" << configPath << file.errorString();
+        QMessageBox::critical(this, tr("Failed to open configuration file"), tr("Failed to open configuration to %1").arg(configPath));
         return false;
     }
 
