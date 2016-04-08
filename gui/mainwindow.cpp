@@ -8,7 +8,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "gameconfigdialog.h"
+#include "gameconfig/gameconfigdialog.h"
 #include "gamewidget.h"
 
 MainWindow::MainWindow(QWidget *parent, const QString &configPath) :

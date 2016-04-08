@@ -4,29 +4,29 @@ TARGET = gui
 TEMPLATE = app
 CONFIG += c++14
 
+HEADERS += \
+    mainwindow.h \
+    gameconfig/gameconfig.h \
+    gameconfig/gameconfigdialog.h \
+    gameconfig/gameconfigmodel.h \
+    gamewidget.h
+
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    gameconfigdialog.cpp \
-    gameconfig.cpp \
-    gameconfigmodel.cpp \
+    gameconfig/gameconfig.cpp \
+    gameconfig/gameconfigdialog.cpp \
+    gameconfig/gameconfigmodel.cpp \
     gamewidget.cpp
 
-HEADERS += mainwindow.h \
-    gameconfigdialog.h \
-    gameconfig.h \
-    gameconfigmodel.h \
-    gamewidget.h
-
-FORMS += mainwindow.ui \
-    gameconfigdialog.ui \
-    gameconfigeditdialog.ui \
+FORMS += \
+    mainwindow.ui \
+    gameconfig/gameconfigdialog.ui \
+    gameconfig/gameconfigeditdialog.ui \
     gamewidget.ui \
     gamepreparewidget.ui
 
-RESOURCES += \
-    seabattle.qrc
-
+RESOURCES += seabattle.qrc
 TRANSLATIONS = seabattle_de.ts
 
 # Automatically build translations

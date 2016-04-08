@@ -1,7 +1,8 @@
 #pragma once
 
 #include <QMainWindow>
-#include "gameconfig.h"
+#include "gameconfig/gameconfig.h"
+#include "server.h"
 
 namespace Ui {
 class MainWindow;
@@ -20,6 +21,9 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    QString configPath;
+
+    const QString configPath;
     GameConfigs configs;
+
+    SeaBattle::Server *server;
 };
