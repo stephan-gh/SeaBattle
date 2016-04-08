@@ -169,34 +169,34 @@
         <translation>&amp;Spiel...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="23"/>
+        <location filename="mainwindow.cpp" line="24"/>
         <source>Configuration successfully loaded</source>
         <oldsource>Configuration loaded</oldsource>
         <translation>Konfiguration erfolgreich geladen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="35"/>
+        <location filename="mainwindow.cpp" line="36"/>
         <source>Game</source>
         <translation>Spiel</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="56"/>
+        <location filename="mainwindow.cpp" line="59"/>
         <source>Configuration successfully saved</source>
         <translation>Konfiguration erfolgreich gespeichert</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="79"/>
-        <location filename="mainwindow.cpp" line="99"/>
+        <location filename="mainwindow.cpp" line="97"/>
+        <location filename="mainwindow.cpp" line="117"/>
         <source>Failed to open configuration file</source>
         <translation>Öffnen der Konfigurationsdatei fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="79"/>
+        <location filename="mainwindow.cpp" line="97"/>
         <source>Failed to open configuration file from %1</source>
         <translation>Das Öffnen der Konfigurationsdatei von %1 ist fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="99"/>
+        <location filename="mainwindow.cpp" line="117"/>
         <source>Failed to open configuration to %1</source>
         <translation type="unfinished"></translation>
     </message>

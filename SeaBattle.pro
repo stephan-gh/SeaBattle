@@ -1,6 +1,6 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    core \
-    gui \
+    common \
+    client \
     server

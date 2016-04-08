@@ -1,7 +1,7 @@
 QT -= gui
 QT += websockets
 
-TARGET = core
+TARGET = common
 TEMPLATE = lib
 CONFIG += staticlib c++14
 
