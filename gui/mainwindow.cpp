@@ -9,6 +9,7 @@
 #include "ui_mainwindow.h"
 
 #include "gameconfig/gameconfigdialog.h"
+#include "game/gamecreatedialog.h"
 #include "game/gamewidget.h"
 
 MainWindow::MainWindow(QWidget *parent, const QString &configPath) :
@@ -22,33 +23,29 @@ MainWindow::MainWindow(QWidget *parent, const QString &configPath) :
     }
 
     connect(ui->actionNewGame, &QAction::triggered, [this] () {
-        QStringList options;
-        for (GameConfig config : this->configs) {
-            options << config.name();
+        GameCreateDialog dialog{this, configs};
+        if (!dialog.exec()) {
+            return;
         }
 
-        options << tr("Create new...");
-
-        bool ok;
-        auto selection = QInputDialog::getItem(this, tr("Select game configuration"), tr("Game configuration:"), options, 0, false, &ok);
-
-        if (ok) {
-            int i;
-            if (selection != options.last()) {
-                i = options.indexOf(selection);
+        auto index = dialog.selection();
+        if (index == -1) {
+            // Create new config
+            GameConfig config{tr("Game")};
+            if (GameConfigEditDialog{this, config}.exec()) {
+                index = configs.size();
+                configs.push_back(config);
+                saveConfig();
             } else {
-                GameConfig config{tr("Game")};
-                if (GameConfigEditDialog{this, config}.exec()) {
-                    i = configs.size();
-                    configs.push_back(config);
-                    saveConfig();
-                } else {
-                    return;
-                }
+                return;
             }
-
-            ui->tabWidgetGames->addTab(new GamePrepareWidget{this}, configs[i].name());
         }
+
+        GameConfig config = configs[index];
+        qDebug() << "Creating game:" << config.name();
+
+        // TODO: Create on external server
+        ui->tabWidgetGames->addTab(new GamePrepareWidget{this}, config.name());
     });
 
     connect(ui->actionGames, &QAction::triggered, [this] () {
