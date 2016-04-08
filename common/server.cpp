@@ -30,6 +30,11 @@ bool SeaBattle::Server::start(unsigned int port)
     }
 }
 
+QUrl SeaBattle::Server::url() const
+{
+    return socket->serverUrl();
+}
+
 unsigned int SeaBattle::Server::port() const
 {
     return socket->serverPort();
@@ -43,7 +48,7 @@ void SeaBattle::Server::accept()
     connect(client, &QWebSocket::binaryMessageReceived, client, [client] () {
         client->close(QWebSocketProtocol::CloseCodeDatatypeNotSupported);
     });
-    connect(client, &QWebSocket::disconnected, this, &Server::disconnect);
+    connect(client, &QWebSocket::disconnected, this, &Server::disconnected);
 
     qDebug() << "Client accepted:" << client->peerPort();
     clients.push_back(client);
@@ -55,7 +60,7 @@ void SeaBattle::Server::process(QString message)
     qDebug() << "Message received from client" << client->peerPort() << message;
 }
 
-void SeaBattle::Server::disconnect()
+void SeaBattle::Server::disconnected()
 {
     auto client = static_cast<QWebSocket*>(sender());
     qDebug() << "Client disconnected:" << client->peerPort();

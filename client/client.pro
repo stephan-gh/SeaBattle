@@ -9,7 +9,8 @@ HEADERS += \
     gameconfig/gameconfigdialog.h \
     gameconfig/gameconfigmodel.h \
     game/gamewidget.h \
-    game/gamecreatedialog.h
+    game/gamecreatedialog.h \
+    client.h
 
 SOURCES += \
     main.cpp \
@@ -17,7 +18,8 @@ SOURCES += \
     gameconfig/gameconfigdialog.cpp \
     gameconfig/gameconfigmodel.cpp \
     game/gamewidget.cpp \
-    game/gamecreatedialog.cpp
+    game/gamecreatedialog.cpp \
+    client.cpp
 
 FORMS += \
     mainwindow.ui \

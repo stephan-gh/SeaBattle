@@ -3,6 +3,7 @@
 #include <QMainWindow>
 #include "gameconfig.h"
 #include "server.h"
+#include "client.h"
 
 namespace Ui {
 class MainWindow;
@@ -17,6 +18,7 @@ public:
     ~MainWindow();
 
     void createGame(const SeaBattle::GameConfig &config);
+    void joinGame(const QUrl &url);
 
     bool loadConfig();
     bool saveConfig();
@@ -28,4 +30,5 @@ private:
     SeaBattle::GameConfigs configs;
 
     SeaBattle::Server *server;
+    std::vector<Client*> clients;
 };

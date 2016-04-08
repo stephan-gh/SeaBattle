@@ -16,7 +16,8 @@ MainWindow::MainWindow(QWidget *parent, const QString &configPath) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     configPath(configPath),
-    server(nullptr)
+    server(nullptr),
+    clients()
 {
     ui->setupUi(this);
     if (loadConfig()) {
@@ -82,6 +83,27 @@ void MainWindow::createGame(const GameConfig &config)
                 return;
             }
         }
+    }
+
+    // TODO: Create game
+
+    joinGame(server->url());
+}
+
+void MainWindow::joinGame(const QUrl &url)
+{
+    auto client_itr = std::find_if(clients.begin(), clients.end(), [url] (auto client) {
+        return client->url() == url;
+    });
+
+    Client* client;
+    if (client_itr != clients.end()) {
+        client = *(client_itr);
+    } else {
+        qDebug() << "Creating new client for" << url;
+        client = new Client{this, url};
+        client->start();
+        clients.push_back(client);
     }
 }
 

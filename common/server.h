@@ -15,6 +15,7 @@ public:
 
     bool start(unsigned int port = 43560);
 
+    QUrl url() const;
     unsigned int port() const;
 
 signals:
@@ -23,7 +24,7 @@ signals:
 private slots:
     void accept();
     void process(QString message);
-    void disconnect();
+    void disconnected();
 
 private:
     QWebSocketServer *socket;
