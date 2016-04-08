@@ -30,12 +30,12 @@ void GameConfig::setName(const QString &name)
     name_ = name;
 }
 
-SeaBattle::Coordinate GameConfig::size() const
+Coordinate GameConfig::size() const
 {
     return size_;
 }
 
-void GameConfig::setSize(SeaBattle::Coordinate size)
+void GameConfig::setSize(Coordinate size)
 {
     size_ = size;
 }

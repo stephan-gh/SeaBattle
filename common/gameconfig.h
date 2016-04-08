@@ -40,8 +40,8 @@ public:
     const QString &name() const;
     void setName(const QString &name);
 
-    SeaBattle::Coordinate size() const;
-    void setSize(SeaBattle::Coordinate size);
+    Coordinate size() const;
+    void setSize(Coordinate size);
 
     Ships &ships();
 
@@ -49,7 +49,7 @@ public:
 
 private:
     QString name_;
-    SeaBattle::Coordinate size_{10, 10};
+    Coordinate size_{10, 10};
     Ships ships_;
 };
 
