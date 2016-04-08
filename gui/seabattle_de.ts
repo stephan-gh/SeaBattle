@@ -4,37 +4,37 @@
 <context>
     <name>GameConfigDialog</name>
     <message>
-        <location filename="gameconfigdialog.ui"/>
+        <location filename="gameconfig/gameconfigdialog.ui"/>
         <source>&amp;New</source>
         <translation>&amp;Neu</translation>
     </message>
     <message>
-        <location filename="gameconfigdialog.ui"/>
+        <location filename="gameconfig/gameconfigdialog.ui"/>
         <source>&amp;Edit</source>
         <translation>&amp;Bearbeiten</translation>
     </message>
     <message>
-        <location filename="gameconfigdialog.ui"/>
+        <location filename="gameconfig/gameconfigdialog.ui"/>
         <source>&amp;Delete</source>
         <translation>&amp;Entfernen</translation>
     </message>
     <message>
-        <location filename="gameconfigdialog.ui"/>
+        <location filename="gameconfig/gameconfigdialog.ui"/>
         <source>Game Configuration</source>
         <translation>Spielkonfiguration</translation>
     </message>
     <message>
-        <location filename="gameconfigdialog.cpp" line="22"/>
+        <location filename="gameconfig/gameconfigdialog.cpp" line="22"/>
         <source>Game</source>
         <translation>Spiel</translation>
     </message>
     <message>
-        <location filename="gameconfigdialog.cpp" line="46"/>
+        <location filename="gameconfig/gameconfigdialog.cpp" line="46"/>
         <source>Confirm deletion</source>
         <translation>Löschen bestätigen</translation>
     </message>
     <message>
-        <location filename="gameconfigdialog.cpp" line="46"/>
+        <location filename="gameconfig/gameconfigdialog.cpp" line="46"/>
         <source>Do you really want to delete &apos;%1&apos;?</source>
         <translation>Möchtest du &apos;%1&apos; wirklich löschen?</translation>
     </message>
@@ -42,27 +42,27 @@
 <context>
     <name>GameConfigEditDialog</name>
     <message>
-        <location filename="gameconfigeditdialog.ui"/>
+        <location filename="gameconfig/gameconfigeditdialog.ui"/>
         <source>Edit Game Configuration</source>
         <translation>Spielkonfiguration bearbeiten</translation>
     </message>
     <message>
-        <location filename="gameconfigeditdialog.ui"/>
+        <location filename="gameconfig/gameconfigeditdialog.ui"/>
         <source>Name:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="gameconfigeditdialog.ui"/>
+        <location filename="gameconfig/gameconfigeditdialog.ui"/>
         <source>Ships</source>
         <translation>Schiffe</translation>
     </message>
     <message>
-        <location filename="gameconfigeditdialog.ui"/>
+        <location filename="gameconfig/gameconfigeditdialog.ui"/>
         <source>Size:</source>
         <translation>Größe:</translation>
     </message>
     <message>
-        <location filename="gameconfigeditdialog.ui"/>
+        <location filename="gameconfig/gameconfigeditdialog.ui"/>
         <source>x</source>
         <translation></translation>
     </message>
@@ -70,22 +70,22 @@
 <context>
     <name>GameConfigShipModel</name>
     <message>
-        <location filename="gameconfigmodel.cpp" line="116"/>
+        <location filename="gameconfig/gameconfigmodel.cpp" line="116"/>
         <source>Ship</source>
         <translation>Schiff</translation>
     </message>
     <message>
-        <location filename="gameconfigmodel.cpp" line="178"/>
+        <location filename="gameconfig/gameconfigmodel.cpp" line="178"/>
         <source>Name</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="gameconfigmodel.cpp" line="180"/>
+        <location filename="gameconfig/gameconfigmodel.cpp" line="180"/>
         <source>Length</source>
         <translation>Länge</translation>
     </message>
     <message>
-        <location filename="gameconfigmodel.cpp" line="182"/>
+        <location filename="gameconfig/gameconfigmodel.cpp" line="182"/>
         <source>Count</source>
         <translation>Anzahl</translation>
     </message>
@@ -93,7 +93,7 @@
 <context>
     <name>GamePrepareWidget</name>
     <message>
-        <location filename="gamepreparewidget.ui"/>
+        <location filename="game/gamepreparewidget.ui"/>
         <source>Set ship</source>
         <translation>Schiff setzen</translation>
     </message>
