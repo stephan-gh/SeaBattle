@@ -30,13 +30,9 @@ int main(int argc, char *argv[])
     }
 
     auto server = new SeaBattle::Server(&app);
-    auto error = server->start(port);
-    if (!error.isEmpty()) {
-        qCritical() << "Failed to start server:" << error;
+    if (!server->start(port)) {
         return 2;
     }
-
-    qInfo() << "Started SeaBattle server on port:" << port;
 
     QObject::connect(server, &SeaBattle::Server::closed, &app, &QCoreApplication::quit);
     return app.exec();

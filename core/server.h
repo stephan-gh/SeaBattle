@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include <QtWebSockets/QWebSocketServer>
+#include <QWebSocketServer>
 
 namespace SeaBattle {
 
@@ -13,10 +13,15 @@ public:
     explicit Server(QObject *parent);
     ~Server();
 
-    QString start(unsigned int port);
+    bool start(unsigned int port);
 
 signals:
     void closed();
+
+private slots:
+    void accept();
+    void process(QString message);
+    void disconnect();
 
 private:
     QWebSocketServer *socket;
