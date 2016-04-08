@@ -91,6 +91,29 @@
     </message>
 </context>
 <context>
+    <name>GameCreateDialog</name>
+    <message>
+        <location filename="game/gamecreatedialog.ui"/>
+        <source>Create game</source>
+        <translation>Spiel erstellen</translation>
+    </message>
+    <message>
+        <location filename="game/gamecreatedialog.ui"/>
+        <source>Game configuration:</source>
+        <translation>Spielkonfiguration:</translation>
+    </message>
+    <message>
+        <location filename="game/gamecreatedialog.cpp" line="14"/>
+        <source>Create new...</source>
+        <translation>Neue erstellen...</translation>
+    </message>
+    <message>
+        <location filename="game/gamecreatedialog.ui"/>
+        <source>External server:</source>
+        <translation>Externer Server:</translation>
+    </message>
+</context>
+<context>
     <name>GamePrepareWidget</name>
     <message>
         <location filename="game/gamepreparewidget.ui"/>
@@ -146,53 +169,38 @@
         <translation>&amp;Spiel...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="21"/>
+        <location filename="mainwindow.cpp" line="22"/>
         <source>Configuration successfully loaded</source>
         <oldsource>Configuration loaded</oldsource>
         <translation>Konfiguration erfolgreich geladen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="30"/>
-        <source>Create new...</source>
-        <translation>Neue erstellen...</translation>
-    </message>
-    <message>
-        <location filename="mainwindow.cpp" line="33"/>
-        <source>Select game configuration</source>
-        <translation>Spielkonfiguration auswählen</translation>
-    </message>
-    <message>
-        <location filename="mainwindow.cpp" line="33"/>
-        <source>Game configuration:</source>
-        <translation>Spielkonfiguration:</translation>
-    </message>
-    <message>
-        <location filename="mainwindow.cpp" line="40"/>
+        <location filename="mainwindow.cpp" line="34"/>
         <source>Game</source>
         <translation>Spiel</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="57"/>
+        <location filename="mainwindow.cpp" line="54"/>
         <source>Configuration successfully saved</source>
         <translation>Konfiguration erfolgreich gespeichert</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="79"/>
+        <location filename="mainwindow.cpp" line="76"/>
         <source>Failed to open configuration file</source>
         <translation>Öffnen der Konfigurationsdatei fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="79"/>
+        <location filename="mainwindow.cpp" line="76"/>
         <source>Failed to open configuration file from %1</source>
         <translation>Das Öffnen der Konfigurationsdatei von %1 ist fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="98"/>
+        <location filename="mainwindow.cpp" line="95"/>
         <source>Failed to write configuration file</source>
         <translation>Schreiben der Konfiguration fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="98"/>
+        <location filename="mainwindow.cpp" line="95"/>
         <source>Failed to write configuration to %1</source>
         <translation>Das Schreiben der Konfiguration nach %1 ist fehlgeschlagen</translation>
     </message>

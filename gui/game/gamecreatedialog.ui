@@ -40,7 +40,7 @@
      <item>
       <widget class="QCheckBox" name="checkBoxServer">
        <property name="text">
-        <string>Create on external server:</string>
+        <string>External server:</string>
        </property>
       </widget>
      </item>
