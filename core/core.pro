@@ -1,4 +1,5 @@
 QT -= gui
+QT += websockets
 
 TARGET = core
 TEMPLATE = lib
@@ -8,13 +9,15 @@ SOURCES += \
     game.cpp \
     ship.cpp \
     player.cpp \
-    field.cpp
+    field.cpp \
+    server.cpp
 
 HEADERS += \
     game.h \
     ship.h \
     player.h \
-    field.h
+    field.h \
+    server.h
 
 unix {
     target.path = /usr/lib
