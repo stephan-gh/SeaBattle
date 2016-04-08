@@ -1,0 +1,21 @@
+sudo: required
+dist: trusty
+
+language: cpp
+
+before_install:
+  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+  - sudo add-apt-repository -y ppa:beineri/opt-qt56-trusty
+  - sudo apt-get update -qq
+install:
+  - sudo apt-get --no-install-suggests --no-install-recommends -y install gcc-5 g++-5 qt56base qt56tools qt56websockets
+  - source /opt/qt56/bin/qt56-env.sh
+
+before_script:
+  - g++-5 --version
+  - qmake -v
+
+script: qmake && make CC=gcc-5 CXX=g++-5 LINK=g++-5
+
+notifications:
+  email: false
