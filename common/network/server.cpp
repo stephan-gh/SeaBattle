@@ -53,16 +53,10 @@ void Server::accept()
     clients.push_back(client);
 }
 
-void Server::process(QString message)
-{
-    auto client = static_cast<QWebSocket*>(sender());
-    qDebug() << "Message received from client" << client->peerPort() << message;
-}
-
 void Server::disconnected()
 {
     auto client = static_cast<Client*>(sender());
-    qDebug() << "Client disconnected:";
+    qDebug() << "Client disconnected";
     clients.erase(std::remove(clients.begin(), clients.end(), client), clients.end());
     client->deleteLater();
 }

@@ -25,7 +25,6 @@ signals:
 
 private slots:
     void accept();
-    void process(QString message);
     void disconnected();
 
 private:
