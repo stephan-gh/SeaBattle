@@ -2,8 +2,10 @@
 
 #include <vector>
 #include <QWebSocketServer>
+#include "client.h"
 
 namespace SeaBattle {
+namespace Network {
 
 class Server : public QObject
 {
@@ -28,7 +30,8 @@ private slots:
 
 private:
     QWebSocketServer *socket;
-    std::vector<QWebSocket*> clients;
+    std::vector<Client*> clients;
 };
 
+}
 }

@@ -70,13 +70,14 @@ MainWindow::~MainWindow()
 {
     delete ui;
     delete server;
+    qDeleteAll(clients.begin(), clients.end());
 }
 
 void MainWindow::createGame(const GameConfig &config)
 {
     if (server == nullptr) {
         qDebug("Starting integrated server...");
-        server = new SeaBattle::Server{this};
+        server = new Network::Server{this};
         if (!server->start()) {
             qWarning("Retrying to start server on random port");
             if (!server->start(0)) {
@@ -85,26 +86,31 @@ void MainWindow::createGame(const GameConfig &config)
         }
     }
 
-    // TODO: Create game
-
-    joinGame(server->url());
+    auto client = joinGame(server->url());
+    connect(client, &Network::Client::connected, [client, config] () {
+        // TODO: Create game
+        Network::PacketCreateGame packet{config};
+        client->send(packet);
+    });
 }
 
-void MainWindow::joinGame(const QUrl &url)
+Network::Client* MainWindow::joinGame(const QUrl &url)
 {
     auto client_itr = std::find_if(clients.begin(), clients.end(), [url] (auto client) {
         return client->url() == url;
     });
 
-    Client* client;
+    Network::Client* client;
     if (client_itr != clients.end()) {
         client = *(client_itr);
     } else {
         qDebug() << "Creating new client for" << url;
-        client = new Client{this, url};
-        client->start();
+        client = new Network::Client{this, new QWebSocket};
+        client->open(url);
         clients.push_back(client);
     }
+
+    return client;
 }
 
 bool MainWindow::loadConfig()

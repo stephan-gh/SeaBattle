@@ -3,20 +3,23 @@
 #include <QWebSocket>
 #include <QDebug>
 
-SeaBattle::Server::Server(QObject *parent) :
+namespace SeaBattle {
+namespace Network {
+
+Server::Server(QObject *parent) :
     QObject(parent),
     socket(new QWebSocketServer(QStringLiteral("SeaBattle"), QWebSocketServer::NonSecureMode, this)),
     clients()
 {
 }
 
-SeaBattle::Server::~Server()
+Server::~Server()
 {
     socket->close();
     qDeleteAll(clients.begin(), clients.end());
 }
 
-bool SeaBattle::Server::start(unsigned int port)
+bool Server::start(unsigned int port)
 {
     if (socket->listen(QHostAddress::Any, port)) {
         connect(socket, &QWebSocketServer::newConnection, this, &Server::accept);
@@ -30,40 +33,39 @@ bool SeaBattle::Server::start(unsigned int port)
     }
 }
 
-QUrl SeaBattle::Server::url() const
+QUrl Server::url() const
 {
     return socket->serverUrl();
 }
 
-unsigned int SeaBattle::Server::port() const
+unsigned int Server::port() const
 {
     return socket->serverPort();
 }
 
-void SeaBattle::Server::accept()
+void Server::accept()
 {
-    auto client = socket->nextPendingConnection();
+    auto client = new Client{this, socket->nextPendingConnection()};
 
-    connect(client, &QWebSocket::textMessageReceived, this, &Server::process);
-    connect(client, &QWebSocket::binaryMessageReceived, client, [client] () {
-        client->close(QWebSocketProtocol::CloseCodeDatatypeNotSupported);
-    });
-    connect(client, &QWebSocket::disconnected, this, &Server::disconnected);
+    connect(client, &Client::disconnected, this, &Server::disconnected);
 
-    qDebug() << "Client accepted:" << client->peerPort();
+    qDebug() << "Client accepted";
     clients.push_back(client);
 }
 
-void SeaBattle::Server::process(QString message)
+void Server::process(QString message)
 {
     auto client = static_cast<QWebSocket*>(sender());
     qDebug() << "Message received from client" << client->peerPort() << message;
 }
 
-void SeaBattle::Server::disconnected()
+void Server::disconnected()
 {
-    auto client = static_cast<QWebSocket*>(sender());
-    qDebug() << "Client disconnected:" << client->peerPort();
+    auto client = static_cast<Client*>(sender());
+    qDebug() << "Client disconnected:";
     clients.erase(std::remove(clients.begin(), clients.end(), client), clients.end());
     client->deleteLater();
+}
+
+}
 }

@@ -11,7 +11,10 @@ HEADERS += \
     ship.h \
     player.h \
     field.h \
-    server.h
+    network/server.h \
+    network/packet.h \
+    network/client.h \
+    network/network.h
 
 SOURCES += \
     game.cpp \
@@ -19,7 +22,10 @@ SOURCES += \
     ship.cpp \
     player.cpp \
     field.cpp \
-    server.cpp
+    network/server.cpp \
+    network/packet.cpp \
+    network/client.cpp \
+    network/network.cpp
 
 unix {
     target.path = /usr/lib

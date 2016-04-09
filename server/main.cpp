@@ -1,7 +1,8 @@
 #include <QCoreApplication>
 #include <QCommandLineParser>
 #include <QDebug>
-#include "server.h"
+
+#include "network/server.h"
 
 int main(int argc, char *argv[])
 {
@@ -29,11 +30,11 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    auto server = new SeaBattle::Server(&app);
+    auto server = new SeaBattle::Network::Server(&app);
     if (!server->start(port)) {
         return 2;
     }
 
-    QObject::connect(server, &SeaBattle::Server::closed, &app, &QCoreApplication::quit);
+    QObject::connect(server, &SeaBattle::Network::Server::closed, &app, &QCoreApplication::quit);
     return app.exec();
 }
