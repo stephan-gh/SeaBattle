@@ -1,12 +1,14 @@
 #include "client.h"
+#include "packet.h"
 
 #include <QJsonDocument>
 
 namespace SeaBattle {
 namespace Network {
 
-Client::Client(QObject *parent, QWebSocket *socket) :
+Client::Client(QObject *parent, QWebSocket *socket, const QUuid &id) :
     QObject(parent),
+    id_(id),
     socket(socket)
 {
     connect(socket, &QWebSocket::connected, this, &Client::connected);
@@ -25,6 +27,21 @@ Client::~Client()
     delete socket;
 }
 
+const QUuid Client::id() const
+{
+    return id_;
+}
+
+void Client::setId(const QUuid id)
+{
+    id_ = id;
+}
+
+bool Client::isValid() const
+{
+    return socket && socket->isValid();
+}
+
 void Client::open(const QUrl &url)
 {
     socket->open(url);
@@ -32,7 +49,11 @@ void Client::open(const QUrl &url)
 
 const QUrl Client::url() const
 {
-    return socket->requestUrl();
+    if (socket) {
+        return socket->requestUrl();
+    }
+
+    return {};
 }
 
 void Client::send(const Packet &packet)
@@ -42,6 +63,17 @@ void Client::send(const Packet &packet)
     auto serialized = json.toJson(QJsonDocument::Compact);
     qDebug(serialized.data());
     socket->sendTextMessage(serialized);
+}
+
+void Client::disconnect(const QString &reason)
+{
+    socket->close(QWebSocketProtocol::CloseCodeNormal, reason);
+}
+
+void Client::deleteSocket()
+{
+    delete socket;
+    socket = nullptr;
 }
 
 void Client::process(QString message)

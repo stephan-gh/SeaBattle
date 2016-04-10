@@ -3,20 +3,21 @@
 #include <QWidget>
 
 namespace Ui {
-class GameWidget;
+class GameConnectWidget;
 class GamePrepareWidget;
+class GameWidget;
 }
 
-class GameWidget : public QWidget
+class GameConnectWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit GameWidget(QWidget *parent = nullptr);
-    ~GameWidget();
+    GameConnectWidget(QWidget *parent, const QString &url);
+    ~GameConnectWidget();
 
 private:
-    Ui::GameWidget *ui;
+    Ui::GameConnectWidget *ui;
 };
 
 class GamePrepareWidget : public QWidget
@@ -29,4 +30,16 @@ public:
 
 private:
     Ui::GamePrepareWidget *ui;
+};
+
+class GameWidget : public QWidget
+{
+    Q_OBJECT
+
+public:
+    explicit GameWidget(QWidget *parent = nullptr);
+    ~GameWidget();
+
+private:
+    Ui::GameWidget *ui;
 };

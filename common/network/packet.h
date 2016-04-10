@@ -5,7 +5,11 @@
 #include <unordered_map>
 #include <QObject>
 #include <QJsonObject>
+#include <QUuid>
+#include <QUrl>
+
 #include "gameconfig.h"
+#include "game.h"
 
 namespace SeaBattle {
 namespace Network {
@@ -27,6 +31,8 @@ protected:
 
 struct Packet::Type {
     static const Type &CreateGame;
+    static const Type &JoinGame;
+    static const Type &GameCreated;
 
     static std::unordered_map<std::string, Type*> registry;
     static Type &getById(const QString &id);
@@ -51,6 +57,40 @@ struct PacketCreateGame : public Packet {
     }
 
     void process(Client *client) const override;
+protected:
+    void write(QJsonObject &json) const override;
+};
+
+struct PacketJoinGame : public Packet {
+    PacketJoinGame(const QUuid &game);
+    PacketJoinGame(const QJsonObject &json);
+
+    QUuid game;
+
+    // Packet interface
+    const Type &type() const override {
+        return Type::JoinGame;
+    }
+
+    void process(Client *client) const override;
+protected:
+    void write(QJsonObject &json) const override;
+};
+
+struct PacketGameCreated : public Packet {
+    PacketGameCreated(const QUrl &url, const QString &name);
+    PacketGameCreated(const QJsonObject &json);
+
+    QUrl url;
+    QString name;
+
+    // Packet interface
+    const Type &type() const override {
+        return Type::GameCreated;
+    }
+
+    void process(Client *client) const override;
+protected:
     void write(QJsonObject &json) const override;
 };
 

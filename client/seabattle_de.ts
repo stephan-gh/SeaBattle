@@ -91,6 +91,19 @@
     </message>
 </context>
 <context>
+    <name>GameConnectWidget</name>
+    <message>
+        <location filename="game/gameconnectwidget.ui"/>
+        <source>Waiting for opponent...</source>
+        <translation>Warte auf Gegner...</translation>
+    </message>
+    <message>
+        <location filename="game/gameconnectwidget.ui"/>
+        <source>Connect to:</source>
+        <translation>Verbinde zu:</translation>
+    </message>
+</context>
+<context>
     <name>GameCreateDialog</name>
     <message>
         <location filename="game/gamecreatedialog.ui"/>
@@ -169,36 +182,48 @@
         <translation>&amp;Spiel...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="24"/>
+        <location filename="mainwindow.cpp" line="26"/>
         <source>Configuration successfully loaded</source>
         <oldsource>Configuration loaded</oldsource>
         <translation>Konfiguration erfolgreich geladen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="36"/>
+        <location filename="mainwindow.cpp" line="38"/>
         <source>Game</source>
         <translation>Spiel</translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="59"/>
+        <source>Join server</source>
+        <translation>Server beitreten</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="59"/>
+        <source>Server URL:</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="81"/>
         <source>Configuration successfully saved</source>
         <translation>Konfiguration erfolgreich gespeichert</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="97"/>
-        <location filename="mainwindow.cpp" line="117"/>
+        <location filename="mainwindow.cpp" line="131"/>
+        <source>Connecting...</source>
+        <translation>Verbinde...</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="156"/>
+        <location filename="mainwindow.cpp" line="177"/>
         <source>Failed to open configuration file</source>
         <translation>Öffnen der Konfigurationsdatei fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="97"/>
-        <source>Failed to open configuration file from %1</source>
-        <translation>Das Öffnen der Konfigurationsdatei von %1 ist fehlgeschlagen</translation>
-    </message>
-    <message>
-        <location filename="mainwindow.cpp" line="117"/>
-        <source>Failed to open configuration to %1</source>
-        <translation type="unfinished"></translation>
+        <location filename="mainwindow.cpp" line="157"/>
+        <location filename="mainwindow.cpp" line="178"/>
+        <source>Failed to open configuration file: %1</source>
+        <oldsource>Failed to open configuration %1</oldsource>
+        <translation>Öffnen der Konfigurationsdatei von %1 fehlgeschlagen</translation>
     </message>
     <message>
         <location filename="mainwindow.ui"/>

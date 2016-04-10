@@ -25,7 +25,8 @@ FORMS += \
     gameconfig/gameconfigeditdialog.ui \
     game/gamewidget.ui \
     game/gamepreparewidget.ui \
-    game/gamecreatedialog.ui
+    game/gamecreatedialog.ui \
+    game/gameconnectwidget.ui
 
 RESOURCES += seabattle.qrc
 TRANSLATIONS = seabattle_de.ts

@@ -18,7 +18,8 @@ public:
     ~MainWindow();
 
     void createGame(const SeaBattle::GameConfig &config);
-    SeaBattle::Network::Client* joinGame(const QUrl &url);
+    void joinGame(const QUrl &url, const QUuid id);
+    SeaBattle::Network::Client* connectToServer(const QUrl &url);
 
     bool loadConfig();
     bool saveConfig();

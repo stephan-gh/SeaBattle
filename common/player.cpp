@@ -1,6 +1,7 @@
 #include "player.h"
 
-SeaBattle::Player::Player()
+SeaBattle::Player::Player() :
+    client(nullptr)
 {
 
 }

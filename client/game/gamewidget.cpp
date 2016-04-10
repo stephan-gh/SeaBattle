@@ -1,15 +1,18 @@
 #include "gamewidget.h"
 #include "ui_gamewidget.h"
 #include "ui_gamepreparewidget.h"
+#include "ui_gameconnectwidget.h"
+#include <QDebug>
 
-GameWidget::GameWidget(QWidget *parent) :
+GameConnectWidget::GameConnectWidget(QWidget *parent, const QString &url) :
     QWidget(parent),
-    ui(new Ui::GameWidget)
+    ui(new Ui::GameConnectWidget)
 {
     ui->setupUi(this);
+    ui->lineEditUrl->setText(url);
 }
 
-GameWidget::~GameWidget()
+GameConnectWidget::~GameConnectWidget()
 {
     delete ui;
 }
@@ -32,6 +35,18 @@ GamePrepareWidget::GamePrepareWidget(QWidget *parent) :
 }
 
 GamePrepareWidget::~GamePrepareWidget()
+{
+    delete ui;
+}
+
+GameWidget::GameWidget(QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::GameWidget)
+{
+    ui->setupUi(this);
+}
+
+GameWidget::~GameWidget()
 {
     delete ui;
 }

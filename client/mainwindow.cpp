@@ -53,6 +53,26 @@ MainWindow::MainWindow(QWidget *parent, const QString &configPath) :
         // TODO: Join game
     });
 
+    connect(ui->actionJoinGame, &QAction::triggered, [this] () {
+        bool ok;
+        auto text = QInputDialog::getText(this, tr("Join server"), tr("Server URL:"), QLineEdit::Normal, {}, &ok, {}, Qt::ImhUrlCharactersOnly);
+        if (!ok) {
+            return;
+        }
+
+        QUrl url{text};
+        if (!url.isValid() || !url.hasFragment()) {
+            return; // TODO
+        }
+
+        QUuid id{url.fragment()};
+        if (id.isNull()) {
+            return; // TODO
+        }
+
+        joinGame(url, id);
+    });
+
     connect(ui->actionGames, &QAction::triggered, [&] () {
         if (GameConfigDialog{this, configs}.exec()) {
             if (saveConfig()) {
@@ -86,29 +106,47 @@ void MainWindow::createGame(const GameConfig &config)
         }
     }
 
-    auto client = joinGame(server->url());
+    auto client = connectToServer(server->url());
     connect(client, &Network::Client::connected, [client, config] () {
-        // TODO: Create game
-        Network::PacketCreateGame packet{config};
-        client->send(packet);
+        client->send(Network::PacketCreateGame{config});
     });
 }
 
-Network::Client* MainWindow::joinGame(const QUrl &url)
+void MainWindow::joinGame(const QUrl &url, const QUuid id)
 {
-    auto client_itr = std::find_if(clients.begin(), clients.end(), [url] (auto client) {
-        return client->url() == url;
+    auto client = connectToServer(url);
+    connect(client, &Network::Client::connected, [client, id] () {
+         client->send(Network::PacketJoinGame{id});
+    });
+}
+
+Network::Client* MainWindow::connectToServer(const QUrl &url)
+{
+    qDebug() << "Creating new client for" << url;
+    auto client = new Network::Client{this, new QWebSocket};
+    client->open(url);
+    clients.push_back(client);
+
+    auto i = ui->tabWidgetGames->addTab(new QWidget(this), tr("Connecting..."));
+    ui->tabWidgetGames->setCurrentIndex(i);
+
+    connect(client, &Network::Client::processGameCreated, [i, client, this] (auto packet) {
+        auto selected = ui->tabWidgetGames->currentIndex() == i;
+        ui->tabWidgetGames->removeTab(i);
+        ui->tabWidgetGames->insertTab(i, new GameConnectWidget{ui->tabWidgetGames, packet.url.toString()}, packet.name);
+        if (selected) {
+            ui->tabWidgetGames->setCurrentIndex(i);
+        }
     });
 
-    Network::Client* client;
-    if (client_itr != clients.end()) {
-        client = *(client_itr);
-    } else {
-        qDebug() << "Creating new client for" << url;
-        client = new Network::Client{this, new QWebSocket};
-        client->open(url);
-        clients.push_back(client);
-    }
+    connect(client, &Network::Client::processCreateGame, [i, client, this] (auto packet) {
+        auto selected = ui->tabWidgetGames->currentIndex() == i;
+        ui->tabWidgetGames->removeTab(i);
+        ui->tabWidgetGames->insertTab(i, new GamePrepareWidget{ui->tabWidgetGames}, packet.config.name());
+        if (selected) {
+            ui->tabWidgetGames->setCurrentIndex(i);
+        }
+    });
 
     return client;
 }
@@ -122,7 +160,8 @@ bool MainWindow::loadConfig()
 
     if (!file.open(QIODevice::ReadOnly)) {
         qCritical() << "Failed to open configuration file" << configPath << file.errorString();
-        QMessageBox::critical(this, tr("Failed to open configuration file"), tr("Failed to open configuration file from %1").arg(configPath));
+        QMessageBox::critical(this, tr("Failed to open configuration file"),
+                              tr("Failed to open configuration file: %1").arg(configPath));
         return false;
     }
 
@@ -142,7 +181,8 @@ bool MainWindow::saveConfig()
     QFile file{configPath};
     if (!file.open(QIODevice::WriteOnly)) {
         qCritical() << "Failed to open configuration file" << configPath << file.errorString();
-        QMessageBox::critical(this, tr("Failed to open configuration file"), tr("Failed to open configuration to %1").arg(configPath));
+        QMessageBox::critical(this, tr("Failed to open configuration file"),
+                              tr("Failed to open configuration file: %1").arg(configPath));
         return false;
     }
 

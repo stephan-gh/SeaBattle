@@ -2,7 +2,11 @@
 
 #include <vector>
 #include <QWebSocketServer>
+#include <QUuid>
+#include <QHash>
 #include "client.h"
+#include "player.h"
+#include "game.h"
 
 namespace SeaBattle {
 namespace Network {
@@ -25,11 +29,13 @@ signals:
 
 private slots:
     void accept();
-    void disconnected();
 
 private:
+    void sendGameCreated(Client* client, Game* game, const QUuid &id);
+
     QWebSocketServer *socket;
-    std::vector<Client*> clients;
+    QHash<QUuid, Client*> clients;
+    QHash<QUuid, Game*> games;
 };
 
 }

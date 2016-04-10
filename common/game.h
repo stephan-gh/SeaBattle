@@ -1,12 +1,31 @@
 #pragma once
 
-namespace SeaBattle {
+#include "gameconfig.h"
+#include "player.h"
 
+namespace SeaBattle {
 class Game
 {
-
 public:
-    Game();
+    enum class State {
+        Connecting,
+        Preparing,
+        Playing
+    };
+
+    Game(const GameConfig &config);
+
+    State state() const;
+    void setState(State state);
+
+    const GameConfig &config() const;
+
+    Player &player(int i);
+    Player players[2];
+
+private:
+    GameConfig config_;
+    State state_;
 
 };
 
