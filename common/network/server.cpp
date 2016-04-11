@@ -17,7 +17,8 @@ Server::Server(QObject *parent) :
 Server::~Server()
 {
     socket->close();
-    qDeleteAll(clients.begin(), clients.end());
+    // TODO: Is this still needed? Causes problems when exiting
+    //qDeleteAll(clients.begin(), clients.end());
 }
 
 bool Server::start(unsigned int port)
