@@ -61,16 +61,16 @@ MainWindow::MainWindow(QWidget *parent, const QString &configPath) :
         }
 
         QUrl url{text};
-        if (!url.isValid() || !url.hasFragment()) {
+        if (!url.isValid() || !url.hasQuery()) {
             return; // TODO
         }
 
-        QUuid id{url.fragment()};
+        QUuid id{url.query()};
         if (id.isNull()) {
             return; // TODO
         }
 
-        joinGame(url, id);
+        connectToServer(url);
     });
 
     connect(ui->actionGames, &QAction::triggered, [&] () {
@@ -109,14 +109,6 @@ void MainWindow::createGame(const GameConfig &config)
     auto client = connectToServer(server->url());
     connect(client, &Network::Client::connected, [client, config] () {
         client->send(Network::PacketCreateGame{config});
-    });
-}
-
-void MainWindow::joinGame(const QUrl &url, const QUuid id)
-{
-    auto client = connectToServer(url);
-    connect(client, &Network::Client::connected, [client, id] () {
-         client->send(Network::PacketJoinGame{id});
     });
 }
 

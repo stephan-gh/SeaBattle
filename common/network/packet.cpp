@@ -8,7 +8,7 @@ namespace Network {
 std::unordered_map<std::string, Packet::Type*> Packet::Type::registry{};
 const Packet::Type &Packet::Type::CreateGame{QStringLiteral("create_game"), [] (auto json) { return new PacketCreateGame(json); }};
 const Packet::Type &Packet::Type::GameCreated{QStringLiteral("game_created"), [] (auto json) { return new PacketGameCreated(json); }};
-const Packet::Type &Packet::Type::JoinGame{QStringLiteral("join_game"), [] (auto json) { return new PacketJoinGame(json); }};
+const Packet::Type &Packet::Type::StartGame{QStringLiteral("start_game"), [] (auto json) { return new PacketStartGame(json); }};
 
 Packet::Type &Packet::Type::getById(const QString &id)
 {
@@ -82,20 +82,20 @@ void PacketGameCreated::write(QJsonObject &json) const
     json["name"] = name;
 }
 
-PacketJoinGame::PacketJoinGame(const QUuid &game) : game(game)
+PacketStartGame::PacketStartGame(const QUuid &game) : game(game)
 {
 }
 
-PacketJoinGame::PacketJoinGame(const QJsonObject &json) : game(json["game"].toString())
+PacketStartGame::PacketStartGame(const QJsonObject &json) : game(json["game"].toString())
 {
 }
 
-void PacketJoinGame::process(Client *client) const
+void PacketStartGame::process(Client *client) const
 {
-    emit client->processJoinGame(*this);
+    emit client->processStartGame(*this);
 }
 
-void PacketJoinGame::write(QJsonObject &json) const
+void PacketStartGame::write(QJsonObject &json) const
 {
     json["game"] = game.toString();
 }
