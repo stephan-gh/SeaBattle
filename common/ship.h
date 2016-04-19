@@ -10,16 +10,19 @@ namespace SeaBattle {
 struct Ship
 {
 public:
-    Ship(const GameConfig::Ship &config, Coordinate position, Direction direction);
+    Ship(const int id, Coordinate position, Direction direction);
+    Ship(const QJsonObject &json);
 
-    const GameConfig::Ship &config() const;
+    int id() const;
     Coordinate position() const;
     Direction direction() const;
 
+    operator QJsonValue() const;
+
 private:
-    const GameConfig::Ship &config_;
+    const int id_;
     const Coordinate position_;
-    const Direction &direction_;
+    const Direction direction_;
 
 };
 

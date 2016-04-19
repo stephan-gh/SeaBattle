@@ -19,6 +19,11 @@ const SeaBattle::Field &GameModel::field() const
     return field_;
 }
 
+const std::unordered_set<const SeaBattle::Ship *> &GameModel::ships() const
+{
+    return ships_;
+}
+
 const SeaBattle::Ship *GameModel::ship(const QModelIndex &index) const
 {
     return field_[index.column()][index.row()];
@@ -26,8 +31,10 @@ const SeaBattle::Ship *GameModel::ship(const QModelIndex &index) const
 
 void GameModel::setShip(const SeaBattle::Ship *ship)
 {
+    ships_.insert(ship);
+
     SeaBattle::Coordinate pos{0, 0};
-    for (int i = 0; i < ship->config().length(); ++i) {
+    for (int i = 0; i < config_.ships()[ship->id()].length(); ++i) {
         pos = ship->position() + (ship->direction() * i);
         field_[pos.x()][pos.y()] = ship;
     }

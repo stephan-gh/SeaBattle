@@ -2,6 +2,7 @@
 
 #include <functional>
 #include <memory>
+#include <unordered_set>
 #include <unordered_map>
 #include <QObject>
 #include <QJsonObject>
@@ -33,6 +34,7 @@ struct Packet::Type {
     static const Type &CreateGame;
     static const Type &StartGame;
     static const Type &GameCreated;
+    static const Type &ShipsSet;
 
     static std::unordered_map<std::string, Type*> registry;
     static Type &getById(const QString &id);
@@ -87,6 +89,22 @@ struct PacketGameCreated : public Packet {
     // Packet interface
     const Type &type() const override {
         return Type::GameCreated;
+    }
+
+    void process(Client *client) const override;
+protected:
+    void write(QJsonObject &json) const override;
+};
+
+struct PacketShipsSet : public Packet {
+    PacketShipsSet(const std::unordered_set<const Ship*> &ships);
+    PacketShipsSet(const QJsonObject &json);
+
+    std::unordered_set<const Ship*> ships;
+
+    // Packet interface
+    const Type &type() const override {
+        return Type::ShipsSet;
     }
 
     void process(Client *client) const override;

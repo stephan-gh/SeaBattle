@@ -42,13 +42,13 @@ GamePrepareWidget::GamePrepareWidget(QWidget *parent, const SeaBattle::GameConfi
     connect(ui->pushButtonSetShip, &QPushButton::clicked, [this] () {
         auto indexes = ui->tableViewShips->selectionModel()->selectedIndexes();
         auto item = ui->listWidgetShips->selectedItems().first();
-        auto &config = model.config().cships()[item->data(Qt::UserRole).toInt()];
+        auto id = item->data(Qt::UserRole).toInt();
 
         SeaBattle::Coordinate start = indexes.first();
         SeaBattle::Coordinate end = indexes.last();
 
         auto direction = SeaBattle::Direction::fromCoordinate(end - start);
-        model.setShip(new SeaBattle::Ship{config, start, direction});
+        model.setShip(new SeaBattle::Ship{id, start, direction});
 
         delete item;
 
@@ -66,7 +66,7 @@ GamePrepareWidget::GamePrepareWidget(QWidget *parent, const SeaBattle::GameConfi
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 
     connect(ui->buttonBox, &QDialogButtonBox::accepted, [&] () {
-        // TODO
+        emit finished(model.ships());
     });
 }
 

@@ -35,6 +35,7 @@ signals:
     void processCreateGame(const PacketCreateGame &packet);
     void processGameCreated(const PacketGameCreated &packet);
     void processStartGame(const PacketStartGame &packet);
+    void processShipsSet(const PacketShipsSet &packet);
 
 
 private slots:

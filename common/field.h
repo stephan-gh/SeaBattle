@@ -32,7 +32,7 @@ struct Direction : Coordinate {
     static const Direction &Left;
     static const Direction &Right;
 
-    static const Direction &fromCoordinate(const Coordinate &coord);
+    static const Direction fromCoordinate(const Coordinate &coord);
 
 private:
     Direction(int dx, int dy);

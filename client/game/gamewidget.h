@@ -31,6 +31,9 @@ public:
     GamePrepareWidget(QWidget *parent, const SeaBattle::GameConfig &config);
     ~GamePrepareWidget();
 
+signals:
+    void finished(const std::unordered_set<const SeaBattle::Ship*> &ships);
+
 private:
     bool validateSetShip() const;
     void updateSetShip();

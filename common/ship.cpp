@@ -2,16 +2,23 @@
 
 namespace SeaBattle {
 
-Ship::Ship(const GameConfig::Ship &config, Coordinate position, Direction direction) :
-    config_(config),
+Ship::Ship(const int id, Coordinate position, Direction direction) :
+    id_(id),
     position_(position),
     direction_(direction)
 {
 }
 
-const GameConfig::Ship &Ship::config() const
+Ship::Ship(const QJsonObject &json) :
+    id_(json["id"].toInt()),
+    position_(json["position"]),
+    direction_(Direction::fromCoordinate(json["direction"]))
 {
-    return config_;
+}
+
+int Ship::id() const
+{
+    return id_;
 }
 
 Coordinate Ship::position() const
@@ -22,6 +29,15 @@ Coordinate Ship::position() const
 Direction Ship::direction() const
 {
     return direction_;
+}
+
+SeaBattle::Ship::operator QJsonValue() const
+{
+    QJsonObject result;
+    result["id"] = id_;
+    result["position"] = position_;
+    result["direction"] = direction_;
+    return result;
 }
 
 }

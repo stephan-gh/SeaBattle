@@ -58,7 +58,7 @@ const Direction &Direction::Down = {0, 1};
 const Direction &Direction::Left = {-1, 0};
 const Direction &Direction::Right = {1, 0};
 
-const Direction &Direction::fromCoordinate(const Coordinate &coord)
+const Direction Direction::fromCoordinate(const Coordinate &coord)
 {
     if (coord.x() != 0) {
         if (coord.y() == 0) {

@@ -1,6 +1,7 @@
 #include "packet.h"
 #include "client.h"
 #include "network.h"
+#include "ship.h"
 
 namespace SeaBattle {
 namespace Network {
@@ -9,6 +10,7 @@ std::unordered_map<std::string, Packet::Type*> Packet::Type::registry{};
 const Packet::Type &Packet::Type::CreateGame{QStringLiteral("create_game"), [] (auto json) { return new PacketCreateGame(json); }};
 const Packet::Type &Packet::Type::GameCreated{QStringLiteral("game_created"), [] (auto json) { return new PacketGameCreated(json); }};
 const Packet::Type &Packet::Type::StartGame{QStringLiteral("start_game"), [] (auto json) { return new PacketStartGame(json); }};
+const Packet::Type &Packet::Type::ShipsSet{QStringLiteral("ships_set"), [] (auto json) { return new PacketShipsSet(json); }};
 
 Packet::Type &Packet::Type::getById(const QString &id)
 {
@@ -62,7 +64,6 @@ PacketGameCreated::PacketGameCreated(const QUrl &url, const QString &name) :
     url(url),
     name(name)
 {
-
 }
 
 PacketGameCreated::PacketGameCreated(const QJsonObject &json) :
@@ -98,6 +99,32 @@ void PacketStartGame::process(Client *client) const
 void PacketStartGame::write(QJsonObject &json) const
 {
     json["game"] = game.toString();
+}
+
+PacketShipsSet::PacketShipsSet(const std::unordered_set<const Ship*> &ships) : ships(ships)
+{
+}
+
+PacketShipsSet::PacketShipsSet(const QJsonObject &json)
+{
+    auto array = json["ships"].toArray();
+    for (int i = 0; i < array.size(); i++) {
+        ships.insert(new Ship{array[i].toObject()});
+    }
+}
+
+void PacketShipsSet::process(Client *client) const
+{
+    emit client->processShipsSet(*this);
+}
+
+void PacketShipsSet::write(QJsonObject &json) const
+{
+    QJsonArray array;
+    for (auto ship : ships) {
+        array.append(*ship);
+    }
+    json["ships"] = array;
 }
 
 }
