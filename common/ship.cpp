@@ -2,33 +2,16 @@
 
 namespace SeaBattle {
 
-Ship::Type::Type(int id, const QString &name, int length) :
-    id_(id),
-    name_(name),
-    length_(length)
-{
-}
-
-const QString &Ship::Type::name() const
-{
-    return name_;
-}
-
-int Ship::Type::length() const
-{
-    return length_;
-}
-
-Ship::Ship(const Ship::Type &type, Coordinate position, Direction direction) :
-    type_(type),
+Ship::Ship(const GameConfig::Ship &config, Coordinate position, Direction direction) :
+    config_(config),
     position_(position),
     direction_(direction)
 {
 }
 
-const Ship::Type &Ship::type() const
+const GameConfig::Ship &Ship::config() const
 {
-    return type_;
+    return config_;
 }
 
 Coordinate Ship::position() const

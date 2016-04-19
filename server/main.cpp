@@ -35,6 +35,8 @@ int main(int argc, char *argv[])
         return 2;
     }
 
+    qInfo() << "Server started on:" << server->url();
+
     QObject::connect(server, &SeaBattle::Network::Server::closed, &app, &QCoreApplication::quit);
     return app.exec();
 }

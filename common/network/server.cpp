@@ -17,8 +17,6 @@ Server::Server(QObject *parent) :
 Server::~Server()
 {
     socket->close();
-    // TODO: Is this still needed? Causes problems when exiting
-    //qDeleteAll(clients.begin(), clients.end());
 }
 
 bool Server::start(unsigned int port)
@@ -27,12 +25,17 @@ bool Server::start(unsigned int port)
         connect(socket, &QWebSocketServer::newConnection, this, &Server::accept);
         connect(socket, &QWebSocketServer::closed, this, &Server::closed);
 
-        qInfo() << "Started SeaBattle server on port:" << socket->serverPort();
+        qInfo() << "Started SeaBattle server on:" << socket->serverPort();
         return true;
     } else {
         qCritical() << "Failed to bind server:" << socket->errorString();
         return false;
     }
+}
+
+bool Server::isStarted() const
+{
+    return socket->isListening();
 }
 
 QUrl Server::url() const

@@ -47,10 +47,21 @@ MainWindow::MainWindow(QWidget *parent, const QString &configPath) :
         const GameConfig &config = configs[index];
         qInfo() << "Creating game:" << config.name();
 
-        // TODO: Create on external server
-        createGame(config);
+        auto server = dialog.server();
+        QUrl url;
+        if (server.isEmpty()) {
+            url = startServer();
+        } else {
+            url = server;
+            if (!url.isValid()) {
+                return; // TODO
+            }
+        }
 
-        // TODO: Join game
+        auto client = connectToServer(url);
+        connect(client, &Network::Client::connected, [client, config] () {
+            client->send(Network::PacketCreateGame{config});
+        });
     });
 
     connect(ui->actionJoinGame, &QAction::triggered, [this] () {
@@ -89,27 +100,23 @@ MainWindow::MainWindow(QWidget *parent, const QString &configPath) :
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete server;
-    qDeleteAll(clients.begin(), clients.end());
 }
 
-void MainWindow::createGame(const GameConfig &config)
+QUrl MainWindow::startServer()
 {
     if (server == nullptr) {
-        qDebug("Starting integrated server...");
         server = new Network::Server{this};
+    }
+
+    if (!server->isStarted()) {
+        qDebug("Starting integrated server...");
         if (!server->start()) {
             qWarning("Retrying to start server on random port");
-            if (!server->start(0)) {
-                return;
-            }
+            server->start(0);
         }
     }
 
-    auto client = connectToServer(server->url());
-    connect(client, &Network::Client::connected, [client, config] () {
-        client->send(Network::PacketCreateGame{config});
-    });
+    return server->url();
 }
 
 Network::Client* MainWindow::connectToServer(const QUrl &url)
@@ -134,7 +141,7 @@ Network::Client* MainWindow::connectToServer(const QUrl &url)
     connect(client, &Network::Client::processCreateGame, [i, client, this] (auto packet) {
         auto selected = ui->tabWidgetGames->currentIndex() == i;
         ui->tabWidgetGames->removeTab(i);
-        ui->tabWidgetGames->insertTab(i, new GamePrepareWidget{ui->tabWidgetGames}, packet.config.name());
+        ui->tabWidgetGames->insertTab(i, new GamePrepareWidget{ui->tabWidgetGames, packet.config}, packet.config.name());
         if (selected) {
             ui->tabWidgetGames->setCurrentIndex(i);
         }

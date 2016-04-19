@@ -17,7 +17,7 @@ public:
     MainWindow(QWidget *parent, const QString &configPath);
     ~MainWindow();
 
-    void createGame(const SeaBattle::GameConfig &config);
+    QUrl startServer();
     SeaBattle::Network::Client* connectToServer(const QUrl &url);
 
     bool loadConfig();

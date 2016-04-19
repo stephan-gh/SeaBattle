@@ -1,13 +1,13 @@
 #include "gamecreatedialog.h"
 #include "ui_gamecreatedialog.h"
 
-GameCreateDialog::GameCreateDialog(QWidget *parent, const GameConfigs &configs) :
+GameCreateDialog::GameCreateDialog(QWidget *parent, const SeaBattle::GameConfigs &configs) :
     QDialog(parent),
     ui(new Ui::GameCreateDialog)
 {
     ui->setupUi(this);
 
-    for (const GameConfig &config : configs) {
+    for (auto config : configs) {
         ui->comboBoxConfig->addItem(config.name());
     }
 

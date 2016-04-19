@@ -3,33 +3,23 @@
 #include <QString>
 
 #include "field.h"
+#include "gameconfig.h"
 
 namespace SeaBattle {
 
 struct Ship
 {
 public:
-    class Type {
-        const int id_;
-        const QString &name_;
-        const int length_;
+    Ship(const GameConfig::Ship &config, Coordinate position, Direction direction);
 
-    public:
-        Type(int id, const QString &name, int length);
-        int id() const;
-        const QString &name() const;
-        int length() const;
-    };
-
-    Ship(const Type &type, Coordinate position, Direction direction);
-    const Type &type() const;
+    const GameConfig::Ship &config() const;
     Coordinate position() const;
     Direction direction() const;
 
 private:
-    const Type &type_;
+    const GameConfig::Ship &config_;
     const Coordinate position_;
-    const Direction direction_;
+    const Direction &direction_;
 
 };
 

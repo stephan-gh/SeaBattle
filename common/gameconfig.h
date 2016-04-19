@@ -44,6 +44,7 @@ public:
     void setSize(Coordinate size);
 
     Ships &ships();
+    const Ships &cships() const;
 
     operator QJsonValue() const;
 

@@ -1,6 +1,9 @@
 #pragma once
 
 #include <QWidget>
+#include "gameconfig.h"
+#include "gamemodel.h"
+#include "ship.h"
 
 namespace Ui {
 class GameConnectWidget;
@@ -25,11 +28,15 @@ class GamePrepareWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit GamePrepareWidget(QWidget *parent = nullptr);
+    GamePrepareWidget(QWidget *parent, const SeaBattle::GameConfig &config);
     ~GamePrepareWidget();
 
 private:
+    bool validateSetShip() const;
+    void updateSetShip();
+
     Ui::GamePrepareWidget *ui;
+    GameModel model;
 };
 
 class GameWidget : public QWidget

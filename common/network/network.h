@@ -11,8 +11,5 @@ enum class Side {
     Server
 };
 
-QString idByState(Game::State state);
-Game::State stateById(const QString &id);
-
 }
 }

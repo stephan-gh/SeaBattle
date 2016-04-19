@@ -24,7 +24,9 @@ Client::Client(QObject *parent, QWebSocket *socket, const QUuid &id) :
 
 Client::~Client()
 {
-    delete socket;
+    if (socket) {
+        delete socket;
+    }
 }
 
 const QUuid Client::id() const

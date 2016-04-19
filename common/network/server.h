@@ -21,6 +21,8 @@ public:
 
     bool start(unsigned int port = 43560);
 
+    bool isStarted() const;
+
     QUrl url() const;
     unsigned int port() const;
 

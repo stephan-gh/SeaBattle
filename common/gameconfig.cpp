@@ -45,6 +45,11 @@ GameConfig::Ships &GameConfig::ships()
     return ships_;
 }
 
+const GameConfig::Ships &GameConfig::cships() const
+{
+    return ships_;
+}
+
 GameConfig::operator QJsonValue() const
 {
     QJsonObject result;
