@@ -4,22 +4,22 @@ dist: trusty
 language: cpp
 
 env:
-  - QT=qt56
-  - QT=qt55 QT_REPO=qt551
+  - QT=qt56 GCC=5
+  - QT=qt55 QT_REPO=qt551 GCC=4.9
 
 before_install:
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
   - sudo add-apt-repository -y ppa:beineri/opt-${QT_REPO-$QT}-trusty
   - sudo apt-get update -qq
 install:
-  - sudo apt-get --no-install-suggests --no-install-recommends -y install gcc-5 g++-5 ${QT}base ${QT}tools ${QT}websockets
+  - sudo apt-get --no-install-suggests --no-install-recommends -y install gcc-$GCC g++-$GCC ${QT}base ${QT}tools ${QT}websockets
   - source /opt/$QT/bin/$QT-env.sh
 
 before_script:
-  - g++-5 --version
+  - g++-$GCC --version
   - qmake -v
 
-script: qmake && make CC=gcc-5 CXX=g++-5 LINK=g++-5
+script: qmake && make CC=gcc-$GCC CXX=g++-$GCC LINK=g++-$GCC
 
 notifications:
   email: false
