@@ -35,12 +35,12 @@ void GameModel::setShip(const SeaBattle::Ship *ship)
     emit dataChanged(index(ship->position().x(), ship->position().y()), index(pos.x(), pos.y()));
 }
 
-int GameModel::rowCount(const QModelIndex &parent) const
+int GameModel::rowCount(const QModelIndex &) const
 {
     return config_.size().y();
 }
 
-int GameModel::columnCount(const QModelIndex &parent) const
+int GameModel::columnCount(const QModelIndex &) const
 {
     return config_.size().x();
 }
