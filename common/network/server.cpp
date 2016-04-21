@@ -115,7 +115,7 @@ void Server::accept()
 
         if (player->opponent().hasShips()) {
             for (const Player &p : player->game()->players) {
-                p.client()->send(PacketStartMainGame{});
+                p.client()->send(PacketShipsSet{p.ships()});
             }
         }
 

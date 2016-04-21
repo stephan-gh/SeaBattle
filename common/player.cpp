@@ -9,8 +9,8 @@ Player::Player(Game *game, bool first, const GameConfig &config) :
     first(first),
     id_(QUuid::createUuid()),
     client_(nullptr),
-    field(config.size().x(), std::vector<Ship*>{static_cast<unsigned int>(config.size().y())}),
-    sunkenShips(-1)
+    ships_(),
+    field(config.size().x(), std::vector<Ship*>{static_cast<unsigned int>(config.size().y())})
 {
 }
 
@@ -47,13 +47,20 @@ void Player::setClient(Network::Client *client)
     }
 }
 
+const std::unordered_set<Ship *> &Player::ships() const
+{
+    return ships_;
+}
+
 bool Player::hasShips() const
 {
-    return sunkenShips >= 0;
+    return ships_.size() > 0;
 }
 
 void Player::setShips(const std::unordered_set<Ship *> &ships)
 {
+    ships_ = ships;
+
     Coordinate pos{0, 0};
     for (Ship *ship : ships) {
         const GameConfig::Ship &config = game_->config().cships()[ship->id()];
@@ -62,8 +69,6 @@ void Player::setShips(const std::unordered_set<Ship *> &ships)
             field[pos.x()][pos.y()] = ship;
         }
     }
-
-    sunkenShips = 0;
 }
 
 }

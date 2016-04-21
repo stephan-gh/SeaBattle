@@ -35,7 +35,6 @@ struct Packet::Type {
     static const Type &StartGame;
     static const Type &GameCreated;
     static const Type &ShipsSet;
-    static const Type &StartMainGame;
 
     static std::unordered_map<std::string, Type*> registry;
     static Type &getById(const QString &id);
@@ -111,19 +110,6 @@ struct PacketShipsSet : public Packet {
     void process(Client *client) const override;
 protected:
     void write(QJsonObject &json) const override;
-};
-
-struct PacketStartMainGame : public Packet {
-    PacketStartMainGame();
-
-    // Packet interface
-    const Type &type() const override {
-        return Type::StartMainGame;
-    }
-
-    void process(Client *client) const override;
-protected:
-    void write(QJsonObject &) const override;
 };
 
 }

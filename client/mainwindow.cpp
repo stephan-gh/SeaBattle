@@ -154,7 +154,7 @@ Network::Client* MainWindow::connectToServer(const QUrl &url)
         }
     });
 
-    connect(client, &Network::Client::processStartMainGame, [i, client, this] (auto) {
+    connect(client, &Network::Client::processShipsSet, [i, client, this] (auto packet) {
         auto selected = ui->tabWidgetGames->currentIndex() == i;
         auto text = ui->tabWidgetGames->tabText(i);
         ui->tabWidgetGames->removeTab(i);

@@ -24,6 +24,7 @@ struct Player
     Network::Client* client() const;
     void setClient(Network::Client* client);
 
+    const std::unordered_set<Ship*> &ships() const;
     bool hasShips() const;
     void setShips(const std::unordered_set<Ship*> &ships);
 
@@ -33,8 +34,8 @@ private:
     const QUuid id_;
 
     Network::Client* client_;
+    std::unordered_set<Ship*> ships_;
     Field field;
-    int sunkenShips;
 };
 
 }
