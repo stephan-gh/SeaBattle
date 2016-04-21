@@ -143,11 +143,24 @@ Network::Client* MainWindow::connectToServer(const QUrl &url)
         ui->tabWidgetGames->removeTab(i);
 
         auto widget = new GamePrepareWidget{ui->tabWidgetGames, packet.config};
-        connect(widget, &GamePrepareWidget::finished, [client] (auto ships) {
+        connect(widget, &GamePrepareWidget::finished, [widget, client] (auto ships) {
             client->send(Network::PacketShipsSet{ships});
+            widget->disable();
         });
 
         ui->tabWidgetGames->insertTab(i, widget, packet.config.name());
+        if (selected) {
+            ui->tabWidgetGames->setCurrentIndex(i);
+        }
+    });
+
+    connect(client, &Network::Client::processStartMainGame, [i, client, this] (auto) {
+        auto selected = ui->tabWidgetGames->currentIndex() == i;
+        auto text = ui->tabWidgetGames->tabText(i);
+        ui->tabWidgetGames->removeTab(i);
+
+        auto widget = new GameWidget{ui->tabWidgetGames};
+        ui->tabWidgetGames->insertTab(i, widget, text);
         if (selected) {
             ui->tabWidgetGames->setCurrentIndex(i);
         }

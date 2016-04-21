@@ -5,7 +5,7 @@
 GameModel::GameModel(QObject *parent, const SeaBattle::GameConfig &config) :
     QAbstractTableModel(parent),
     config_(config),
-    field_(config.size().x(), std::vector<const SeaBattle::Ship*>{static_cast<unsigned int>(config.size().y())})
+    field_(config.size().x(), std::vector<SeaBattle::Ship*>{static_cast<unsigned int>(config.size().y())})
 {
 }
 
@@ -19,7 +19,7 @@ const SeaBattle::Field &GameModel::field() const
     return field_;
 }
 
-const std::unordered_set<const SeaBattle::Ship *> &GameModel::ships() const
+const std::unordered_set<SeaBattle::Ship*> &GameModel::ships() const
 {
     return ships_;
 }
@@ -29,7 +29,7 @@ const SeaBattle::Ship *GameModel::ship(const QModelIndex &index) const
     return field_[index.column()][index.row()];
 }
 
-void GameModel::setShip(const SeaBattle::Ship *ship)
+void GameModel::setShip(SeaBattle::Ship *ship)
 {
     ships_.insert(ship);
 

@@ -21,6 +21,7 @@ public:
     const GameConfig &config() const;
 
     Player &player(int i);
+
     Player players[2];
 
 private:

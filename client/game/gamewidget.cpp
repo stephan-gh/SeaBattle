@@ -75,6 +75,12 @@ GamePrepareWidget::~GamePrepareWidget()
     delete ui;
 }
 
+void GamePrepareWidget::disable()
+{
+    ui->pushButtonSetShip->setEnabled(false);
+    ui->buttonBox->setEnabled(false);
+}
+
 bool GamePrepareWidget::validateSetShip() const
 {
     if (ui->listWidgetShips->selectedItems().isEmpty() || ui->tableViewShips->selectionModel()->selectedIndexes().isEmpty()) {

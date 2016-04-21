@@ -4,6 +4,7 @@
 namespace SeaBattle {
 
 Game::Game(const GameConfig &config) :
+    players({{this, true, config}, {this, false, config}}),
     config_(config),
     state_(State::Connecting)
 {

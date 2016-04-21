@@ -13,11 +13,11 @@ class Client : public QObject
     Q_OBJECT
 
 public:
-    Client(QObject *parent, QWebSocket *socket, const QUuid &id = {});
+    Client(QObject *parent, QWebSocket *socket);
     ~Client();
 
-    const QUuid id() const;
-    void setId(const QUuid id);
+    Player *player() const;
+    void setPlayer(Player* player);
 
     bool isValid() const;
 
@@ -26,8 +26,6 @@ public:
 
     void send(const Packet &packet);
     void disconnect(const QString &reason);
-
-    void deleteSocket();
 signals:
     void connected();
     void disconnected();
@@ -36,14 +34,15 @@ signals:
     void processGameCreated(const PacketGameCreated &packet);
     void processStartGame(const PacketStartGame &packet);
     void processShipsSet(const PacketShipsSet &packet);
+    void processStartMainGame(const PacketStartMainGame &packet);
 
 
 private slots:
     void process(QString message);
 
 private:
-    QUuid id_;
     QWebSocket *socket;
+    Player *player_;
 };
 
 }

@@ -39,6 +39,6 @@ private:
 };
 
 class Ship;
-using Field = std::vector<std::vector<const Ship*>>;
+using Field = std::vector<std::vector<Ship*>>;
 
 }

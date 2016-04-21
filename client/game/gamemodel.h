@@ -12,10 +12,10 @@ public:
 public:
     const SeaBattle::GameConfig &config() const;
     const SeaBattle::Field &field() const;
-    const std::unordered_set<const SeaBattle::Ship*> &ships() const;
+    const std::unordered_set<SeaBattle::Ship*> &ships() const;
 
     const SeaBattle::Ship *ship(const QModelIndex &index) const;
-    void setShip(const SeaBattle::Ship *ship);
+    void setShip(SeaBattle::Ship *ship);
 
     // QAbstractItemModel interface
     int rowCount(const QModelIndex &) const override;
@@ -26,5 +26,5 @@ public:
 private:
     SeaBattle::GameConfig config_;
     SeaBattle::Field field_;
-    std::unordered_set<const SeaBattle::Ship*> ships_;
+    std::unordered_set<SeaBattle::Ship*> ships_;
 };

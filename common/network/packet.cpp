@@ -11,6 +11,7 @@ const Packet::Type &Packet::Type::CreateGame{QStringLiteral("create_game"), [] (
 const Packet::Type &Packet::Type::GameCreated{QStringLiteral("game_created"), [] (auto json) { return new PacketGameCreated(json); }};
 const Packet::Type &Packet::Type::StartGame{QStringLiteral("start_game"), [] (auto json) { return new PacketStartGame(json); }};
 const Packet::Type &Packet::Type::ShipsSet{QStringLiteral("ships_set"), [] (auto json) { return new PacketShipsSet(json); }};
+const Packet::Type &Packet::Type::StartMainGame{QStringLiteral("start_main_game"), [] (auto) { return new PacketStartMainGame; }};
 
 Packet::Type &Packet::Type::getById(const QString &id)
 {
@@ -101,7 +102,7 @@ void PacketStartGame::write(QJsonObject &json) const
     json["game"] = game.toString();
 }
 
-PacketShipsSet::PacketShipsSet(const std::unordered_set<const Ship*> &ships) : ships(ships)
+PacketShipsSet::PacketShipsSet(const std::unordered_set<Ship*> &ships) : ships(ships)
 {
 }
 
@@ -125,6 +126,19 @@ void PacketShipsSet::write(QJsonObject &json) const
         array.append(*ship);
     }
     json["ships"] = array;
+}
+
+PacketStartMainGame::PacketStartMainGame()
+{
+}
+
+void PacketStartMainGame::process(Client *client) const
+{
+    emit client->processStartMainGame(*this);
+}
+
+void PacketStartMainGame::write(QJsonObject &) const
+{
 }
 
 }

@@ -9,14 +9,9 @@ namespace Network {
 Server::Server(QObject *parent) :
     QObject(parent),
     socket(new QWebSocketServer(QStringLiteral("SeaBattle"), QWebSocketServer::NonSecureMode, this)),
-    clients(),
+    players(),
     games()
 {
-}
-
-Server::~Server()
-{
-    socket->close();
 }
 
 bool Server::start(unsigned int port)
@@ -51,16 +46,14 @@ unsigned int Server::port() const
 void Server::accept()
 {
     auto clientSocket = socket->nextPendingConnection();
-    auto client = new Client{this, clientSocket, QUuid::createUuid()};
+    auto client = new Client{this, clientSocket};
     auto url = clientSocket->requestUrl();
 
     qDebug() << "Client accepted" << url;
-    clients[client->id()] = client;
 
     connect(client, &Client::disconnected, [client] () {
         qDebug() << "Client disconnected";
-        client->deleteSocket();
-        // TODO: Delete client completely
+        client->deleteLater();
     });
 
     if (!url.hasQuery()) {
@@ -70,7 +63,7 @@ void Server::accept()
             auto id = QUuid::createUuid();
             games[id] = game;
 
-            game->player(0).client = client;
+            game->player(0).setClient(client);
 
             sendGameCreated(client, game, id);
         });
@@ -91,27 +84,43 @@ void Server::accept()
         }
 
         Player &player1 = game->player(0);
-        if (!player1.client || !player1.client->isValid()) {
-            player1.client = client;
+        if (!player1.isValid()) {
+            player1.setClient(client);
             sendGameCreated(client, game, id);
         } else {
             Player &player2 = game->player(1);
-            if (player2.client && player2.client->isValid()) {
+            if (player2.isValid()) {
                 client->disconnect("Game already full");
                 return;
             }
 
-            player2.client = client;
+            player2.setClient(client);
 
             qDebug() << "Starting game:" << game->config().name();
             game->setState(Game::State::Preparing);
 
-            for (Player &player : game->players) {
-                player.client->send(PacketStartGame{player.client->id()});
-                player.client->send(PacketCreateGame{game->config()});
+            players[player1.id()] = &player1;
+            players[player2.id()] = &player2;
+
+            for (const Player &player : game->players) {
+                player.client()->send(PacketStartGame{player.id()});
+                player.client()->send(PacketCreateGame{game->config()});
             }
         }
     }
+
+    connect(client, &Client::processShipsSet, [client, this] (const PacketShipsSet &packet) {
+        auto player = client->player();
+        player->setShips(packet.ships);
+
+        if (player->opponent().hasShips()) {
+            for (const Player &p : player->game()->players) {
+                p.client()->send(PacketStartMainGame{});
+            }
+        }
+
+        player->game()->setState(Game::State::Playing);
+    });
 }
 
 void Server::sendGameCreated(Client *client, Game *game, const QUuid &id)

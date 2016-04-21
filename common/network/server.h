@@ -17,7 +17,6 @@ class Server : public QObject
 
 public:
     explicit Server(QObject *parent);
-    ~Server();
 
     bool start(unsigned int port = 43560);
 
@@ -36,7 +35,7 @@ private:
     void sendGameCreated(Client* client, Game* game, const QUuid &id);
 
     QWebSocketServer *socket;
-    QHash<QUuid, Client*> clients;
+    QHash<QUuid, Player*> players;
     QHash<QUuid, Game*> games;
 };
 

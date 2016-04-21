@@ -23,7 +23,7 @@ public:
     bool loadConfig();
     bool saveConfig();
 
-private:
+private:    
     Ui::MainWindow *ui;
 
     const QString configPath;

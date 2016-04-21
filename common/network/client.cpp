@@ -6,10 +6,10 @@
 namespace SeaBattle {
 namespace Network {
 
-Client::Client(QObject *parent, QWebSocket *socket, const QUuid &id) :
+Client::Client(QObject *parent, QWebSocket *socket) :
     QObject(parent),
-    id_(id),
-    socket(socket)
+    socket(socket),
+    player_(nullptr)
 {
     connect(socket, &QWebSocket::connected, this, &Client::connected);
     connect(socket, &QWebSocket::disconnected, this, &Client::disconnected);
@@ -24,24 +24,25 @@ Client::Client(QObject *parent, QWebSocket *socket, const QUuid &id) :
 
 Client::~Client()
 {
-    if (socket) {
-        delete socket;
+    if (player_) {
+        player_->setClient(nullptr);
     }
+    delete socket;
 }
 
-const QUuid Client::id() const
+Player* Client::player() const
 {
-    return id_;
+    return player_;
 }
 
-void Client::setId(const QUuid id)
+void Client::setPlayer(Player *player)
 {
-    id_ = id;
+    player_ = player;
 }
 
 bool Client::isValid() const
 {
-    return socket && socket->isValid();
+    return socket->isValid();
 }
 
 void Client::open(const QUrl &url)
@@ -51,11 +52,7 @@ void Client::open(const QUrl &url)
 
 const QUrl Client::url() const
 {
-    if (socket) {
-        return socket->requestUrl();
-    }
-
-    return {};
+    return socket->requestUrl();
 }
 
 void Client::send(const Packet &packet)
@@ -70,12 +67,6 @@ void Client::send(const Packet &packet)
 void Client::disconnect(const QString &reason)
 {
     socket->close(QWebSocketProtocol::CloseCodeNormal, reason);
-}
-
-void Client::deleteSocket()
-{
-    delete socket;
-    socket = nullptr;
 }
 
 void Client::process(QString message)
