@@ -185,13 +185,9 @@ bool MainWindow::saveConfig()
 void MainWindow::replaceTab(GameWidget *tab, QString name)
 {
     auto old = tab->replace();
-
     auto i = ui->tabWidgetGames->indexOf(old);
-    if (name.isEmpty()) {
-
-    }
-
     auto selected = ui->tabWidgetGames->currentIndex() == i;
+
     ui->tabWidgetGames->removeTab(i);
     delete old;
 

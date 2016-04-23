@@ -36,6 +36,8 @@ public:
 
     // Game interface
     void setState(State state);
+
+    void sendContinue();
 };
 
 }

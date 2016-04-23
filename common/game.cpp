@@ -60,4 +60,11 @@ void ServerGame::setState(State state)
     }
 }
 
+void ServerGame::sendContinue()
+{
+    for (const Player &player : players) {
+        player.client()->sendContinue();
+    }
+}
+
 }

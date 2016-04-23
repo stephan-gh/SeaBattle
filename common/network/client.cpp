@@ -86,6 +86,18 @@ void Client::processShipsSet(const PacketShipsSet &)
 {
 }
 
+void Client::processShoot(const PacketShoot &)
+{
+}
+
+void Client::processShootResult(const PacketShootResult &)
+{
+}
+
+void Client::processContinue(const PacketContinue &)
+{
+}
+
 ServerClient::ServerClient(QObject *parent, QWebSocket *socket) :
     Client(parent, socket),
     player_(nullptr)
@@ -144,6 +156,16 @@ void ServerClient::sendShips()
     send(PacketShipsSet{player_->ships()});
 }
 
+void ServerClient::sendShootResult(const Coordinate &target, bool hit, bool sunken)
+{
+    send(PacketShootResult{target, hit, sunken});
+}
+
+void ServerClient::sendContinue()
+{
+    send(PacketContinue{});
+}
+
 void ServerClient::processCreateGame(const PacketCreateGame &packet)
 {
     emit createGame(packet.config);
@@ -152,6 +174,11 @@ void ServerClient::processCreateGame(const PacketCreateGame &packet)
 void ServerClient::processShipsSet(const PacketShipsSet &packet)
 {
     emit shipsSet(packet.ships);
+}
+
+void ServerClient::processShoot(const PacketShoot &packet)
+{
+    emit shoot(packet.target);
 }
 
 }

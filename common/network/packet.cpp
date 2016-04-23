@@ -12,6 +12,9 @@ const Packet::Type &Packet::Type::GameCreated{QStringLiteral("game_created"), []
 const Packet::Type &Packet::Type::StartGame{QStringLiteral("start_game"), [] (auto json) { return new PacketStartGame(json); }};
 const Packet::Type &Packet::Type::SetShips{QStringLiteral("set_ships"), [] (auto) { return new PacketSetShips(); }};
 const Packet::Type &Packet::Type::ShipsSet{QStringLiteral("ships_set"), [] (auto json) { return new PacketShipsSet(json); }};
+const Packet::Type &Packet::Type::Shoot{QStringLiteral("shoot"), [] (auto json) { return new PacketShoot(json); }};
+const Packet::Type &Packet::Type::ShootResult{QStringLiteral("shoot_result"), [] (auto json) { return new PacketShootResult(json); }};
+const Packet::Type &Packet::Type::Continue{QStringLiteral("continue"), [] (auto) { return new PacketContinue(); }};
 
 Packet::Type &Packet::Type::getById(const QString &id)
 {
@@ -140,6 +143,59 @@ void PacketShipsSet::write(QJsonObject &json) const
         array.append(*ship);
     }
     json["ships"] = array;
+}
+
+PacketShoot::PacketShoot(const Coordinate &target) : target(target)
+{
+}
+
+PacketShoot::PacketShoot(const QJsonObject &json) : target(json["target"])
+{
+}
+
+void PacketShoot::process(Client *client) const
+{
+    emit client->processShoot(*this);
+}
+
+void PacketShoot::write(QJsonObject &json) const
+{
+    json["target"] = target;
+}
+
+PacketShootResult::PacketShootResult(const Coordinate &target, bool hit, bool sunken) :
+    target(target),
+    hit(hit),
+    sunken(sunken)
+{
+}
+
+PacketShootResult::PacketShootResult(const QJsonObject &json) :
+    target(json["target"]),
+    hit(json["hit"].toBool()),
+    sunken(json["sunken"].toBool())
+{
+}
+
+void PacketShootResult::process(Client *client) const
+{
+    emit client->processShootResult(*this);
+}
+
+void PacketShootResult::write(QJsonObject &json) const
+{
+    json["target"] = target;
+    json["hit"] = hit;
+    json["sunken"] = sunken;
+}
+
+PacketContinue::PacketContinue()
+{
+}
+
+void PacketContinue::process(Client *client) const
+{
+    emit client->processContinue(*this);
 }
 
 }

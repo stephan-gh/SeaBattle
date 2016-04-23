@@ -59,6 +59,8 @@ GamePrepareWidget::GamePrepareWidget(QWidget *parent, GameClient *client) :
         }
     }
 
+    ui->listWidgetShips->setCurrentRow(0);
+
     connect(ui->tableViewShips->selectionModel(), &QItemSelectionModel::selectionChanged, this, &GamePrepareWidget::updateSetShip);
     connect(ui->listWidgetShips->selectionModel(), &QItemSelectionModel::selectionChanged, this, &GamePrepareWidget::updateSetShip);
 
@@ -146,6 +148,15 @@ GameMainWidget::GameMainWidget(QWidget *parent, GameClient *client, const std::u
 
     ui->tableViewShips->setModel(&model);
     ui->tableViewOpponent->setModel(&opponentModel);
+
+    connect(ui->tableViewOpponent, &QAbstractItemView::doubleClicked, [this] (auto index) {
+        this->client->sendShoot(index);
+        ui->tableViewOpponent->setEnabled(false);
+    });
+
+    connect(client, &GameClient::continueShooting, [this] () {
+        ui->tableViewOpponent->setEnabled(true);
+    });
 }
 
 GameMainWidget::~GameMainWidget()

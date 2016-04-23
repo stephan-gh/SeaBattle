@@ -28,6 +28,11 @@ struct Player
     bool hasShips() const;
     void setShips(const std::unordered_set<Ship*> &ships);
 
+    const Ship* shoot(const Coordinate &target);
+    bool isSunken(const Ship* ship) const;
+
+    bool wasAttacked();
+
 private:
     ServerGame *game_;
     const bool first;
@@ -36,6 +41,8 @@ private:
     Network::ServerClient* client_;
     std::unordered_set<Ship*> ships_;
     Sea sea;
+
+    bool attacked;
 };
 
 }

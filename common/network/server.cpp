@@ -109,6 +109,22 @@ void Server::accept()
         }
     });
 
+    connect(client, &ServerClient::shoot, [this, client] (auto target) {
+        auto player = client->player()->opponent();
+        auto ship = player.shoot(target);
+
+        if (ship) {
+            client->sendShootResult(target, true, player.isSunken(ship));
+            client->sendContinue();
+        } else {
+            client->sendShootResult(target, false, false);
+
+            if (client->player()->wasAttacked()) {
+
+            }
+        }
+    });
+
     client->initialize();
 }
 

@@ -47,6 +47,11 @@ void GameClient::sendShips(const std::unordered_set<Ship *> &ships)
     send(Network::PacketShipsSet{ships});
 }
 
+void GameClient::sendShoot(const Coordinate &coordinate)
+{
+    send(Network::PacketShoot{coordinate});
+}
+
 void GameClient::processGameCreated(const Network::PacketGameCreated &packet)
 {
     url = packet.url;
@@ -69,4 +74,13 @@ void GameClient::processShipsSet(const Network::PacketShipsSet &packet)
 {
     game_.setState(Game::State::Playing);
     emit start(packet.ships);
+}
+
+void GameClient::processShootResult(const Network::PacketShootResult &)
+{
+}
+
+void GameClient::processContinue(const Network::PacketContinue &)
+{
+    emit continueShooting();
 }

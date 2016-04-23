@@ -10,7 +10,8 @@ Player::Player(ServerGame *game, bool first, const GameConfig &config) :
     id_(QUuid::createUuid()),
     client_(nullptr),
     ships_(),
-    sea(config.size().x(), std::vector<Field>{static_cast<unsigned int>(config.size().y())})
+    sea(config.size().x(), std::vector<Field>{static_cast<unsigned int>(config.size().y())}),
+    attacked(false)
 {
 }
 
@@ -61,6 +62,41 @@ void Player::setShips(const std::unordered_set<Ship*> &ships)
 {
     ships_ = ships;
     Field::setShips(game_->config(), sea, ships);
+}
+
+const Ship *Player::shoot(const Coordinate &target)
+{
+    Field &field = sea[target.x()][target.y()];
+    if (field.isChecked()) {
+        return nullptr; // TODO
+    }
+
+    field.check();
+    sea[target.x()][target.y()] = field;
+
+    auto ship = field.ship();
+    attacked = !ship;
+    return ship;
+}
+
+bool Player::isSunken(const Ship *ship) const
+{
+    Coordinate pos{0, 0};
+    const GameConfig::Ship &config = game_->config().cships()[ship->id()];
+    for (int i = 0; i < config.length(); ++i) {
+        pos = ship->position() + (ship->direction() * i);
+        auto &field = sea[pos.x()][pos.y()];
+        if (!field.isChecked()) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool Player::wasAttacked()
+{
+    return attacked;
 }
 
 }
