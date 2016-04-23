@@ -52,6 +52,7 @@ private:
 
     Ui::GamePrepareWidget *ui;
     GameModel model;
+    std::unordered_set<SeaBattle::Ship*> ships;
 };
 
 class GameMainWidget : public GameWidget

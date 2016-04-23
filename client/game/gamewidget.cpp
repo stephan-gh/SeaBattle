@@ -50,7 +50,7 @@ GamePrepareWidget::GamePrepareWidget(QWidget *parent, GameClient *client) :
     ui->tableViewShips->setModel(&model);
 
     int id = -1;
-    for (auto ship : model.config().cships()) {
+    for (auto ship : client->game().config().cships()) {
         ++id;
         for (int i = 0; i < ship.count(); ++i) {
             auto item = new QListWidgetItem{QStringLiteral("%1 (%2)").arg(ship.name()).arg(ship.length()), nullptr};
@@ -71,7 +71,9 @@ GamePrepareWidget::GamePrepareWidget(QWidget *parent, GameClient *client) :
         SeaBattle::Coordinate end = indexes.last();
 
         auto direction = SeaBattle::Direction::fromCoordinate(end - start);
-        model.setShip(new SeaBattle::Ship{id, start, direction});
+        auto ship = new SeaBattle::Ship{id, start, direction};
+        ships.insert(ship);
+        model.setShip(ship);
 
         delete item;
 
@@ -93,7 +95,7 @@ GamePrepareWidget::GamePrepareWidget(QWidget *parent, GameClient *client) :
         ui->pushButtonSetShip->setEnabled(false);
         ui->buttonBox->setEnabled(false);
 
-        this->client->sendShips(model.ships());
+        this->client->sendShips(ships);
     });
 }
 
@@ -108,7 +110,7 @@ bool GamePrepareWidget::validateSetShip() const
         return false;
     }
 
-    auto &ship = model.config().cships()[ui->listWidgetShips->selectedItems().first()->data(Qt::UserRole).toInt()];
+    auto &ship = client->game().config().cships()[ui->listWidgetShips->selectedItems().first()->data(Qt::UserRole).toInt()];
     auto indexes = ui->tableViewShips->selectionModel()->selectedIndexes();
 
     if (ship.length() != indexes.size()) {

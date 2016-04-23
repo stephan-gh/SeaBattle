@@ -10,9 +10,7 @@ public:
     GameModel(QObject *parent, const SeaBattle::GameConfig &config);
 
 public:
-    const SeaBattle::GameConfig &config() const;
     const SeaBattle::Sea &sea() const;
-    const std::unordered_set<SeaBattle::Ship*> &ships() const;
 
     const SeaBattle::Ship *ship(const QModelIndex &index) const;
     void setShip(SeaBattle::Ship *ship);
@@ -24,7 +22,6 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
 private:
-    SeaBattle::GameConfig config_;
+    const SeaBattle::GameConfig &config;
     SeaBattle::Sea sea_;
-    std::unordered_set<SeaBattle::Ship*> ships_;
 };

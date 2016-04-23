@@ -5,24 +5,14 @@
 
 GameModel::GameModel(QObject *parent, const SeaBattle::GameConfig &config) :
     QAbstractTableModel(parent),
-    config_(config),
+    config(config),
     sea_(config.size().x(), std::vector<SeaBattle::Field>{static_cast<unsigned int>(config.size().y())})
 {
-}
-
-const SeaBattle::GameConfig &GameModel::config() const
-{
-    return config_;
 }
 
 const SeaBattle::Sea &GameModel::sea() const
 {
     return sea_;
-}
-
-const std::unordered_set<SeaBattle::Ship*> &GameModel::ships() const
-{
-    return ships_;
 }
 
 const SeaBattle::Ship *GameModel::ship(const QModelIndex &index) const
@@ -32,10 +22,8 @@ const SeaBattle::Ship *GameModel::ship(const QModelIndex &index) const
 
 void GameModel::setShip(SeaBattle::Ship *ship)
 {
-    ships_.insert(ship);
-
     SeaBattle::Coordinate pos{0, 0};
-    for (int i = 0; i < config_.ships()[ship->id()].length(); ++i) {
+    for (int i = 0; i < config.cships()[ship->id()].length(); ++i) {
         pos = ship->position() + (ship->direction() * i);
         SeaBattle::Field &field = sea_[pos.x()][pos.y()];
         field.setShip(ship);
@@ -46,12 +34,12 @@ void GameModel::setShip(SeaBattle::Ship *ship)
 
 int GameModel::rowCount(const QModelIndex &) const
 {
-    return config_.size().y();
+    return config.size().y();
 }
 
 int GameModel::columnCount(const QModelIndex &) const
 {
-    return config_.size().x();
+    return config.size().x();
 }
 
 QVariant GameModel::data(const QModelIndex &index, int role) const
