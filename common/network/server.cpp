@@ -45,32 +45,24 @@ unsigned int Server::port() const
 
 void Server::accept()
 {
-    auto clientSocket = socket->nextPendingConnection();
-    auto client = new Client{this, clientSocket};
-    auto url = clientSocket->requestUrl();
-
-    qDebug() << "Client accepted" << url;
+    auto client = new ServerClient{this, socket->nextPendingConnection()};
+    qDebug() << "Client accepted" << client->url();
 
     connect(client, &Client::disconnected, [client] () {
         qDebug() << "Client disconnected";
         client->deleteLater();
     });
 
-    if (!url.hasQuery()) {
-        // Create game?
-        connect(client, &Client::processCreateGame, [client, this] (const PacketCreateGame &packet) {
-            auto game = new Game{packet.config};
-            auto id = QUuid::createUuid();
-            games[id] = game;
+    connect(client, &ServerClient::createGame, [this, client] (auto config) {
+        auto game = new ServerGame{config};
+        auto id = QUuid::createUuid();
+        games[id] = game;
 
-            game->player(0).setClient(client);
+        game->player(0).setClient(client);
+        client->sendGameCreated(socket->serverUrl(), id);
+    });
 
-            sendGameCreated(client, game, id);
-        });
-    } else {
-        QUuid id{url.query()};
-
-        // Join game
+    connect(client, &ServerClient::joinGame, [this, client] (auto id) {
         auto game = games[id];
         if (!game) {
             // TODO: Re-join existing game
@@ -86,7 +78,7 @@ void Server::accept()
         Player &player1 = game->player(0);
         if (!player1.isValid()) {
             player1.setClient(client);
-            sendGameCreated(client, game, id);
+            client->sendGameCreated(socket->serverUrl(), id);
         } else {
             Player &player2 = game->player(1);
             if (player2.isValid()) {
@@ -97,38 +89,27 @@ void Server::accept()
             player2.setClient(client);
 
             qDebug() << "Starting game:" << game->config().name();
-            game->setState(Game::State::Preparing);
-
             players[player1.id()] = &player1;
             players[player2.id()] = &player2;
 
             for (const Player &player : game->players) {
-                player.client()->send(PacketStartGame{player.id()});
-                player.client()->send(PacketCreateGame{game->config()});
+                player.client()->sendStartGame();
             }
-        }
-    }
 
-    connect(client, &Client::processShipsSet, [client, this] (const PacketShipsSet &packet) {
+            game->setState(Game::State::Preparing);
+        }
+    });
+
+    connect(client, &ServerClient::shipsSet, [this, client] (auto ships) {
         auto player = client->player();
-        player->setShips(packet.ships);
+        player->setShips(ships);
 
         if (player->opponent().hasShips()) {
-            for (const Player &p : player->game()->players) {
-                p.client()->send(PacketShipsSet{p.ships()});
-            }
+            player->game()->setState(Game::State::Playing);
         }
-
-        player->game()->setState(Game::State::Playing);
     });
-}
 
-void Server::sendGameCreated(Client *client, Game *game, const QUuid &id)
-{
-    QUrl url = socket->serverUrl();
-    QString uuid = id.toString();
-    url.setQuery(uuid.mid(1, uuid.size() - 2));
-    client->send(PacketGameCreated{url, game->config().name()});
+    client->initialize();
 }
 
 }

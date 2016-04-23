@@ -2,39 +2,49 @@
 
 #include <QWidget>
 #include "gameconfig.h"
+#include "gameclient.h"
 #include "gamemodel.h"
 #include "ship.h"
 
 namespace Ui {
 class GameConnectWidget;
 class GamePrepareWidget;
-class GameWidget;
+class GameMainWidget;
 }
 
-class GameConnectWidget : public QWidget
+class GameWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    GameConnectWidget(QWidget *parent, const QString &url);
+    GameWidget(QWidget *parent, GameClient *client);
+    virtual ~GameWidget();
+
+    GameWidget *replace();
+
+protected:
+    GameClient *client;
+};
+
+class GameConnectWidget : public GameWidget
+{
+    Q_OBJECT
+
+public:
+    GameConnectWidget(QWidget *parent, GameClient *client, const QString &url);
     ~GameConnectWidget();
 
 private:
     Ui::GameConnectWidget *ui;
 };
 
-class GamePrepareWidget : public QWidget
+class GamePrepareWidget : public GameWidget
 {
     Q_OBJECT
 
 public:
-    GamePrepareWidget(QWidget *parent, const SeaBattle::GameConfig &config);
+    GamePrepareWidget(QWidget *parent, GameClient *client);
     ~GamePrepareWidget();
-
-    void disable();
-
-signals:
-    void finished(const std::unordered_set<SeaBattle::Ship*> &ships);
 
 private:
     bool validateSetShip() const;
@@ -44,14 +54,14 @@ private:
     GameModel model;
 };
 
-class GameWidget : public QWidget
+class GameMainWidget : public GameWidget
 {
     Q_OBJECT
 
 public:
-    explicit GameWidget(QWidget *parent = nullptr);
-    ~GameWidget();
+    GameMainWidget(QWidget *parent, GameClient *client);
+    ~GameMainWidget();
 
 private:
-    Ui::GameWidget *ui;
+    Ui::GameMainWidget *ui;
 };

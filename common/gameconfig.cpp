@@ -3,6 +3,11 @@
 
 namespace SeaBattle {
 
+GameConfig::GameConfig() :
+    name_()
+{
+}
+
 GameConfig::GameConfig(const QString &name) :
     name_(name)
 {

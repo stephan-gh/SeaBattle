@@ -10,7 +10,8 @@ HEADERS += \
     gameconfig/gameconfigmodel.h \
     game/gamewidget.h \
     game/gamecreatedialog.h \
-    game/gamemodel.h
+    game/gamemodel.h \
+    game/gameclient.h
 
 SOURCES += \
     main.cpp \
@@ -19,16 +20,17 @@ SOURCES += \
     gameconfig/gameconfigmodel.cpp \
     game/gamewidget.cpp \
     game/gamecreatedialog.cpp \
-    game/gamemodel.cpp
+    game/gamemodel.cpp \
+    game/gameclient.cpp
 
 FORMS += \
     mainwindow.ui \
     gameconfig/gameconfigdialog.ui \
     gameconfig/gameconfigeditdialog.ui \
-    game/gamewidget.ui \
     game/gamepreparewidget.ui \
     game/gamecreatedialog.ui \
-    game/gameconnectwidget.ui
+    game/gameconnectwidget.ui \
+    game/gamemainwidget.ui
 
 RESOURCES += seabattle.qrc
 TRANSLATIONS = seabattle_de.ts

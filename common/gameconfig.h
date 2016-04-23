@@ -34,6 +34,7 @@ public:
 
     using Ships = std::vector<Ship>;
 
+    GameConfig();
     explicit GameConfig(const QString &name);
     GameConfig(const QJsonValue &value);
 

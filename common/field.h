@@ -39,6 +39,25 @@ private:
 };
 
 class Ship;
-using Field = std::vector<std::vector<Ship*>>;
+
+struct Field {
+    Field();
+
+    bool isMarked() const;
+
+    const Ship* ship() const;
+    void setShip(const Ship* ship);
+
+    bool isChecked() const;
+    void check();
+
+private:
+    bool checked;
+    bool marked;
+    const Ship* ship_;
+
+};
+
+using Sea = std::vector<std::vector<Field>>;
 
 }

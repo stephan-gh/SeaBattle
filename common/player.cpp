@@ -4,17 +4,17 @@
 
 namespace SeaBattle {
 
-Player::Player(Game *game, bool first, const GameConfig &config) :
+Player::Player(ServerGame *game, bool first, const GameConfig &config) :
     game_(game),
     first(first),
     id_(QUuid::createUuid()),
     client_(nullptr),
     ships_(),
-    field(config.size().x(), std::vector<Ship*>{static_cast<unsigned int>(config.size().y())})
+    sea(config.size().x(), std::vector<Field>{static_cast<unsigned int>(config.size().y())})
 {
 }
 
-Game *Player::game() const
+ServerGame *Player::game() const
 {
     return game_;
 }
@@ -34,12 +34,12 @@ Player &Player::opponent() const
     return first ? game_->player(1) : game_->player(0);
 }
 
-Network::Client *Player::client() const
+Network::ServerClient *Player::client() const
 {
     return client_;
 }
 
-void Player::setClient(Network::Client *client)
+void Player::setClient(Network::ServerClient *client)
 {
     client_ = client;
     if (client) {
@@ -66,7 +66,8 @@ void Player::setShips(const std::unordered_set<Ship *> &ships)
         const GameConfig::Ship &config = game_->config().cships()[ship->id()];
         for (int i = 0; i < config.length(); ++i) {
             pos = ship->position() + (ship->direction() * i);
-            field[pos.x()][pos.y()] = ship;
+            Field &field = sea[pos.x()][pos.y()];
+            field.setShip(ship);
         }
     }
 }

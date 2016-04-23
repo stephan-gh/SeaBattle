@@ -6,36 +6,36 @@
 #include "field.h"
 
 namespace SeaBattle {
-class Game;
+class ServerGame;
 namespace Network {
-class Client;
+class ServerClient;
 }
 
 struct Player
 {
-    Player(Game *game, bool first, const GameConfig &config);
+    Player(ServerGame *game, bool first, const GameConfig &config);
 
-    Game *game() const;
+    ServerGame *game() const;
     const QUuid &id() const;
 
     bool isValid() const;
     Player &opponent() const;
 
-    Network::Client* client() const;
-    void setClient(Network::Client* client);
+    Network::ServerClient* client() const;
+    void setClient(Network::ServerClient* client);
 
     const std::unordered_set<Ship*> &ships() const;
     bool hasShips() const;
     void setShips(const std::unordered_set<Ship*> &ships);
 
 private:
-    Game *game_;
+    ServerGame *game_;
     const bool first;
     const QUuid id_;
 
-    Network::Client* client_;
+    Network::ServerClient* client_;
     std::unordered_set<Ship*> ships_;
-    Field field;
+    Sea sea;
 };
 
 }

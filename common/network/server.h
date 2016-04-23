@@ -32,11 +32,9 @@ private slots:
     void accept();
 
 private:
-    void sendGameCreated(Client* client, Game* game, const QUuid &id);
-
     QWebSocketServer *socket;
     QHash<QUuid, Player*> players;
-    QHash<QUuid, Game*> games;
+    QHash<QUuid, ServerGame*> games;
 };
 
 }

@@ -2,8 +2,8 @@
 
 #include <QMainWindow>
 #include "gameconfig.h"
+#include "game/gameclient.h"
 #include "network/server.h"
-#include "network/client.h"
 
 namespace Ui {
 class MainWindow;
@@ -18,17 +18,18 @@ public:
     ~MainWindow();
 
     QUrl startServer();
-    SeaBattle::Network::Client* connectToServer(const QUrl &url);
+    void setupConnection(GameClient* client);
 
     bool loadConfig();
     bool saveConfig();
 
-private:    
+private:
+    void replaceTab(GameWidget* tab, QString name);
+
     Ui::MainWindow *ui;
 
     const QString configPath;
     SeaBattle::GameConfigs configs;
 
     SeaBattle::Network::Server *server;
-    std::vector<SeaBattle::Network::Client*> clients;
 };

@@ -11,7 +11,7 @@ public:
 
 public:
     const SeaBattle::GameConfig &config() const;
-    const SeaBattle::Field &field() const;
+    const SeaBattle::Sea &sea() const;
     const std::unordered_set<SeaBattle::Ship*> &ships() const;
 
     const SeaBattle::Ship *ship(const QModelIndex &index) const;
@@ -25,6 +25,6 @@ public:
 
 private:
     SeaBattle::GameConfig config_;
-    SeaBattle::Field field_;
+    SeaBattle::Sea sea_;
     std::unordered_set<SeaBattle::Ship*> ships_;
 };

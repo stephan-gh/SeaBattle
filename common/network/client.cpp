@@ -6,10 +6,15 @@
 namespace SeaBattle {
 namespace Network {
 
+void Client::setGame(QUrl &url, const QUuid &id)
+{
+    QString uuid = id.toString();
+    url.setQuery(uuid.mid(1, uuid.size() - 2));
+}
+
 Client::Client(QObject *parent, QWebSocket *socket) :
     QObject(parent),
-    socket(socket),
-    player_(nullptr)
+    socket(socket)
 {
     connect(socket, &QWebSocket::connected, this, &Client::connected);
     connect(socket, &QWebSocket::disconnected, this, &Client::disconnected);
@@ -24,30 +29,12 @@ Client::Client(QObject *parent, QWebSocket *socket) :
 
 Client::~Client()
 {
-    if (player_) {
-        player_->setClient(nullptr);
-    }
     delete socket;
-}
-
-Player* Client::player() const
-{
-    return player_;
-}
-
-void Client::setPlayer(Player *player)
-{
-    player_ = player;
 }
 
 bool Client::isValid() const
 {
     return socket->isValid();
-}
-
-void Client::open(const QUrl &url)
-{
-    socket->open(url);
 }
 
 const QUrl Client::url() const
@@ -77,6 +64,94 @@ void Client::process(QString message)
     qDebug() << "Received packet:" << type.id();
     qDebug(serialized.data());
     return type.deserialize(json)->process(this);
+}
+
+void Client::processCreateGame(const PacketCreateGame &)
+{
+}
+
+void Client::processGameCreated(const PacketGameCreated &)
+{
+}
+
+void Client::processStartGame(const PacketStartGame &)
+{
+}
+
+void Client::processSetShips(const PacketSetShips &)
+{
+}
+
+void Client::processShipsSet(const PacketShipsSet &)
+{
+}
+
+ServerClient::ServerClient(QObject *parent, QWebSocket *socket) :
+    Client(parent, socket),
+    player_(nullptr)
+{
+}
+
+ServerClient::~ServerClient()
+{
+    if (player_) {
+        player_->setClient(nullptr);
+    }
+}
+
+void ServerClient::initialize()
+{
+    auto u = url();
+    if (u.hasQuery()) {
+        QUuid id{u.query()};
+        if (id.isNull()) {
+            disconnect("Invalid game ID");
+            return;
+        }
+
+        emit joinGame(id);
+    }
+}
+
+Player* ServerClient::player() const
+{
+    return player_;
+}
+
+void ServerClient::setPlayer(Player *player)
+{
+    player_ = player;
+}
+
+void ServerClient::sendGameCreated(QUrl serverUrl, const QUuid &id)
+{
+    setGame(serverUrl, id);
+    send(PacketGameCreated{serverUrl, player_->game()->config().name()});
+}
+
+void ServerClient::sendStartGame()
+{
+    send(PacketStartGame{player_->id(), player_->game()->config()});
+}
+
+void ServerClient::sendSetShips()
+{
+    send(PacketSetShips{});
+}
+
+void ServerClient::sendShips()
+{
+    send(PacketShipsSet{player_->ships()});
+}
+
+void ServerClient::processCreateGame(const PacketCreateGame &packet)
+{
+    emit createGame(packet.config);
+}
+
+void ServerClient::processShipsSet(const PacketShipsSet &packet)
+{
+    emit shipsSet(packet.ships);
 }
 
 }

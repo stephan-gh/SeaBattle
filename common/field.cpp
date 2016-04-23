@@ -1,5 +1,6 @@
 #include <QJsonArray>
 #include "field.h"
+#include "ship.h"
 
 namespace SeaBattle {
 
@@ -73,6 +74,38 @@ const Direction Direction::fromCoordinate(const Coordinate &coord)
 
 Direction::Direction(int dx, int dy) : Coordinate(dx, dy)
 {
+}
+
+Field::Field() :
+    checked(false),
+    marked(false),
+    ship_(nullptr)
+{
+}
+
+bool Field::isMarked() const
+{
+    return marked || ship_;
+}
+
+const Ship *Field::ship() const
+{
+    return ship_;
+}
+
+void Field::setShip(const Ship* ship)
+{
+    ship_ = ship;
+}
+
+bool Field::isChecked() const
+{
+    return checked;
+}
+
+void Field::check()
+{
+    checked = true;
 }
 
 }

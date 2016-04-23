@@ -1,11 +1,34 @@
 #include "gamewidget.h"
-#include "ui_gamewidget.h"
+#include "ui_gamemainwidget.h"
 #include "ui_gamepreparewidget.h"
 #include "ui_gameconnectwidget.h"
 #include <QDebug>
 
-GameConnectWidget::GameConnectWidget(QWidget *parent, const QString &url) :
+GameWidget::GameWidget(QWidget *parent, GameClient *client) :
     QWidget(parent),
+    client(client)
+{
+    if (!client->widget()) {
+        client->setWidget(this);
+    }
+}
+
+GameWidget::~GameWidget()
+{
+    if (client->widget() == this) {
+        delete client;
+    }
+}
+
+GameWidget *GameWidget::replace()
+{
+    auto old = client->widget();
+    client->setWidget(this);
+    return old;
+}
+
+GameConnectWidget::GameConnectWidget(QWidget *parent, GameClient *client, const QString &url) :
+    GameWidget(parent, client),
     ui(new Ui::GameConnectWidget)
 {
     ui->setupUi(this);
@@ -17,10 +40,10 @@ GameConnectWidget::~GameConnectWidget()
     delete ui;
 }
 
-GamePrepareWidget::GamePrepareWidget(QWidget *parent, const SeaBattle::GameConfig &config) :
-    QWidget(parent),
+GamePrepareWidget::GamePrepareWidget(QWidget *parent, GameClient *client) :
+    GameWidget(parent, client),
     ui(new Ui::GamePrepareWidget),
-    model(this, config)
+    model(this, client->game().config())
 {
     ui->setupUi(this);
 
@@ -57,7 +80,7 @@ GamePrepareWidget::GamePrepareWidget(QWidget *parent, const SeaBattle::GameConfi
         }
     });
 
-    connect(ui->buttonBox, &QDialogButtonBox::clicked, [&] (auto button) {
+    connect(ui->buttonBox, &QDialogButtonBox::clicked, [this] (auto button) {
         if (ui->buttonBox->buttonRole(button) == QDialogButtonBox::ResetRole) {
             // TODO: Reset
         }
@@ -65,20 +88,18 @@ GamePrepareWidget::GamePrepareWidget(QWidget *parent, const SeaBattle::GameConfi
 
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 
-    connect(ui->buttonBox, &QDialogButtonBox::accepted, [&] () {
-        emit finished(model.ships());
+    connect(ui->buttonBox, &QDialogButtonBox::accepted, [this] () {
+        // Disable controls
+        ui->pushButtonSetShip->setEnabled(false);
+        ui->buttonBox->setEnabled(false);
+
+        this->client->sendShips(model.ships());
     });
 }
 
 GamePrepareWidget::~GamePrepareWidget()
 {
     delete ui;
-}
-
-void GamePrepareWidget::disable()
-{
-    ui->pushButtonSetShip->setEnabled(false);
-    ui->buttonBox->setEnabled(false);
 }
 
 bool GamePrepareWidget::validateSetShip() const
@@ -113,14 +134,14 @@ void GamePrepareWidget::updateSetShip()
     ui->pushButtonSetShip->setEnabled(validateSetShip());
 }
 
-GameWidget::GameWidget(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::GameWidget)
+GameMainWidget::GameMainWidget(QWidget *parent, GameClient *client) :
+    GameWidget(parent, client),
+    ui(new Ui::GameMainWidget)
 {
     ui->setupUi(this);
 }
 
-GameWidget::~GameWidget()
+GameMainWidget::~GameMainWidget()
 {
     delete ui;
 }

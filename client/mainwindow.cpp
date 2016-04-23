@@ -16,8 +16,7 @@ MainWindow::MainWindow(QWidget *parent, const QString &configPath) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     configPath(configPath),
-    server(nullptr),
-    clients()
+    server(nullptr)
 {
     ui->setupUi(this);
     if (loadConfig()) {
@@ -58,10 +57,8 @@ MainWindow::MainWindow(QWidget *parent, const QString &configPath) :
             }
         }
 
-        auto client = connectToServer(url);
-        connect(client, &Network::Client::connected, [client, config] () {
-            client->send(Network::PacketCreateGame{config});
-        });
+        qDebug() << "Creating game on" << url;
+        setupConnection(new GameClient{this, url, config});
     });
 
     connect(ui->actionJoinGame, &QAction::triggered, [this] () {
@@ -81,7 +78,8 @@ MainWindow::MainWindow(QWidget *parent, const QString &configPath) :
             return; // TODO
         }
 
-        connectToServer(url);
+        qDebug() << "Connecting to game" << url;
+        setupConnection(new GameClient{this, url});
     });
 
     connect(ui->actionGames, &QAction::triggered, [&] () {
@@ -119,54 +117,21 @@ QUrl MainWindow::startServer()
     return server->url();
 }
 
-Network::Client* MainWindow::connectToServer(const QUrl &url)
+void MainWindow::setupConnection(GameClient *client)
 {
-    qDebug() << "Creating new client for" << url;
-    auto client = new Network::Client{this, new QWebSocket};
-    client->open(url);
-    clients.push_back(client);
+    ui->tabWidgetGames->setCurrentIndex(ui->tabWidgetGames->addTab(new GameWidget{this, client}, tr("Connecting...")));
 
-    auto i = ui->tabWidgetGames->addTab(new QWidget(this), tr("Connecting..."));
-    ui->tabWidgetGames->setCurrentIndex(i);
-
-    connect(client, &Network::Client::processGameCreated, [i, client, this] (auto packet) {
-        auto selected = ui->tabWidgetGames->currentIndex() == i;
-        ui->tabWidgetGames->removeTab(i);
-        ui->tabWidgetGames->insertTab(i, new GameConnectWidget{ui->tabWidgetGames, packet.url.toString()}, packet.name);
-        if (selected) {
-            ui->tabWidgetGames->setCurrentIndex(i);
-        }
+    connect(client, &GameClient::invitePlayer, [this, client] (auto name, auto url) {
+        this->replaceTab(new GameConnectWidget{ui->tabWidgetGames, client, url.toString()}, name);
     });
 
-    connect(client, &Network::Client::processCreateGame, [i, client, this] (auto packet) {
-        auto selected = ui->tabWidgetGames->currentIndex() == i;
-        ui->tabWidgetGames->removeTab(i);
-
-        auto widget = new GamePrepareWidget{ui->tabWidgetGames, packet.config};
-        connect(widget, &GamePrepareWidget::finished, [widget, client] (auto ships) {
-            client->send(Network::PacketShipsSet{ships});
-            widget->disable();
-        });
-
-        ui->tabWidgetGames->insertTab(i, widget, packet.config.name());
-        if (selected) {
-            ui->tabWidgetGames->setCurrentIndex(i);
-        }
+    connect(client, &GameClient::prepare, [this, client] () {
+        this->replaceTab(new GamePrepareWidget{ui->tabWidgetGames, client}, client->game().config().name());
     });
 
-    connect(client, &Network::Client::processShipsSet, [i, client, this] (auto packet) {
-        auto selected = ui->tabWidgetGames->currentIndex() == i;
-        auto text = ui->tabWidgetGames->tabText(i);
-        ui->tabWidgetGames->removeTab(i);
-
-        auto widget = new GameWidget{ui->tabWidgetGames};
-        ui->tabWidgetGames->insertTab(i, widget, text);
-        if (selected) {
-            ui->tabWidgetGames->setCurrentIndex(i);
-        }
+    connect(client, &GameClient::start, [this, client] (auto ships) {
+        this->replaceTab(new GameMainWidget{ui->tabWidgetGames, client}, client->game().config().name());
     });
-
-    return client;
 }
 
 bool MainWindow::loadConfig()
@@ -215,4 +180,23 @@ bool MainWindow::saveConfig()
     QJsonDocument doc{json};
     file.write(doc.toJson());
     return true;
+}
+
+void MainWindow::replaceTab(GameWidget *tab, QString name)
+{
+    auto old = tab->replace();
+
+    auto i = ui->tabWidgetGames->indexOf(old);
+    if (name.isEmpty()) {
+
+    }
+
+    auto selected = ui->tabWidgetGames->currentIndex() == i;
+    ui->tabWidgetGames->removeTab(i);
+    delete old;
+
+    ui->tabWidgetGames->insertTab(i, tab, name);
+    if (selected) {
+        ui->tabWidgetGames->setCurrentIndex(i);
+    }
 }

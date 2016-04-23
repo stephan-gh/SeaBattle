@@ -10,6 +10,7 @@ std::unordered_map<std::string, Packet::Type*> Packet::Type::registry{};
 const Packet::Type &Packet::Type::CreateGame{QStringLiteral("create_game"), [] (auto json) { return new PacketCreateGame(json); }};
 const Packet::Type &Packet::Type::GameCreated{QStringLiteral("game_created"), [] (auto json) { return new PacketGameCreated(json); }};
 const Packet::Type &Packet::Type::StartGame{QStringLiteral("start_game"), [] (auto json) { return new PacketStartGame(json); }};
+const Packet::Type &Packet::Type::SetShips{QStringLiteral("set_ships"), [] (auto) { return new PacketSetShips(); }};
 const Packet::Type &Packet::Type::ShipsSet{QStringLiteral("ships_set"), [] (auto json) { return new PacketShipsSet(json); }};
 
 Packet::Type &Packet::Type::getById(const QString &id)
@@ -60,6 +61,29 @@ void PacketCreateGame::write(QJsonObject &json) const
     json["config"] = config;
 }
 
+PacketStartGame::PacketStartGame(const QUuid &game, const GameConfig &config) :
+    game(game),
+    config(config)
+{
+}
+
+PacketStartGame::PacketStartGame(const QJsonObject &json) :
+    game(json["game"].toString()),
+    config(json["config"])
+{
+}
+
+void PacketStartGame::process(Client *client) const
+{
+    emit client->processStartGame(*this);
+}
+
+void PacketStartGame::write(QJsonObject &json) const
+{
+    json["game"] = game.toString();
+    json["config"] = config;
+}
+
 PacketGameCreated::PacketGameCreated(const QUrl &url, const QString &name) :
     url(url),
     name(name)
@@ -83,22 +107,13 @@ void PacketGameCreated::write(QJsonObject &json) const
     json["name"] = name;
 }
 
-PacketStartGame::PacketStartGame(const QUuid &game) : game(game)
+PacketSetShips::PacketSetShips()
 {
 }
 
-PacketStartGame::PacketStartGame(const QJsonObject &json) : game(json["game"].toString())
+void PacketSetShips::process(Client *client) const
 {
-}
-
-void PacketStartGame::process(Client *client) const
-{
-    emit client->processStartGame(*this);
-}
-
-void PacketStartGame::write(QJsonObject &json) const
-{
-    json["game"] = game.toString();
+    emit client->processSetShips(*this);
 }
 
 PacketShipsSet::PacketShipsSet(const std::unordered_set<Ship*> &ships) : ships(ships)
