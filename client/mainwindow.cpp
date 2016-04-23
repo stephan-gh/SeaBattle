@@ -130,7 +130,7 @@ void MainWindow::setupConnection(GameClient *client)
     });
 
     connect(client, &GameClient::start, [this, client] (auto ships) {
-        this->replaceTab(new GameMainWidget{ui->tabWidgetGames, client}, client->game().config().name());
+        this->replaceTab(new GameMainWidget{ui->tabWidgetGames, client, ships}, client->game().config().name());
     });
 }
 

@@ -60,9 +60,11 @@ class GameMainWidget : public GameWidget
     Q_OBJECT
 
 public:
-    GameMainWidget(QWidget *parent, GameClient *client);
+    GameMainWidget(QWidget *parent, GameClient *client, const std::unordered_set<SeaBattle::Ship*> &ships);
     ~GameMainWidget();
 
 private:
     Ui::GameMainWidget *ui;
+    GameModel model;
+    GameModel opponentModel;
 };

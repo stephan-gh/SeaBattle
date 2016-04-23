@@ -8,6 +8,7 @@ class GameModel : public QAbstractTableModel
 {
 public:
     GameModel(QObject *parent, const SeaBattle::GameConfig &config);
+    GameModel(QObject *parent, const SeaBattle::GameConfig &config, const std::unordered_set<SeaBattle::Ship*> &ships);
 
 public:
     const SeaBattle::Sea &sea() const;

@@ -136,11 +136,16 @@ void GamePrepareWidget::updateSetShip()
     ui->pushButtonSetShip->setEnabled(validateSetShip());
 }
 
-GameMainWidget::GameMainWidget(QWidget *parent, GameClient *client) :
+GameMainWidget::GameMainWidget(QWidget *parent, GameClient *client, const std::unordered_set<Ship *> &ships) :
     GameWidget(parent, client),
-    ui(new Ui::GameMainWidget)
+    ui(new Ui::GameMainWidget),
+    model(this, client->game().config(), ships),
+    opponentModel(this, client->game().config())
 {
     ui->setupUi(this);
+
+    ui->tableViewShips->setModel(&model);
+    ui->tableViewOpponent->setModel(&opponentModel);
 }
 
 GameMainWidget::~GameMainWidget()

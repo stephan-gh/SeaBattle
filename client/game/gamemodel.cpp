@@ -10,6 +10,12 @@ GameModel::GameModel(QObject *parent, const SeaBattle::GameConfig &config) :
 {
 }
 
+GameModel::GameModel(QObject *parent, const SeaBattle::GameConfig &config, const std::unordered_set<SeaBattle::Ship *> &ships) :
+    GameModel(parent, config)
+{
+    SeaBattle::Field::setShips(config, sea_, ships);
+}
+
 const SeaBattle::Sea &GameModel::sea() const
 {
     return sea_;
