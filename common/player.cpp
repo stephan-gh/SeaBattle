@@ -57,19 +57,10 @@ bool Player::hasShips() const
     return ships_.size() > 0;
 }
 
-void Player::setShips(const std::unordered_set<Ship *> &ships)
+void Player::setShips(const std::unordered_set<Ship*> &ships)
 {
     ships_ = ships;
-
-    Coordinate pos{0, 0};
-    for (Ship *ship : ships) {
-        const GameConfig::Ship &config = game_->config().cships()[ship->id()];
-        for (int i = 0; i < config.length(); ++i) {
-            pos = ship->position() + (ship->direction() * i);
-            Field &field = sea[pos.x()][pos.y()];
-            field.setShip(ship);
-        }
-    }
+    Field::setShips(game_->config(), sea, ships);
 }
 
 }

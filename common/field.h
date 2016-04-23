@@ -3,6 +3,7 @@
 #include <vector>
 #include <QJsonArray>
 #include <QModelIndex>
+#include <unordered_set>
 
 namespace SeaBattle {
 
@@ -39,8 +40,14 @@ private:
 };
 
 class Ship;
+class Field;
+class GameConfig;
+
+using Sea = std::vector<std::vector<Field>>;
 
 struct Field {
+    static void setShips(const GameConfig &game, Sea &sea, const std::unordered_set<Ship*> &ships);
+
     Field();
 
     bool isMarked() const;
@@ -58,6 +65,6 @@ private:
 
 };
 
-using Sea = std::vector<std::vector<Field>>;
+
 
 }
