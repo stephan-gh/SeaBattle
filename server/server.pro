@@ -3,7 +3,7 @@ QT += websockets
 
 CONFIG += c++14
 
-TARGET = server
+TARGET = seabattle-server
 CONFIG += console
 CONFIG -= app_bundle
 

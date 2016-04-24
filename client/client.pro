@@ -1,6 +1,6 @@
 QT += widgets websockets
 
-TARGET = client
+TARGET = seabattle
 TEMPLATE = app
 CONFIG += c++14
 
