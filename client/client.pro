@@ -35,12 +35,18 @@ FORMS += \
 RESOURCES += seabattle.qrc
 TRANSLATIONS = seabattle_de.ts
 
-# Automatically build translations
+# Always use lrelease if it exists
+exists($$[QT_INSTALL_BINS]/lrelease) {
+    QMAKE_LRELEASE = $$[QT_INSTALL_BINS]/lrelease
+}
+
+# Choose lrelease.exe on Windows
 isEmpty(QMAKE_LRELEASE) {
     win32:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]\\lrelease.exe
     else:QMAKE_LRELEASE = $$[QT_INSTALL_BINS]/lrelease
 }
 
+# Automatically compile translations
 TSQM.name = lrelease ${QMAKE_FILE_IN}
 TSQM.input = TRANSLATIONS
 TSQM.output = ${QMAKE_FILE_PATH}/${QMAKE_FILE_BASE}.qm
