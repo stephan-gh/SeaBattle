@@ -49,6 +49,7 @@ public:
 private:
     bool validateSetShip() const;
     void updateSetShip();
+    void resetShips();
 
     Ui::GamePrepareWidget *ui;
     GameModel model;

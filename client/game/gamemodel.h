@@ -15,6 +15,7 @@ public:
 
     const SeaBattle::Ship *ship(const QModelIndex &index) const;
     void setShip(SeaBattle::Ship *ship);
+    void resetShips();
 
     bool isChecked(const QModelIndex &index) const;
     void check(const SeaBattle::Coordinate &target);

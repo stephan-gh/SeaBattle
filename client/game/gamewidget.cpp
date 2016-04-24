@@ -50,17 +50,7 @@ GamePrepareWidget::GamePrepareWidget(QWidget *parent, GameClient *client) :
 
     ui->tableViewShips->setModel(&model);
 
-    int id = -1;
-    for (auto ship : client->game().config().cships()) {
-        ++id;
-        for (int i = 0; i < ship.count(); ++i) {
-            auto item = new QListWidgetItem{QStringLiteral("%1 (%2)").arg(ship.name()).arg(ship.length()), nullptr};
-            item->setData(Qt::UserRole, id);
-            ui->listWidgetShips->addItem(item);
-        }
-    }
-
-    ui->listWidgetShips->setCurrentRow(0);
+    this->resetShips();
 
     connect(ui->tableViewShips->selectionModel(), &QItemSelectionModel::selectionChanged, this, &GamePrepareWidget::updateSetShip);
     connect(ui->listWidgetShips->selectionModel(), &QItemSelectionModel::selectionChanged, this, &GamePrepareWidget::updateSetShip);
@@ -87,7 +77,8 @@ GamePrepareWidget::GamePrepareWidget(QWidget *parent, GameClient *client) :
 
     connect(ui->buttonBox, &QDialogButtonBox::clicked, [this] (auto button) {
         if (ui->buttonBox->buttonRole(button) == QDialogButtonBox::ResetRole) {
-            // TODO: Reset
+            model.resetShips();
+            this->resetShips();
         }
     });
 
@@ -137,6 +128,22 @@ bool GamePrepareWidget::validateSetShip() const
 void GamePrepareWidget::updateSetShip()
 {
     ui->pushButtonSetShip->setEnabled(validateSetShip());
+}
+
+void GamePrepareWidget::resetShips()
+{
+    ui->listWidgetShips->clear();
+    int id = -1;
+    for (auto ship : client->game().config().cships()) {
+        ++id;
+        for (int i = 0; i < ship.count(); ++i) {
+            auto item = new QListWidgetItem{QStringLiteral("%1 (%2)").arg(ship.name()).arg(ship.length()), nullptr};
+            item->setData(Qt::UserRole, id);
+            ui->listWidgetShips->addItem(item);
+        }
+    }
+
+    ui->listWidgetShips->setCurrentRow(0);
 }
 
 GameMainWidget::GameMainWidget(QWidget *parent, GameClient *client, const std::unordered_set<const Ship *> &ships) :

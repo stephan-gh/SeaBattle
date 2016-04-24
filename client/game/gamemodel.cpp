@@ -38,6 +38,18 @@ void GameModel::setShip(SeaBattle::Ship *ship)
     emit dataChanged(index(ship->position().y(), ship->position().x()), index(pos.y(), pos.x()));
 }
 
+void GameModel::resetShips()
+{
+    this->beginResetModel();
+    for (auto x = 0u; x < sea_.size(); x++) {
+        for (auto y = 0u; y < sea_[x].size(); y++) {
+            SeaBattle::Field &field = sea_[x][y];
+            field.setShip(nullptr);
+        }
+    }
+    this->endResetModel();
+}
+
 bool GameModel::isChecked(const QModelIndex &index) const
 {
     return sea_[index.column()][index.row()].isChecked();
