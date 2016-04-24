@@ -72,6 +72,7 @@ GamePrepareWidget::GamePrepareWidget(QWidget *parent, GameClient *client) :
         auto ship = new SeaBattle::Ship{id, start, direction};
         ships.insert(ship);
         model.setShip(ship);
+        ui->tableViewShips->selectionModel()->clear();
 
         delete item;
 
@@ -168,6 +169,7 @@ GameMainWidget::GameMainWidget(QWidget *parent, GameClient *client, const std::u
         }
 
         this->client->sendShoot(index);
+        ui->tableViewOpponent->selectionModel()->clear();
         ui->tableViewOpponent->setEnabled(false);
     });
 
