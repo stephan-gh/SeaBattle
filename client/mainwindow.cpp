@@ -82,10 +82,10 @@ MainWindow::MainWindow(QWidget *parent, const QString &configPath) :
         setupConnection(new GameClient{this, url});
     });
 
-    connect(ui->actionGames, &QAction::triggered, [&] () {
+    connect(ui->actionGames, &QAction::triggered, [this] () {
         if (GameConfigDialog{this, configs}.exec()) {
             if (saveConfig()) {
-                qDebug() << "Successfully saved configuration to" << configPath;
+                qDebug() << "Successfully saved configuration to" << this->configPath;
                 ui->statusBar->showMessage(tr("Configuration successfully saved"), 3000);
             }
         }
@@ -93,6 +93,12 @@ MainWindow::MainWindow(QWidget *parent, const QString &configPath) :
 
     connect(ui->actionAboutQt, &QAction::triggered, &QApplication::aboutQt);
     connect(ui->actionQuit, &QAction::triggered, this, &QMainWindow::close);
+
+    connect(ui->tabWidgetGames, &QTabWidget::tabCloseRequested, [this] (auto i) {
+        auto widget = static_cast<GameWidget*>(ui->tabWidgetGames->widget(i));
+        ui->tabWidgetGames->removeTab(i);
+        delete widget;
+    });
 }
 
 MainWindow::~MainWindow()
