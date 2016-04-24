@@ -138,6 +138,36 @@
         <source>The ship was sunk!</source>
         <translation>Das Schiff wurde versenkt!</translation>
     </message>
+    <message>
+        <location filename="game/gamewidget.cpp" line="190"/>
+        <source>Game won</source>
+        <translation>Spiel gewonnen</translation>
+    </message>
+    <message>
+        <location filename="game/gamewidget.cpp" line="191"/>
+        <source>You have won the game!</source>
+        <translation>Du hast das Spiel gewonnen!</translation>
+    </message>
+    <message>
+        <location filename="game/gamewidget.cpp" line="194"/>
+        <source>Game lost</source>
+        <translation>Spiel verloren</translation>
+    </message>
+    <message>
+        <location filename="game/gamewidget.cpp" line="195"/>
+        <source>You have lost the game!</source>
+        <translation>Du hast das Spiel verloren!</translation>
+    </message>
+    <message>
+        <location filename="game/gamewidget.cpp" line="198"/>
+        <source>Game ended in a draw</source>
+        <translation>Spiel unentschieden</translation>
+    </message>
+    <message>
+        <location filename="game/gamewidget.cpp" line="199"/>
+        <source>The game ended in a draw!</source>
+        <translation>Das Spiel ist unentschieden ausgegangen!</translation>
+    </message>
 </context>
 <context>
     <name>GamePrepareWidget</name>

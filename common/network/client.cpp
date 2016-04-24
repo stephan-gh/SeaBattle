@@ -98,6 +98,10 @@ void Client::processContinue(const PacketContinue &)
 {
 }
 
+void Client::processFinished(const PacketFinished &)
+{
+}
+
 ServerClient::ServerClient(QObject *parent, QWebSocket *socket) :
     Client(parent, socket),
     player_(nullptr)
@@ -164,6 +168,11 @@ void ServerClient::sendShootResult(const Coordinate &target, bool hit, bool sunk
 void ServerClient::sendContinue(const std::vector<Coordinate> &targets)
 {
     send(PacketContinue{targets});
+}
+
+void ServerClient::sendFinished(Game::Result result)
+{
+    send(PacketFinished{result});
 }
 
 void ServerClient::processCreateGame(const PacketCreateGame &packet)

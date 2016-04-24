@@ -42,7 +42,7 @@ void GameClient::setWidget(GameWidget *widget)
     widget_ = widget;
 }
 
-void GameClient::sendShips(const std::unordered_set<Ship *> &ships)
+void GameClient::sendShips(const std::unordered_set<const Ship *> &ships)
 {
     send(Network::PacketShipsSet{ships});
 }
@@ -84,4 +84,10 @@ void GameClient::processShootResult(const Network::PacketShootResult &packet)
 void GameClient::processContinue(const Network::PacketContinue &packet)
 {
     emit continueShooting(packet.targets);
+}
+
+void GameClient::processFinished(const Network::PacketFinished &packet)
+{
+    game_.setState(Game::State::Finished);
+    emit finished(packet.result);
 }

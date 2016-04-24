@@ -21,15 +21,16 @@ public:
     GameWidget* widget() const;
     void setWidget(GameWidget* widget);
 
-    void sendShips(const std::unordered_set<Ship*> &ships);
+    void sendShips(const std::unordered_set<const Ship*> &ships);
     void sendShoot(const Coordinate &coordinate);
 
 signals:
     void invitePlayer(const QString &name, const QUrl &url);
     void prepare();
-    void start(const std::unordered_set<Ship*> &ships);
+    void start(const std::unordered_set<const Ship*> &ships);
     void shootResult(const Coordinate &target, bool hit, bool sunken, bool again);
     void continueShooting(const std::vector<Coordinate> &targets);
+    void finished(Game::Result result);
 
 private:
     QUrl url;
@@ -44,4 +45,5 @@ public:
     void processShipsSet(const Network::PacketShipsSet &packet) override;
     void processShootResult(const Network::PacketShootResult &packet) override;
     void processContinue(const Network::PacketContinue &packet) override;
+    void processFinished(const Network::PacketFinished &packet) override;
 };

@@ -109,13 +109,19 @@ void Server::accept()
     connect(client, &ServerClient::shoot, [this, client] (auto target) {
         auto player = client->player()->opponent();
         auto ship = player->shoot(target);
+        auto again = false;
 
         if (ship) {
-            client->sendShootResult(target, true, player->isSunken(ship), true);
+            auto sunken = player->isSunken(ship);
+            client->sendShootResult(target, true, sunken, !player->isAttackFinished());
         } else {
             client->sendShootResult(target, false, false, false);
+        }
 
-            if (client->player()->isAttackFinished()) {
+        if (!again && client->player()->isAttackFinished()) {
+            if (!client->player()->hasShips() || !player->hasShips()) {
+                player->game()->setState(Game::State::Finished);
+            } else {
                 player->game()->sendContinue();
             }
         }

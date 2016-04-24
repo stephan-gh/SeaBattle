@@ -52,7 +52,7 @@ private:
 
     Ui::GamePrepareWidget *ui;
     GameModel model;
-    std::unordered_set<SeaBattle::Ship*> ships;
+    std::unordered_set<const SeaBattle::Ship*> ships;
 };
 
 class GameMainWidget : public GameWidget
@@ -60,7 +60,7 @@ class GameMainWidget : public GameWidget
     Q_OBJECT
 
 public:
-    GameMainWidget(QWidget *parent, GameClient *client, const std::unordered_set<SeaBattle::Ship*> &ships);
+    GameMainWidget(QWidget *parent, GameClient *client, const std::unordered_set<const SeaBattle::Ship*> &ships);
     ~GameMainWidget();
 
 private:

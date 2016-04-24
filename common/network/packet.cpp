@@ -15,6 +15,7 @@ const Packet::Type &Packet::Type::ShipsSet{QStringLiteral("ships_set"), [] (auto
 const Packet::Type &Packet::Type::Shoot{QStringLiteral("shoot"), [] (auto json) { return new PacketShoot(json); }};
 const Packet::Type &Packet::Type::ShootResult{QStringLiteral("shoot_result"), [] (auto json) { return new PacketShootResult(json); }};
 const Packet::Type &Packet::Type::Continue{QStringLiteral("continue"), [] (auto json) { return new PacketContinue(json); }};
+const Packet::Type &Packet::Type::Finished{QStringLiteral("finished"), [] (auto json) { return new PacketFinished(json); }};
 
 Packet::Type &Packet::Type::getById(const QString &id)
 {
@@ -119,7 +120,7 @@ void PacketSetShips::process(Client *client) const
     emit client->processSetShips(*this);
 }
 
-PacketShipsSet::PacketShipsSet(const std::unordered_set<Ship*> &ships) : ships(ships)
+PacketShipsSet::PacketShipsSet(const std::unordered_set<const Ship*> &ships) : ships(ships)
 {
 }
 
@@ -215,6 +216,25 @@ void PacketContinue::write(QJsonObject &json) const
         array.append(target);
     }
     json["targets"] = array;
+}
+
+PacketFinished::PacketFinished(Game::Result result) : result(result)
+{
+}
+
+PacketFinished::PacketFinished(const QJsonObject &json) :
+    result(Network::result(json["result"].toString()))
+{
+}
+
+void PacketFinished::process(Client *client) const
+{
+    emit client->processFinished(*this);
+}
+
+void PacketFinished::write(QJsonObject &json) const
+{
+    json["result"] = id(result);
 }
 
 }

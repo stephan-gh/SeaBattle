@@ -55,6 +55,28 @@ void ServerGame::setState(State state)
             player.client()->sendShips();
         }
         break;
+    case State::Finished:
+    {
+        if (!player(0)->hasShips()) {
+            if (!player(1)->hasShips()) {
+                for (const Player &player : players) {
+                    player.client()->sendFinished(Result::Draw);
+                }
+            } else {
+                player(0)->client()->sendFinished(Result::Lost);
+                player(1)->client()->sendFinished(Result::Won);
+            }
+        } else if (!player(1)->hasShips()) {
+            player(0)->client()->sendFinished(Result::Won);
+            player(1)->client()->sendFinished(Result::Lost);
+        }
+
+        for (const Player &player : players) {
+            player.client()->disconnect("Game finished");
+        }
+
+        break;
+    }
     default:
         break;
     }

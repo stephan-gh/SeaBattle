@@ -11,5 +11,8 @@ enum class Side {
     Server
 };
 
+QString id(Game::Result result);
+Game::Result result(const QString &id);
+
 }
 }

@@ -76,10 +76,10 @@ Direction::Direction(int dx, int dy) : Coordinate(dx, dy)
 {
 }
 
-void Field::setShips(const GameConfig &game, Sea &sea, const std::unordered_set<Ship *> &ships)
+void Field::setShips(const GameConfig &game, Sea &sea, const std::unordered_set<const Ship *> &ships)
 {
     Coordinate pos{0, 0};
-    for (Ship *ship : ships) {
+    for (auto *ship : ships) {
         const GameConfig::Ship &config = game.cships()[ship->id()];
         for (int i = 0; i < config.length(); ++i) {
             pos = ship->position() + (ship->direction() * i);

@@ -49,7 +49,7 @@ void Player::setClient(Network::ServerClient *client)
     }
 }
 
-const std::unordered_set<Ship *> &Player::ships() const
+const std::unordered_set<const Ship *> &Player::ships() const
 {
     return ships_;
 }
@@ -59,7 +59,7 @@ bool Player::hasShips() const
     return ships_.size() > 0;
 }
 
-void Player::setShips(const std::unordered_set<Ship*> &ships)
+void Player::setShips(const std::unordered_set<const Ship*> &ships)
 {
     ships_ = ships;
     Field::setShips(game_->config(), sea, ships);
@@ -79,7 +79,7 @@ const Ship *Player::shoot(const Coordinate &target)
     return ship;
 }
 
-bool Player::isSunken(const Ship *ship) const
+bool Player::isSunken(const Ship *ship)
 {
     Coordinate pos{0, 0};
     const GameConfig::Ship &config = game_->config().cships()[ship->id()];
@@ -90,6 +90,10 @@ bool Player::isSunken(const Ship *ship) const
         }
     }
 
+    ships_.erase(ship);
+    if (!hasShips()) {
+        attackFinished = true;
+    }
     return true;
 }
 

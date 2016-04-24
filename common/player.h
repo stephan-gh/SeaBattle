@@ -24,12 +24,12 @@ struct Player
     Network::ServerClient* client() const;
     void setClient(Network::ServerClient* client);
 
-    const std::unordered_set<Ship*> &ships() const;
+    const std::unordered_set<const Ship*> &ships() const;
     bool hasShips() const;
-    void setShips(const std::unordered_set<Ship*> &ships);
+    void setShips(const std::unordered_set<const Ship*> &ships);
 
     const Ship* shoot(const Coordinate &target);
-    bool isSunken(const Ship* ship) const;
+    bool isSunken(const Ship* ship);
 
     bool isAttackFinished() const;
     const std::vector<Coordinate> &attackedFields() const;
@@ -41,7 +41,7 @@ private:
     const QUuid id_;
 
     Network::ServerClient* client_;
-    std::unordered_set<Ship*> ships_;
+    std::unordered_set<const Ship*> ships_;
     Sea sea;
 
     bool attackFinished;

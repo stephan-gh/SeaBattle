@@ -139,7 +139,7 @@ void GamePrepareWidget::updateSetShip()
     ui->pushButtonSetShip->setEnabled(validateSetShip());
 }
 
-GameMainWidget::GameMainWidget(QWidget *parent, GameClient *client, const std::unordered_set<Ship *> &ships) :
+GameMainWidget::GameMainWidget(QWidget *parent, GameClient *client, const std::unordered_set<const Ship *> &ships) :
     GameWidget(parent, client),
     ui(new Ui::GameMainWidget),
     model(this, client->game().config(), ships),
@@ -151,7 +151,7 @@ GameMainWidget::GameMainWidget(QWidget *parent, GameClient *client, const std::u
     ui->tableViewOpponent->setModel(&opponentModel);
 
     connect(ui->tableViewOpponent, &QAbstractItemView::doubleClicked, [this] (auto index) {
-        if (opponentModel.isChecked(index)) {
+        if (opponentModel.isChecked(index) || this->client->game().state() == Game::State::Finished) {
             return;
         }
 
@@ -180,6 +180,25 @@ GameMainWidget::GameMainWidget(QWidget *parent, GameClient *client, const std::u
         }
 
         ui->tableViewOpponent->setEnabled(true);
+    });
+
+    connect(client, &GameClient::finished, [this] (auto result) {
+        ui->tableViewOpponent->setEnabled(true);
+
+        switch (result) {
+        case Game::Result::Won:
+            QMessageBox::information(this, tr("Game won"),
+                                     tr("You have won the game!"));
+            break;
+        case Game::Result::Lost:
+            QMessageBox::information(this, tr("Game lost"),
+                                     tr("You have lost the game!"));
+            break;
+        case Game::Result::Draw:
+            QMessageBox::information(this, tr("Game ended in a draw"),
+                                     tr("The game ended in a draw!"));
+            break;
+        }
     });
 }
 

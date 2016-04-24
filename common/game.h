@@ -4,6 +4,7 @@
 #include "player.h"
 
 namespace SeaBattle {
+
 class Game
 {
 public:
@@ -12,6 +13,12 @@ public:
         Preparing,
         Playing,
         Finished
+    };
+
+    enum class Result {
+        Won,
+        Lost,
+        Draw
     };
 
     Game(const GameConfig &config);

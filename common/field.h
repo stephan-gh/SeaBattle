@@ -46,7 +46,7 @@ class GameConfig;
 using Sea = std::vector<std::vector<Field>>;
 
 struct Field {
-    static void setShips(const GameConfig &game, Sea &sea, const std::unordered_set<Ship*> &ships);
+    static void setShips(const GameConfig &game, Sea &sea, const std::unordered_set<const Ship*> &ships);
 
     Field();
 

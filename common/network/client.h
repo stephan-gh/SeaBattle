@@ -41,6 +41,7 @@ public:
     virtual void processShoot(const PacketShoot &);
     virtual void processShootResult(const PacketShootResult &);
     virtual void processContinue(const PacketContinue &);
+    virtual void processFinished(const PacketFinished &);
 
 protected:
     QWebSocket *socket;
@@ -64,11 +65,12 @@ public:
     void sendShips();
     void sendShootResult(const Coordinate &target, bool hit, bool sunken, bool again);
     void sendContinue(const std::vector<Coordinate> &targets);
+    void sendFinished(Game::Result result);
 
 signals:
     void createGame(const GameConfig &config);
     void joinGame(const QUuid &id);
-    void shipsSet(const std::unordered_set<Ship*> &ships);
+    void shipsSet(const std::unordered_set<const Ship*> &ships);
     void shoot(const Coordinate &target);
 
 public:
