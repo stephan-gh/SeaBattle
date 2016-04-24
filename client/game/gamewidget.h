@@ -20,6 +20,7 @@ public:
     GameWidget(QWidget *parent, GameClient *client);
     virtual ~GameWidget();
 
+    const QString &name() const;
     GameWidget *replace();
 
 protected:

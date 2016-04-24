@@ -129,42 +129,42 @@
 <context>
     <name>GameMainWidget</name>
     <message>
-        <location filename="game/gamewidget.cpp" line="170"/>
+        <location filename="game/gamewidget.cpp" line="182"/>
         <source>Sunk ship</source>
         <translation>Schiff versenkt</translation>
     </message>
     <message>
-        <location filename="game/gamewidget.cpp" line="171"/>
+        <location filename="game/gamewidget.cpp" line="183"/>
         <source>The ship was sunk!</source>
         <translation>Das Schiff wurde versenkt!</translation>
     </message>
     <message>
-        <location filename="game/gamewidget.cpp" line="190"/>
+        <location filename="game/gamewidget.cpp" line="202"/>
         <source>Game won</source>
         <translation>Spiel gewonnen</translation>
     </message>
     <message>
-        <location filename="game/gamewidget.cpp" line="191"/>
+        <location filename="game/gamewidget.cpp" line="203"/>
         <source>You have won the game!</source>
         <translation>Du hast das Spiel gewonnen!</translation>
     </message>
     <message>
-        <location filename="game/gamewidget.cpp" line="194"/>
+        <location filename="game/gamewidget.cpp" line="206"/>
         <source>Game lost</source>
         <translation>Spiel verloren</translation>
     </message>
     <message>
-        <location filename="game/gamewidget.cpp" line="195"/>
+        <location filename="game/gamewidget.cpp" line="207"/>
         <source>You have lost the game!</source>
         <translation>Du hast das Spiel verloren!</translation>
     </message>
     <message>
-        <location filename="game/gamewidget.cpp" line="198"/>
+        <location filename="game/gamewidget.cpp" line="210"/>
         <source>Game ended in a draw</source>
         <translation>Spiel unentschieden</translation>
     </message>
     <message>
-        <location filename="game/gamewidget.cpp" line="199"/>
+        <location filename="game/gamewidget.cpp" line="211"/>
         <source>The game ended in a draw!</source>
         <translation>Das Spiel ist unentschieden ausgegangen!</translation>
     </message>
@@ -251,19 +251,29 @@
         <translation>Konfiguration erfolgreich gespeichert</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="122"/>
+        <location filename="mainwindow.cpp" line="100"/>
+        <source>Close game &apos;%1&apos;</source>
+        <translation>Spiel &apos;%1&apos; schließen</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="101"/>
+        <source>Do you really want to close the game &apos;%1&apos;?</source>
+        <translation>Möchtest du das Spiel &apos;%1&apos; wirklich schließen?</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="132"/>
         <source>Connecting...</source>
         <translation>Verbinde...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="146"/>
-        <location filename="mainwindow.cpp" line="167"/>
+        <location filename="mainwindow.cpp" line="156"/>
+        <location filename="mainwindow.cpp" line="177"/>
         <source>Failed to open configuration file</source>
         <translation>Öffnen der Konfigurationsdatei fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="147"/>
-        <location filename="mainwindow.cpp" line="168"/>
+        <location filename="mainwindow.cpp" line="157"/>
+        <location filename="mainwindow.cpp" line="178"/>
         <source>Failed to open configuration file: %1</source>
         <oldsource>Failed to open configuration %1</oldsource>
         <translation>Öffnen der Konfigurationsdatei von %1 fehlgeschlagen</translation>

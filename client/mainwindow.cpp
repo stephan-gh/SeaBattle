@@ -96,8 +96,12 @@ MainWindow::MainWindow(QWidget *parent, const QString &configPath) :
 
     connect(ui->tabWidgetGames, &QTabWidget::tabCloseRequested, [this] (auto i) {
         auto widget = static_cast<GameWidget*>(ui->tabWidgetGames->widget(i));
-        ui->tabWidgetGames->removeTab(i);
-        delete widget;
+        auto text = widget->name();
+        if (QMessageBox::question(this, tr("Close game '%1'").arg(text),
+                              tr("Do you really want to close the game '%1'?").arg(text)) == QMessageBox::Yes) {
+            ui->tabWidgetGames->removeTab(i);
+            delete widget;
+        }
     });
 }
 

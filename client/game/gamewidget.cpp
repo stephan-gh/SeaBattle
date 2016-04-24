@@ -21,6 +21,11 @@ GameWidget::~GameWidget()
     }
 }
 
+const QString &GameWidget::name() const
+{
+    return client->game().config().name();
+}
+
 GameWidget *GameWidget::replace()
 {
     auto old = client->widget();
