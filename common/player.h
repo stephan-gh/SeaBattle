@@ -11,7 +11,7 @@ namespace Network {
 class ServerClient;
 }
 
-struct Player
+struct Player : public QObject
 {
     Player(ServerGame *game, bool first, const GameConfig &config);
 

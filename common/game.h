@@ -5,7 +5,7 @@
 
 namespace SeaBattle {
 
-class Game
+class Game : public QObject
 {
 public:
     enum class State {
@@ -21,7 +21,7 @@ public:
         Draw
     };
 
-    Game(const GameConfig &config);
+    Game(const GameConfig &config, QObject* parent = nullptr);
 
     State state() const;
     void setState(State state);
@@ -36,7 +36,7 @@ private:
 
 class ServerGame : public Game {
 public:
-    ServerGame(const GameConfig &config);
+    ServerGame(const GameConfig &config, QObject* parent = nullptr);
 
     Player* player(int i);
 
@@ -47,7 +47,8 @@ public:
     void sendContinue();
 
 private:
-    Player players[2];
+    Player* player1;
+    Player* player2;
 };
 
 }

@@ -3,7 +3,8 @@
 
 namespace SeaBattle {
 
-Game::Game(const GameConfig &config) :
+Game::Game(const GameConfig &config, QObject *parent) :
+    QObject(parent),
     config_(config),
     state_(State::Connecting)
 {
@@ -29,15 +30,23 @@ void Game::setConfig(const GameConfig &config)
     config_ = config;
 }
 
-ServerGame::ServerGame(const GameConfig &config) :
-    Game(config),
-    players({{this, true, config}, {this, false, config}})
+ServerGame::ServerGame(const GameConfig &config, QObject *parent) :
+    Game(config, parent),
+    player1(new Player{this, true, config}),
+    player2(new Player{this, false, config})
 {
 }
 
 Player *ServerGame::player(int i)
 {
-    return &players[i];
+    switch (i) {
+    case 0:
+        return player1;
+    case 1:
+        return player2;
+    }
+
+    return {};
 }
 
 void ServerGame::setState(State state)
@@ -46,21 +55,21 @@ void ServerGame::setState(State state)
 
     switch (state) {
     case State::Preparing:
-        for (const Player &player : players) {
-            player.client()->sendSetShips();
+        for (Player *player : {player1, player2}) {
+            player->client()->sendSetShips();
         }
         break;
     case State::Playing:
-        for (const Player &player : players) {
-            player.client()->sendShips();
+        for (Player *player : {player1, player2}) {
+            player->client()->sendShips();
         }
         break;
     case State::Finished:
     {
         if (!player(0)->hasShips()) {
             if (!player(1)->hasShips()) {
-                for (const Player &player : players) {
-                    player.client()->sendFinished(Result::Draw);
+                for (Player *player : {player1, player2}) {
+                    player->client()->sendFinished(Result::Draw);
                 }
             } else {
                 player(0)->client()->sendFinished(Result::Lost);
@@ -71,8 +80,8 @@ void ServerGame::setState(State state)
             player(1)->client()->sendFinished(Result::Lost);
         }
 
-        for (const Player &player : players) {
-            player.client()->disconnect("Game finished");
+        for (Player *player : {player1, player2}) {
+            player->client()->disconnect("Game finished");
         }
 
         break;
@@ -84,16 +93,16 @@ void ServerGame::setState(State state)
 
 void ServerGame::sendStartGame()
 {
-    for (const Player &player : players) {
-        player.client()->sendStartGame();
+    for (Player *player : {player1, player2}) {
+        player->client()->sendStartGame();
     }
 }
 
 void ServerGame::sendContinue()
 {
-    for (Player &player : players) {
-        player.client()->sendContinue(player.attackedFields());
-        player.resetTargets();
+    for (Player *player : {player1, player2}) {
+        player->client()->sendContinue(player->attackedFields());
+        player->resetTargets();
     }
 }
 

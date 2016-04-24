@@ -5,6 +5,7 @@
 namespace SeaBattle {
 
 Player::Player(ServerGame *game, bool first, const GameConfig &config) :
+    QObject(game),
     game_(game),
     first(first),
     id_(QUuid::createUuid()),
@@ -46,6 +47,7 @@ void Player::setClient(Network::ServerClient *client)
     client_ = client;
     if (client) {
         client->setPlayer(this);
+        client->setParent(this);
     }
 }
 

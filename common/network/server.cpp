@@ -54,7 +54,7 @@ void Server::accept()
     });
 
     connect(client, &ServerClient::createGame, [this, client] (auto config) {
-        auto game = new ServerGame{config};
+        auto game = new ServerGame{config, this};
         auto id = QUuid::createUuid();
         games[id] = game;
 
@@ -146,6 +146,10 @@ void Server::accept()
         if (!again && client->player()->isAttackFinished()) {
             if (!client->player()->hasShips() || !player->hasShips()) {
                 player->game()->setState(Game::State::Finished);
+
+                players.remove(player->id());
+                players.remove(client->player()->id());
+                player->game()->deleteLater();
             } else {
                 player->game()->sendContinue();
             }
