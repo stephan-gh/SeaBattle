@@ -65,8 +65,31 @@ void Server::accept()
     connect(client, &ServerClient::joinGame, [this, client] (auto id) {
         auto game = games[id];
         if (!game) {
-            // TODO: Re-join existing game
-            client->disconnect("Unknown game");
+            auto player = players[id];
+            if (!player) {
+                client->disconnect("Unknown game");
+                return;
+            }
+
+            auto oldClient = player->client();
+            if (oldClient) {
+                oldClient->disconnect("Logged in from another client");
+            }
+
+            player->setClient(client);
+            client->sendStartGame();
+
+            // TODO: Send complete state
+            switch (player->game()->state()) {
+            case Game::State::Preparing:
+                client->sendSetShips();
+                break;
+            case Game::State::Playing:
+                client->sendShips();
+                break;
+            default:
+                break;
+            }
             return;
         }
 
@@ -89,6 +112,8 @@ void Server::accept()
             player2->setClient(client);
 
             qDebug() << "Starting game:" << game->config().name();
+            games.remove(id);
+
             players[player1->id()] = player1;
             players[player2->id()] = player2;
 
