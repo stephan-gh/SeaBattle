@@ -3,6 +3,7 @@
 #include "ui_gamepreparewidget.h"
 #include "ui_gameconnectwidget.h"
 #include <QDebug>
+#include <QMessageBox>
 
 GameWidget::GameWidget(QWidget *parent, GameClient *client) :
     QWidget(parent),
@@ -150,8 +151,27 @@ GameMainWidget::GameMainWidget(QWidget *parent, GameClient *client, const std::u
     ui->tableViewOpponent->setModel(&opponentModel);
 
     connect(ui->tableViewOpponent, &QAbstractItemView::doubleClicked, [this] (auto index) {
+        if (opponentModel.isChecked(index)) {
+            return;
+        }
+
         this->client->sendShoot(index);
         ui->tableViewOpponent->setEnabled(false);
+    });
+
+    connect(client, &GameClient::shootResult, [this] (auto target, bool hit, bool sunken, bool again) {
+        if (hit) {
+            opponentModel.markAndCheck(target);
+        } else {
+            opponentModel.check(target);
+        }
+
+        if (sunken) {
+            QMessageBox::information(this, tr("Sunk ship"),
+                                     tr("The ship was sunk!"));
+        }
+
+        ui->tableViewOpponent->setEnabled(again);
     });
 
     connect(client, &GameClient::continueShooting, [this] () {

@@ -16,6 +16,10 @@ public:
     const SeaBattle::Ship *ship(const QModelIndex &index) const;
     void setShip(SeaBattle::Ship *ship);
 
+    bool isChecked(const QModelIndex &index) const;
+    void check(const SeaBattle::Coordinate &target);
+    void markAndCheck(const SeaBattle::Coordinate &target);
+
     // QAbstractItemModel interface
     int rowCount(const QModelIndex &) const override;
     int columnCount(const QModelIndex &) const override;

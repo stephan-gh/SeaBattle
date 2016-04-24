@@ -35,9 +35,9 @@ ServerGame::ServerGame(const GameConfig &config) :
 {
 }
 
-Player &ServerGame::player(int i)
+Player *ServerGame::player(int i)
 {
-    return players[i];
+    return &players[i];
 }
 
 void ServerGame::setState(State state)
@@ -57,6 +57,13 @@ void ServerGame::setState(State state)
         break;
     default:
         break;
+    }
+}
+
+void ServerGame::sendStartGame()
+{
+    for (const Player &player : players) {
+        player.client()->sendStartGame();
     }
 }
 

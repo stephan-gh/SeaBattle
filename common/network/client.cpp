@@ -156,9 +156,9 @@ void ServerClient::sendShips()
     send(PacketShipsSet{player_->ships()});
 }
 
-void ServerClient::sendShootResult(const Coordinate &target, bool hit, bool sunken)
+void ServerClient::sendShootResult(const Coordinate &target, bool hit, bool sunken, bool again)
 {
-    send(PacketShootResult{target, hit, sunken});
+    send(PacketShootResult{target, hit, sunken, again});
 }
 
 void ServerClient::sendContinue()

@@ -35,7 +35,31 @@ void GameModel::setShip(SeaBattle::Ship *ship)
         field.setShip(ship);
     }
 
-    emit dataChanged(index(ship->position().x(), ship->position().y()), index(pos.x(), pos.y()));
+    emit dataChanged(index(ship->position().y(), ship->position().x()), index(pos.y(), pos.x()));
+}
+
+bool GameModel::isChecked(const QModelIndex &index) const
+{
+    return sea_[index.column()][index.row()].isChecked();
+}
+
+void GameModel::check(const SeaBattle::Coordinate &target)
+{
+    SeaBattle::Field &field = sea_[target.x()][target.y()];
+    field.check();
+
+    auto i = index(target.y(), target.x());
+    emit dataChanged(i, i);
+}
+
+void GameModel::markAndCheck(const SeaBattle::Coordinate &target)
+{
+    SeaBattle::Field &field = sea_[target.x()][target.y()];
+    field.check();
+    field.mark();
+
+    auto i = index(target.y(), target.x());
+    emit dataChanged(i, i);
 }
 
 int GameModel::rowCount(const QModelIndex &) const

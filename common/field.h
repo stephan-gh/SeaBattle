@@ -51,6 +51,7 @@ struct Field {
     Field();
 
     bool isMarked() const;
+    void mark();
 
     const Ship* ship() const;
     void setShip(const Ship* ship);

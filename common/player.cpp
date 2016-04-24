@@ -30,7 +30,7 @@ bool Player::isValid() const
     return client_;
 }
 
-Player &Player::opponent() const
+Player *Player::opponent() const
 {
     return first ? game_->player(1) : game_->player(0);
 }
@@ -72,7 +72,6 @@ const Ship *Player::shoot(const Coordinate &target)
     }
 
     field.check();
-    sea[target.x()][target.y()] = field;
 
     auto ship = field.ship();
     attacked = !ship;
@@ -85,8 +84,7 @@ bool Player::isSunken(const Ship *ship) const
     const GameConfig::Ship &config = game_->config().cships()[ship->id()];
     for (int i = 0; i < config.length(); ++i) {
         pos = ship->position() + (ship->direction() * i);
-        auto &field = sea[pos.x()][pos.y()];
-        if (!field.isChecked()) {
+        if (!sea[pos.x()][pos.y()].isChecked()) {
             return false;
         }
     }

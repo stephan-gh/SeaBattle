@@ -31,13 +31,16 @@ class ServerGame : public Game {
 public:
     ServerGame(const GameConfig &config);
 
-    Player &player(int i);
-    Player players[2];
+    Player* player(int i);
 
     // Game interface
     void setState(State state);
 
+    void sendStartGame();
     void sendContinue();
+
+private:
+    Player players[2];
 };
 
 }

@@ -62,7 +62,7 @@ public:
     void sendStartGame();
     void sendSetShips();
     void sendShips();
-    void sendShootResult(const Coordinate &target, bool hit, bool sunken);
+    void sendShootResult(const Coordinate &target, bool hit, bool sunken, bool again);
     void sendContinue();
 
 signals:

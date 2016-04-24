@@ -163,17 +163,19 @@ void PacketShoot::write(QJsonObject &json) const
     json["target"] = target;
 }
 
-PacketShootResult::PacketShootResult(const Coordinate &target, bool hit, bool sunken) :
+PacketShootResult::PacketShootResult(const Coordinate &target, bool hit, bool sunken, bool again) :
     target(target),
     hit(hit),
-    sunken(sunken)
+    sunken(sunken),
+    again(again)
 {
 }
 
 PacketShootResult::PacketShootResult(const QJsonObject &json) :
     target(json["target"]),
     hit(json["hit"].toBool()),
-    sunken(json["sunken"].toBool())
+    sunken(json["sunken"].toBool()),
+    again(json["again"].toBool())
 {
 }
 
@@ -187,6 +189,7 @@ void PacketShootResult::write(QJsonObject &json) const
     json["target"] = target;
     json["hit"] = hit;
     json["sunken"] = sunken;
+    json["again"] = again;
 }
 
 PacketContinue::PacketContinue()

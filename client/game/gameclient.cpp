@@ -76,8 +76,9 @@ void GameClient::processShipsSet(const Network::PacketShipsSet &packet)
     emit start(packet.ships);
 }
 
-void GameClient::processShootResult(const Network::PacketShootResult &)
+void GameClient::processShootResult(const Network::PacketShootResult &packet)
 {
+    emit shootResult(packet.target, packet.hit, packet.sunken, packet.again);
 }
 
 void GameClient::processContinue(const Network::PacketContinue &)

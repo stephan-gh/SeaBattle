@@ -19,7 +19,7 @@ struct Player
     const QUuid &id() const;
 
     bool isValid() const;
-    Player &opponent() const;
+    Player *opponent() const;
 
     Network::ServerClient* client() const;
     void setClient(Network::ServerClient* client);

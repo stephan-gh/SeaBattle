@@ -101,6 +101,11 @@ bool Field::isMarked() const
     return marked || ship_;
 }
 
+void Field::mark()
+{
+    marked = true;
+}
+
 const Ship *Field::ship() const
 {
     return ship_;

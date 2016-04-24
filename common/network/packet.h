@@ -145,12 +145,13 @@ protected:
 };
 
 struct PacketShootResult : public Packet {
-    PacketShootResult(const Coordinate &target, bool hit, bool sunken);
+    PacketShootResult(const Coordinate &target, bool hit, bool sunken, bool again);
     PacketShootResult(const QJsonObject &json);
 
     Coordinate target;
     bool hit;
     bool sunken;
+    bool again;
 
     // Packet interface
     const Type &type() const override {

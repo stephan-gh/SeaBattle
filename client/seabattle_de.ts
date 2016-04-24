@@ -127,6 +127,19 @@
     </message>
 </context>
 <context>
+    <name>GameMainWidget</name>
+    <message>
+        <location filename="game/gamewidget.cpp" line="170"/>
+        <source>Sunk ship</source>
+        <translation>Schiff versenkt</translation>
+    </message>
+    <message>
+        <location filename="game/gamewidget.cpp" line="171"/>
+        <source>The ship was sunk!</source>
+        <translation>Das Schiff wurde versenkt!</translation>
+    </message>
+</context>
+<context>
     <name>GamePrepareWidget</name>
     <message>
         <location filename="game/gamepreparewidget.ui"/>

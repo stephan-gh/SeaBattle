@@ -58,7 +58,7 @@ void Server::accept()
         auto id = QUuid::createUuid();
         games[id] = game;
 
-        game->player(0).setClient(client);
+        game->player(0)->setClient(client);
         client->sendGameCreated(socket->serverUrl(), id);
     });
 
@@ -75,27 +75,24 @@ void Server::accept()
             return;
         }
 
-        Player &player1 = game->player(0);
-        if (!player1.isValid()) {
-            player1.setClient(client);
+        Player *player1 = game->player(0);
+        if (!player1->isValid()) {
+            player1->setClient(client);
             client->sendGameCreated(socket->serverUrl(), id);
         } else {
-            Player &player2 = game->player(1);
-            if (player2.isValid()) {
+            Player *player2 = game->player(1);
+            if (player2->isValid()) {
                 client->disconnect("Game already full");
                 return;
             }
 
-            player2.setClient(client);
+            player2->setClient(client);
 
             qDebug() << "Starting game:" << game->config().name();
-            players[player1.id()] = &player1;
-            players[player2.id()] = &player2;
+            players[player1->id()] = player1;
+            players[player2->id()] = player2;
 
-            for (const Player &player : game->players) {
-                player.client()->sendStartGame();
-            }
-
+            game->sendStartGame();
             game->setState(Game::State::Preparing);
         }
     });
@@ -104,20 +101,19 @@ void Server::accept()
         auto player = client->player();
         player->setShips(ships);
 
-        if (player->opponent().hasShips()) {
+        if (player->opponent()->hasShips()) {
             player->game()->setState(Game::State::Playing);
         }
     });
 
     connect(client, &ServerClient::shoot, [this, client] (auto target) {
         auto player = client->player()->opponent();
-        auto ship = player.shoot(target);
+        auto ship = player->shoot(target);
 
         if (ship) {
-            client->sendShootResult(target, true, player.isSunken(ship));
-            client->sendContinue();
+            client->sendShootResult(target, true, player->isSunken(ship), true);
         } else {
-            client->sendShootResult(target, false, false);
+            client->sendShootResult(target, false, false, false);
 
             if (client->player()->wasAttacked()) {
 
