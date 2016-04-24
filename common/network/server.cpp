@@ -115,8 +115,8 @@ void Server::accept()
         } else {
             client->sendShootResult(target, false, false, false);
 
-            if (client->player()->wasAttacked()) {
-
+            if (client->player()->isAttackFinished()) {
+                player->game()->sendContinue();
             }
         }
     });

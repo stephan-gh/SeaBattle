@@ -11,7 +11,8 @@ Player::Player(ServerGame *game, bool first, const GameConfig &config) :
     client_(nullptr),
     ships_(),
     sea(config.size().x(), std::vector<Field>{static_cast<unsigned int>(config.size().y())}),
-    attacked(false)
+    attackFinished(false),
+    attacked()
 {
 }
 
@@ -72,9 +73,9 @@ const Ship *Player::shoot(const Coordinate &target)
     }
 
     field.check();
-
     auto ship = field.ship();
-    attacked = !ship;
+    attacked.push_back(target);
+    attackFinished = !ship;
     return ship;
 }
 
@@ -92,9 +93,20 @@ bool Player::isSunken(const Ship *ship) const
     return true;
 }
 
-bool Player::wasAttacked()
+bool Player::isAttackFinished() const
+{
+    return attackFinished;
+}
+
+const std::vector<Coordinate> &Player::attackedFields() const
 {
     return attacked;
+}
+
+void Player::resetTargets()
+{
+    attackFinished = false;
+    attacked.clear();
 }
 
 }

@@ -164,7 +164,10 @@ protected:
 };
 
 struct PacketContinue : public Packet {
-    PacketContinue();
+    PacketContinue(const std::vector<Coordinate> targets);
+    PacketContinue(const QJsonObject &json);
+
+    std::vector<Coordinate> targets;
 
     // Packet interface
     const Type &type() const override {
@@ -172,6 +175,8 @@ struct PacketContinue : public Packet {
     }
 
     void process(Client *client) const override;
+protected:
+    void write(QJsonObject &json) const override;
 };
 
 }

@@ -14,7 +14,7 @@ const Packet::Type &Packet::Type::SetShips{QStringLiteral("set_ships"), [] (auto
 const Packet::Type &Packet::Type::ShipsSet{QStringLiteral("ships_set"), [] (auto json) { return new PacketShipsSet(json); }};
 const Packet::Type &Packet::Type::Shoot{QStringLiteral("shoot"), [] (auto json) { return new PacketShoot(json); }};
 const Packet::Type &Packet::Type::ShootResult{QStringLiteral("shoot_result"), [] (auto json) { return new PacketShootResult(json); }};
-const Packet::Type &Packet::Type::Continue{QStringLiteral("continue"), [] (auto) { return new PacketContinue(); }};
+const Packet::Type &Packet::Type::Continue{QStringLiteral("continue"), [] (auto json) { return new PacketContinue(json); }};
 
 Packet::Type &Packet::Type::getById(const QString &id)
 {
@@ -192,13 +192,29 @@ void PacketShootResult::write(QJsonObject &json) const
     json["again"] = again;
 }
 
-PacketContinue::PacketContinue()
+PacketContinue::PacketContinue(const std::vector<Coordinate> targets) : targets(targets)
 {
+}
+
+PacketContinue::PacketContinue(const QJsonObject &json) : targets()
+{
+    for (auto value : json["targets"].toArray()) {
+        targets.emplace_back(value);
+    }
 }
 
 void PacketContinue::process(Client *client) const
 {
     emit client->processContinue(*this);
+}
+
+void PacketContinue::write(QJsonObject &json) const
+{
+    QJsonArray array;
+    for (auto target : targets) {
+        array.append(target);
+    }
+    json["targets"] = array;
 }
 
 }

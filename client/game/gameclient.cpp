@@ -81,7 +81,7 @@ void GameClient::processShootResult(const Network::PacketShootResult &packet)
     emit shootResult(packet.target, packet.hit, packet.sunken, packet.again);
 }
 
-void GameClient::processContinue(const Network::PacketContinue &)
+void GameClient::processContinue(const Network::PacketContinue &packet)
 {
-    emit continueShooting();
+    emit continueShooting(packet.targets);
 }

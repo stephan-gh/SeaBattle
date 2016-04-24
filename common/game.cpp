@@ -69,8 +69,9 @@ void ServerGame::sendStartGame()
 
 void ServerGame::sendContinue()
 {
-    for (const Player &player : players) {
-        player.client()->sendContinue();
+    for (Player &player : players) {
+        player.client()->sendContinue(player.attackedFields());
+        player.resetTargets();
     }
 }
 

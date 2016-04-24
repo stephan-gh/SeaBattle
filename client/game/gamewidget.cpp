@@ -174,7 +174,11 @@ GameMainWidget::GameMainWidget(QWidget *parent, GameClient *client, const std::u
         ui->tableViewOpponent->setEnabled(again);
     });
 
-    connect(client, &GameClient::continueShooting, [this] () {
+    connect(client, &GameClient::continueShooting, [this] (auto targets) {
+        for (auto target : targets) {
+            model.check(target);
+        }
+
         ui->tableViewOpponent->setEnabled(true);
     });
 }

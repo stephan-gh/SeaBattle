@@ -161,9 +161,9 @@ void ServerClient::sendShootResult(const Coordinate &target, bool hit, bool sunk
     send(PacketShootResult{target, hit, sunken, again});
 }
 
-void ServerClient::sendContinue()
+void ServerClient::sendContinue(const std::vector<Coordinate> &targets)
 {
-    send(PacketContinue{});
+    send(PacketContinue{targets});
 }
 
 void ServerClient::processCreateGame(const PacketCreateGame &packet)

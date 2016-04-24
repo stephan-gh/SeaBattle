@@ -31,7 +31,9 @@ struct Player
     const Ship* shoot(const Coordinate &target);
     bool isSunken(const Ship* ship) const;
 
-    bool wasAttacked();
+    bool isAttackFinished() const;
+    const std::vector<Coordinate> &attackedFields() const;
+    void resetTargets();
 
 private:
     ServerGame *game_;
@@ -42,7 +44,8 @@ private:
     std::unordered_set<Ship*> ships_;
     Sea sea;
 
-    bool attacked;
+    bool attackFinished;
+    std::vector<Coordinate> attacked;
 };
 
 }

@@ -63,7 +63,7 @@ public:
     void sendSetShips();
     void sendShips();
     void sendShootResult(const Coordinate &target, bool hit, bool sunken, bool again);
-    void sendContinue();
+    void sendContinue(const std::vector<Coordinate> &targets);
 
 signals:
     void createGame(const GameConfig &config);

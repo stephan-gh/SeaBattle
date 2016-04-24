@@ -29,7 +29,7 @@ signals:
     void prepare();
     void start(const std::unordered_set<Ship*> &ships);
     void shootResult(const Coordinate &target, bool hit, bool sunken, bool again);
-    void continueShooting();
+    void continueShooting(const std::vector<Coordinate> &targets);
 
 private:
     QUrl url;
@@ -43,5 +43,5 @@ public:
     void processSetShips(const Network::PacketSetShips &) override;
     void processShipsSet(const Network::PacketShipsSet &packet) override;
     void processShootResult(const Network::PacketShootResult &packet) override;
-    void processContinue(const Network::PacketContinue &) override;
+    void processContinue(const Network::PacketContinue &packet) override;
 };
