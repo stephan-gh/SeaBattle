@@ -127,8 +127,8 @@ PacketShipsSet::PacketShipsSet(const std::unordered_set<const Ship*> &ships) : s
 PacketShipsSet::PacketShipsSet(const QJsonObject &json)
 {
     auto array = json["ships"].toArray();
-    for (int i = 0; i < array.size(); i++) {
-        ships.insert(new Ship{array[i].toObject()});
+    for (const auto &ship : array) {
+        ships.insert(new Ship{ship.toObject()});
     }
 }
 
@@ -199,7 +199,7 @@ PacketContinue::PacketContinue(const std::vector<Coordinate> targets) : targets(
 
 PacketContinue::PacketContinue(const QJsonObject &json) : targets()
 {
-    for (auto value : json["targets"].toArray()) {
+    for (const auto &value : json["targets"].toArray()) {
         targets.emplace_back(value);
     }
 }
@@ -212,7 +212,7 @@ void PacketContinue::process(Client *client) const
 void PacketContinue::write(QJsonObject &json) const
 {
     QJsonArray array;
-    for (auto target : targets) {
+    for (const auto &target : targets) {
         array.append(target);
     }
     json["targets"] = array;

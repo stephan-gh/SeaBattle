@@ -20,7 +20,7 @@ GameConfig::GameConfig(const QJsonValue &value)
     size_ = {json["size"]};
 
     QJsonArray ships = json["ships"].toArray();
-    for (auto ship : ships) {
+    for (const auto &ship : ships) {
         ships_.emplace_back(ship);
     }
 }
@@ -62,7 +62,7 @@ GameConfig::operator QJsonValue() const
     result["size"] = size_;
 
     QJsonArray ships;
-    for (auto ship : ships_) {
+    for (const auto &ship : ships_) {
         ships.append(ship);
     }
     result["ships"] = ships;

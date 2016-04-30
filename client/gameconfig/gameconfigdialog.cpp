@@ -30,7 +30,7 @@ GameConfigDialog::GameConfigDialog(QWidget *parent, GameConfigs &configs) :
     });
 
     connect(ui->pushButtonEdit, &QPushButton::clicked, [&] () {
-        for (auto index : ui->listView->selectionModel()->selectedRows()) {
+        for (const auto &index : ui->listView->selectionModel()->selectedRows()) {
             if (index.isValid()) {
                 GameConfig config = model.get(index);
                 if (GameConfigEditDialog{this, config}.exec()) {
@@ -41,7 +41,7 @@ GameConfigDialog::GameConfigDialog(QWidget *parent, GameConfigs &configs) :
     });
 
     connect(ui->pushButtonDelete, &QPushButton::clicked, [&] () {
-        for (auto index : ui->listView->selectionModel()->selectedRows()) {
+        for (const auto &index : ui->listView->selectionModel()->selectedRows()) {
             if (index.isValid()) {
                 if (QMessageBox::warning(this, tr("Confirm deletion"), tr("Do you really want to delete '%1'?").arg(index.data().toString()),
                                      QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {

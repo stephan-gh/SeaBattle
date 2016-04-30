@@ -163,7 +163,7 @@ bool MainWindow::loadConfig()
 
     QJsonArray configs = json["configs"].toArray();
     this->configs.clear();
-    for (auto config : configs) {
+    for (const auto &config : configs) {
         this->configs.emplace_back(config);
     }
     return true;
@@ -182,7 +182,7 @@ bool MainWindow::saveConfig()
     QJsonObject json;
 
     QJsonArray configs;
-    for (auto config : this->configs) {
+    for (const auto &config : this->configs) {
         configs.append(config);
     }
     json["configs"] = configs;

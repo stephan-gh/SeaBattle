@@ -7,7 +7,7 @@ GameCreateDialog::GameCreateDialog(QWidget *parent, const SeaBattle::GameConfigs
 {
     ui->setupUi(this);
 
-    for (auto config : configs) {
+    for (const auto &config : configs) {
         ui->comboBoxConfig->addItem(config.name());
     }
 

@@ -52,7 +52,8 @@ void GameModel::resetShips()
 
 bool GameModel::isChecked(const QModelIndex &index) const
 {
-    return sea_[index.column()][index.row()].isChecked();
+    const SeaBattle::Field &field = sea_[index.column()][index.row()];
+    return field.isChecked();
 }
 
 void GameModel::check(const SeaBattle::Coordinate &target)
@@ -86,14 +87,20 @@ int GameModel::columnCount(const QModelIndex &) const
 
 QVariant GameModel::data(const QModelIndex &index, int role) const
 {
+    if (!index.isValid() || index.column() >= config.size().x() || index.row() >= config.size().y()) {
+        return {};
+    }
+
+    const SeaBattle::Field &field = sea_[index.column()][index.row()];
+
     switch (role) {
     case Qt::DisplayRole:
-        if (sea_[index.column()][index.row()].isChecked()) {
+        if (field.isChecked()) {
             return QStringLiteral("x");
         }
         break;
     case Qt::BackgroundRole:
-        if (sea_[index.column()][index.row()].isMarked()) {
+        if (field.isMarked()) {
             return QColor{202, 105, 36};
         }
         break;

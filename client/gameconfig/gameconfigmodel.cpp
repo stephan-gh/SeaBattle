@@ -18,8 +18,13 @@ Qt::ItemFlags GameConfigModel::flags(const QModelIndex &) const
 
 QVariant GameConfigModel::data(const QModelIndex &index, int role) const
 {
+    if (!index.isValid() || index.column() > 0 || index.row() >= static_cast<int>(configs.size())) {
+        return {};
+    }
+
     if (role == Qt::DisplayRole) {
-        return configs[index.row()].name();
+        const GameConfig &config = configs[index.row()];
+        return config.name();
     }
 
     return {};
@@ -27,6 +32,10 @@ QVariant GameConfigModel::data(const QModelIndex &index, int role) const
 
 bool GameConfigModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
+    if (!index.isValid() || index.column() > 0 || index.row() >= static_cast<int>(configs.size())) {
+        return false;
+    }
+
     if (role == Qt::EditRole) {
         GameConfig config = configs[index.row()];
         config.setName(value.toString());
@@ -49,7 +58,8 @@ bool GameConfigModel::removeRows(int row, int count, const QModelIndex &parent)
 
 const GameConfig &GameConfigModel::get(const QModelIndex &index) const
 {
-    return configs[index.row()];
+    const GameConfig &config = configs[index.row()];
+    return config;
 }
 
 void GameConfigModel::update(const QModelIndex &index, const GameConfig &config)
@@ -91,8 +101,12 @@ Qt::ItemFlags GameConfigShipModel::flags(const QModelIndex &) const
 
 QVariant GameConfigShipModel::data(const QModelIndex &index, int role) const
 {
-    if (role == Qt::DisplayRole && index.row() != static_cast<int>(ships.size())) {
-        GameConfig::Ship ship = ships[index.row()];
+    if (!index.isValid() || index.column() >= Column::ColumnCount) {
+        return {};
+    }
+
+    if (role == Qt::DisplayRole && index.row() < static_cast<int>(ships.size())) {
+        const GameConfig::Ship &ship = ships[index.row()];
 
         switch (index.column()) {
         case Column::Name:
@@ -109,6 +123,10 @@ QVariant GameConfigShipModel::data(const QModelIndex &index, int role) const
 
 bool GameConfigShipModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
+    if (!index.isValid() || index.column() >= Column::ColumnCount || index.row() >= static_cast<int>(ships.size()) + 1) {
+        return false;
+    }
+
     if (role == Qt::EditRole) {
         const auto row = index.row();
         auto isNew = row == static_cast<int>(ships.size());

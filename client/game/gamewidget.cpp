@@ -120,7 +120,7 @@ bool GamePrepareWidget::validateSetShip() const
     int dx = 0;
     int dy = 0;
 
-    for (auto index : indexes) {
+    for (const auto &index : indexes) {
         dx += indexes.first().column() - index.column();
         dy += indexes.first().row() - index.row();
         if (model.ship(index)) {
@@ -189,7 +189,7 @@ GameMainWidget::GameMainWidget(QWidget *parent, GameClient *client, const std::u
     });
 
     connect(client, &GameClient::continueShooting, [this] (auto targets) {
-        for (auto target : targets) {
+        for (const auto &target : targets) {
             model.check(target);
         }
 
