@@ -23,6 +23,7 @@ public:
     bool isStarted() const;
 
     QUrl url() const;
+    QUrl externalUrl() const;
     unsigned int port() const;
 
 signals:
@@ -33,6 +34,8 @@ private slots:
 
 private:
     QWebSocketServer *socket;
+    QString host;
+
     QHash<QUuid, Player*> players;
     QHash<QUuid, ServerGame*> games;
 };

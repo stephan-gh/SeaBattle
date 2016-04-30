@@ -2,6 +2,7 @@
 
 #include <QWebSocket>
 #include <QDebug>
+#include <QNetworkInterface>
 
 namespace SeaBattle {
 namespace Network {
@@ -12,6 +13,14 @@ Server::Server(QObject *parent) :
     players(),
     games()
 {
+    // Detect IP address
+    for (const auto &address : QNetworkInterface::allAddresses()) {
+        if (address.protocol() == QAbstractSocket::IPv4Protocol && address != QHostAddress{QHostAddress::LocalHost}) {
+            host = address.toString();
+            qDebug() << "Found IP address" << address;
+            break;
+        }
+    }
 }
 
 bool Server::start(unsigned int port)
@@ -38,6 +47,13 @@ QUrl Server::url() const
     return socket->serverUrl();
 }
 
+QUrl Server::externalUrl() const
+{
+    auto url = socket->serverUrl();
+    url.setHost(host);
+    return url;
+}
+
 unsigned int Server::port() const
 {
     return socket->serverPort();
@@ -59,7 +75,7 @@ void Server::accept()
         games[id] = game;
 
         game->player(0)->setClient(client);
-        client->sendGameCreated(socket->serverUrl(), id);
+        client->sendGameCreated(this->externalUrl(), id);
     });
 
     connect(client, &ServerClient::joinGame, [this, client] (auto id) {
