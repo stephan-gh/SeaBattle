@@ -47,7 +47,7 @@ void Client::send(const Packet &packet)
     QJsonDocument json{packet};
     qDebug() << "Sending packet:" << packet.type().id();
     auto serialized = json.toJson(QJsonDocument::Compact);
-    qDebug(serialized.data());
+    qDebug() << serialized.data();
     socket->sendTextMessage(serialized);
 }
 
@@ -62,7 +62,7 @@ void Client::process(QString message)
     auto json = QJsonDocument::fromJson(serialized).object();
     auto type = Packet::Type::getById(json["id"].toString());
     qDebug() << "Received packet:" << type.id();
-    qDebug(serialized.data());
+    qDebug() << serialized.data();
     return type.deserialize(json)->process(this);
 }
 
