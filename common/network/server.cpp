@@ -49,6 +49,10 @@ QUrl Server::url() const
 
 QUrl Server::externalUrl() const
 {
+    if (host.isEmpty()) {
+        return socket->serverUrl();
+    }
+
     auto url = socket->serverUrl();
     url.setHost(host);
     return url;
