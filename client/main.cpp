@@ -9,15 +9,15 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    auto locale = QLocale::system().name();
-    //auto locale = QStringLiteral("de_DE");
+    auto locale = QLocale::system();
+    //QLocale locale{QLocale::German};
 
     QTranslator qtTranslator;
-    qtTranslator.load("qt_" + locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    qtTranslator.load(locale, "qt", "_", QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     app.installTranslator(&qtTranslator);
 
     QTranslator appTranslator;
-    appTranslator.load("seabattle_" + locale, ":/translations");
+    appTranslator.load(locale, "seabattle", "_", ":/translations");
     app.installTranslator(&appTranslator);
 
     MainWindow window{nullptr, "seabattle.json"};
