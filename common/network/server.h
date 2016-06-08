@@ -16,7 +16,7 @@ class Server : public QObject
     Q_OBJECT
 
 public:
-    explicit Server(QObject *parent, const QString &host);
+    explicit Server(QObject *parent, const QString &host, bool allowExternalGames);
 
     bool start(unsigned int port = 43560);
 
@@ -35,6 +35,7 @@ private slots:
 private:
     QWebSocketServer *socket;
     QString host;
+    bool allowExternalGames;
 
     QHash<QUuid, Player*> players;
     QHash<QUuid, ServerGame*> games;

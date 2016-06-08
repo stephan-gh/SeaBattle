@@ -37,6 +37,11 @@ bool Client::isValid() const
     return socket->isValid();
 }
 
+QHostAddress Client::address() const
+{
+    return socket->peerAddress();
+}
+
 const QUrl Client::url() const
 {
     return socket->requestUrl();
@@ -53,6 +58,7 @@ void Client::send(const Packet &packet)
 
 void Client::disconnect(const QString &reason)
 {
+    qDebug() << "Disconnecting client:" << reason;
     socket->close(QWebSocketProtocol::CloseCodeNormal, reason);
 }
 

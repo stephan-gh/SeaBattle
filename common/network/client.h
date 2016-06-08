@@ -20,6 +20,7 @@ public:
 
     bool isValid() const;
 
+    QHostAddress address() const;
     const QUrl url() const;
 
     void send(const Packet &packet);

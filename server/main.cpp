@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    auto server = new SeaBattle::Network::Server(&app, parser.value("host"));
+    auto server = new SeaBattle::Network::Server(&app, parser.value("host"), true);
     if (!server->start(port)) {
         return 2;
     }

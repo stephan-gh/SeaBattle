@@ -122,7 +122,7 @@ QUrl MainWindow::startServer()
             }
         }*/
 
-        server = new Network::Server{this, ""};
+        server = new Network::Server{this, "", false};
     }
 
     if (!server->isStarted()) {

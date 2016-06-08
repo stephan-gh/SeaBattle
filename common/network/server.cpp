@@ -7,10 +7,11 @@
 namespace SeaBattle {
 namespace Network {
 
-Server::Server(QObject *parent, const QString &host) :
+Server::Server(QObject *parent, const QString &host, bool allowExternalGames) :
     QObject(parent),
     socket(new QWebSocketServer(QStringLiteral("SeaBattle"), QWebSocketServer::NonSecureMode, this)),
-    host(host)
+    host(host),
+    allowExternalGames(allowExternalGames)
 {
 }
 
@@ -65,6 +66,11 @@ void Server::accept()
     });
 
     connect(client, &ServerClient::createGame, [this, client] (auto config) {
+        if (!allowExternalGames && !client->address().isLoopback()) {
+            client->disconnect("Server does not accept external games");
+            return;
+        }
+
         auto game = new ServerGame{config, this};
         auto id = QUuid::createUuid();
         games[id] = game;
