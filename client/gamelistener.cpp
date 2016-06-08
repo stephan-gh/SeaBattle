@@ -15,7 +15,11 @@ QUrl GameListener::url(int i) const
 void GameListener::enable()
 {
     socket = new QUdpSocket{this};
-    socket->bind(QHostAddress{QHostAddress::Broadcast}, 43560);
+    if (!socket->bind(QHostAddress{QHostAddress::Broadcast}, 43560)) {
+        qCritical() << "Failed to bind to broadcast address:" << socket->errorString();
+        return;
+    }
+
     connect(socket, &QUdpSocket::readyRead, [this] () {
         auto size = socket->pendingDatagramSize();
         QByteArray data;

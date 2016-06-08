@@ -9,8 +9,8 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    //auto locale = QLocale::system();
-    QLocale locale{QLocale::German};
+    auto locale = QLocale::system();
+    //QLocale locale{QLocale::German};
 
     QTranslator qtTranslator;
     qtTranslator.load(locale, "qt", "_", QLibraryInfo::location(QLibraryInfo::TranslationsPath));
