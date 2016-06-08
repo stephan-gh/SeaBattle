@@ -10,13 +10,15 @@
 
 #include "gameconfig/gameconfigdialog.h"
 #include "game/gamecreatedialog.h"
+#include "game/gamejoindialog.h"
 #include "game/gamewidget.h"
 
 MainWindow::MainWindow(QWidget *parent, const QString &configPath) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     configPath(configPath),
-    server(nullptr)
+    server(nullptr),
+    broadcaster(nullptr)
 {
     ui->setupUi(this);
     if (loadConfig()) {
@@ -58,17 +60,16 @@ MainWindow::MainWindow(QWidget *parent, const QString &configPath) :
         }
 
         qDebug() << "Creating game on" << url;
-        setupConnection(new GameClient{this, url, config});
+        setupConnection(new GameClient{this, url, config}, dialog.isPublic());
     });
 
     connect(ui->actionJoinGame, &QAction::triggered, [this] () {
-        bool ok;
-        auto text = QInputDialog::getText(this, tr("Join server"), tr("Server URL:"), QLineEdit::Normal, {}, &ok, {}, Qt::ImhUrlCharactersOnly);
-        if (!ok) {
+        GameJoinDialog dialog{this};
+        if (!dialog.exec()) {
             return;
         }
 
-        QUrl url{text};
+        auto url = dialog.address();
         if (!url.isValid() || !url.hasQuery()) {
             return; // TODO
         }
@@ -79,7 +80,7 @@ MainWindow::MainWindow(QWidget *parent, const QString &configPath) :
         }
 
         qDebug() << "Connecting to game" << url;
-        setupConnection(new GameClient{this, url});
+        setupConnection(new GameClient{this, url}, false);
     });
 
     connect(ui->actionGames, &QAction::triggered, [this] () {
@@ -136,15 +137,32 @@ QUrl MainWindow::startServer()
     return server->url();
 }
 
-void MainWindow::setupConnection(GameClient *client)
+void MainWindow::setupConnection(GameClient *client, bool publicGame)
 {
     ui->tabWidgetGames->setCurrentIndex(ui->tabWidgetGames->addTab(new GameWidget{this, client}, tr("Connecting...")));
 
-    connect(client, &GameClient::invitePlayer, [this, client] (auto name, auto url) {
+    connect(client, &GameClient::invitePlayer, [this, client, publicGame] (auto name, auto url) {
         this->replaceTab(new GameConnectWidget{ui->tabWidgetGames, client, url.toString()}, name);
+
+        if (publicGame) {
+            auto id = client->id();
+            if (id.isNull()) {
+                return;
+            }
+
+            if (broadcaster == nullptr) {
+                broadcaster = new GameBroadcaster{this};
+            }
+
+            broadcaster->add(id, url);
+        }
     });
 
     connect(client, &GameClient::prepare, [this, client] () {
+        if (broadcaster != nullptr) {
+            broadcaster->remove(client->id());
+        }
+
         this->replaceTab(new GamePrepareWidget{ui->tabWidgetGames, client}, client->game().config().name());
     });
 

@@ -27,6 +27,11 @@ void GameClient::reconnect()
     socket->open(url);
 }
 
+const QUuid &GameClient::id() const
+{
+    return id_;
+}
+
 Game &GameClient::game()
 {
     return game_;
@@ -54,6 +59,8 @@ void GameClient::sendShoot(const Coordinate &coordinate)
 
 void GameClient::processGameCreated(const Network::PacketGameCreated &packet)
 {
+    id_ = QUuid{packet.url.query()};
+
     url = packet.url;
     emit invitePlayer(packet.name, packet.url);
 }

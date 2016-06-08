@@ -13,6 +13,7 @@ GameCreateDialog::GameCreateDialog(QWidget *parent, const SeaBattle::GameConfigs
 
     ui->comboBoxConfig->addItem(tr("Create new..."));
 
+    connect(ui->checkBoxPublic, &QCheckBox::toggled, ui->labelPublic, &QWidget::setEnabled);
     connect(ui->checkBoxServer, &QCheckBox::toggled, ui->lineEditServer, &QWidget::setEnabled);
 
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
@@ -32,6 +33,11 @@ int GameCreateDialog::selection() const
     }
 
     return index;
+}
+
+bool GameCreateDialog::isPublic() const
+{
+    return ui->checkBoxPublic->isChecked();
 }
 
 QString GameCreateDialog::server() const

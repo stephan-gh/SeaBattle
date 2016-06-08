@@ -4,6 +4,7 @@
 #include "gameconfig.h"
 #include "game/gameclient.h"
 #include "network/server.h"
+#include "gamebroadcaster.h"
 
 namespace Ui {
 class MainWindow;
@@ -18,7 +19,7 @@ public:
     ~MainWindow();
 
     QUrl startServer();
-    void setupConnection(GameClient* client);
+    void setupConnection(GameClient* client, bool publicGame);
 
     bool loadConfig();
     bool saveConfig();
@@ -32,4 +33,5 @@ private:
     SeaBattle::GameConfigs configs;
 
     SeaBattle::Network::Server *server;
+    GameBroadcaster *broadcaster;
 };

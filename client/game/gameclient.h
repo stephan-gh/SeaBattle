@@ -16,6 +16,7 @@ public:
 
     void reconnect();
 
+    const QUuid &id() const;
     Game &game();
 
     GameWidget* widget() const;
@@ -33,6 +34,7 @@ signals:
     void finished(Game::Result result);
 
 private:
+    QUuid id_;
     QUrl url;
     Game game_;
     GameWidget* widget_;

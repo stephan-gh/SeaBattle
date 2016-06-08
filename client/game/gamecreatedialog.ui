@@ -2,18 +2,10 @@
 <ui version="4.0">
  <class>GameCreateDialog</class>
  <widget class="QDialog" name="GameCreateDialog">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>300</width>
-    <height>150</height>
-   </rect>
-  </property>
   <property name="windowTitle">
    <string>Create game</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
     <layout class="QFormLayout" name="formLayout">
      <item row="0" column="0">
@@ -37,6 +29,30 @@
    </item>
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QCheckBox" name="checkBoxPublic">
+       <property name="text">
+        <string comment=" ">Public game:</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="labelPublic">
+       <property name="text">
+        <string>Allows players to join your server without entering the full address</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
       <widget class="QCheckBox" name="checkBoxServer">
        <property name="text">

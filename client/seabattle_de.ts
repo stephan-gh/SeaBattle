@@ -70,22 +70,22 @@
 <context>
     <name>GameConfigShipModel</name>
     <message>
-        <location filename="gameconfig/gameconfigmodel.cpp" line="116"/>
+        <location filename="gameconfig/gameconfigmodel.cpp" line="134"/>
         <source>Ship</source>
         <translation>Schiff</translation>
     </message>
     <message>
-        <location filename="gameconfig/gameconfigmodel.cpp" line="178"/>
+        <location filename="gameconfig/gameconfigmodel.cpp" line="196"/>
         <source>Name</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="gameconfig/gameconfigmodel.cpp" line="180"/>
+        <location filename="gameconfig/gameconfigmodel.cpp" line="198"/>
         <source>Length</source>
         <translation>Länge</translation>
     </message>
     <message>
-        <location filename="gameconfig/gameconfigmodel.cpp" line="182"/>
+        <location filename="gameconfig/gameconfigmodel.cpp" line="200"/>
         <source>Count</source>
         <translation>Anzahl</translation>
     </message>
@@ -125,46 +125,75 @@
         <source>External server:</source>
         <translation>Externer Server:</translation>
     </message>
+    <message>
+        <location filename="game/gamecreatedialog.ui"/>
+        <source>Allows players to join your server without entering the full address</source>
+        <translation>Ermöglicht Spielern dem Spiel ohne die vollständige Addresse beizutreten</translation>
+    </message>
+    <message>
+        <location filename="game/gamecreatedialog.ui"/>
+        <source>Public game:</source>
+        <comment> </comment>
+        <translation>Öffentliches Spiel:</translation>
+    </message>
+</context>
+<context>
+    <name>GameJoinDialog</name>
+    <message>
+        <location filename="game/gamejoindialog.ui"/>
+        <source>Join game</source>
+        <translation>Spiel beitreten</translation>
+    </message>
+    <message>
+        <location filename="game/gamejoindialog.ui"/>
+        <source>Enter Address:</source>
+        <translation>Adresse eingeben:</translation>
+    </message>
+    <message>
+        <location filename="game/gamejoindialog.ui"/>
+        <source>Search on local networ&amp;k:</source>
+        <translation>Im lokalen Netzwer&amp;k suchen:</translation>
+    </message>
 </context>
 <context>
     <name>GameMainWidget</name>
     <message>
-        <location filename="game/gamewidget.cpp" line="182"/>
+        <location filename="game/gamewidget.cpp" line="184"/>
         <source>Sunk ship</source>
         <translation>Schiff versenkt</translation>
     </message>
     <message>
-        <location filename="game/gamewidget.cpp" line="183"/>
+        <location filename="game/gamewidget.cpp" line="185"/>
         <source>The ship was sunk!</source>
         <translation>Das Schiff wurde versenkt!</translation>
     </message>
     <message>
-        <location filename="game/gamewidget.cpp" line="202"/>
+        <location filename="game/gamewidget.cpp" line="204"/>
         <source>Game won</source>
         <translation>Spiel gewonnen</translation>
     </message>
     <message>
-        <location filename="game/gamewidget.cpp" line="203"/>
+        <location filename="game/gamewidget.cpp" line="205"/>
         <source>You have won the game!</source>
         <translation>Du hast das Spiel gewonnen!</translation>
     </message>
     <message>
-        <location filename="game/gamewidget.cpp" line="206"/>
+        <location filename="game/gamewidget.cpp" line="208"/>
         <source>Game lost</source>
         <translation>Spiel verloren</translation>
     </message>
     <message>
-        <location filename="game/gamewidget.cpp" line="207"/>
+        <location filename="game/gamewidget.cpp" line="209"/>
         <source>You have lost the game!</source>
         <translation>Du hast das Spiel verloren!</translation>
     </message>
     <message>
-        <location filename="game/gamewidget.cpp" line="210"/>
+        <location filename="game/gamewidget.cpp" line="212"/>
         <source>Game ended in a draw</source>
         <translation>Spiel unentschieden</translation>
     </message>
     <message>
-        <location filename="game/gamewidget.cpp" line="211"/>
+        <location filename="game/gamewidget.cpp" line="213"/>
         <source>The game ended in a draw!</source>
         <translation>Das Spiel ist unentschieden ausgegangen!</translation>
     </message>
@@ -225,55 +254,45 @@
         <translation>&amp;Spiel...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="24"/>
+        <location filename="mainwindow.cpp" line="26"/>
         <source>Configuration successfully loaded</source>
         <oldsource>Configuration loaded</oldsource>
         <translation>Konfiguration erfolgreich geladen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="36"/>
+        <location filename="mainwindow.cpp" line="38"/>
         <source>Game</source>
         <translation>Spiel</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="66"/>
-        <source>Join server</source>
-        <translation>Server beitreten</translation>
-    </message>
-    <message>
-        <location filename="mainwindow.cpp" line="66"/>
-        <source>Server URL:</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.cpp" line="89"/>
+        <location filename="mainwindow.cpp" line="90"/>
         <source>Configuration successfully saved</source>
         <translation>Konfiguration erfolgreich gespeichert</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="100"/>
+        <location filename="mainwindow.cpp" line="101"/>
         <source>Close game &apos;%1&apos;</source>
         <translation>Spiel &apos;%1&apos; schließen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="101"/>
+        <location filename="mainwindow.cpp" line="102"/>
         <source>Do you really want to close the game &apos;%1&apos;?</source>
         <translation>Möchtest du das Spiel &apos;%1&apos; wirklich schließen?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="132"/>
+        <location filename="mainwindow.cpp" line="142"/>
         <source>Connecting...</source>
         <translation>Verbinde...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="156"/>
-        <location filename="mainwindow.cpp" line="177"/>
+        <location filename="mainwindow.cpp" line="183"/>
+        <location filename="mainwindow.cpp" line="204"/>
         <source>Failed to open configuration file</source>
         <translation>Öffnen der Konfigurationsdatei fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="157"/>
-        <location filename="mainwindow.cpp" line="178"/>
+        <location filename="mainwindow.cpp" line="184"/>
+        <location filename="mainwindow.cpp" line="205"/>
         <source>Failed to open configuration file: %1</source>
         <oldsource>Failed to open configuration %1</oldsource>
         <translation>Öffnen der Konfigurationsdatei von %1 fehlgeschlagen</translation>

@@ -11,7 +11,10 @@ HEADERS += \
     game/gamewidget.h \
     game/gamecreatedialog.h \
     game/gamemodel.h \
-    game/gameclient.h
+    game/gameclient.h \
+    gamebroadcaster.h \
+    game/gamejoindialog.h \
+    gamelistener.h
 
 SOURCES += \
     main.cpp \
@@ -21,7 +24,10 @@ SOURCES += \
     game/gamewidget.cpp \
     game/gamecreatedialog.cpp \
     game/gamemodel.cpp \
-    game/gameclient.cpp
+    game/gameclient.cpp \
+    gamebroadcaster.cpp \
+    game/gamejoindialog.cpp \
+    gamelistener.cpp
 
 FORMS += \
     mainwindow.ui \
@@ -30,7 +36,8 @@ FORMS += \
     game/gamepreparewidget.ui \
     game/gamecreatedialog.ui \
     game/gameconnectwidget.ui \
-    game/gamemainwidget.ui
+    game/gamemainwidget.ui \
+    game/gamejoindialog.ui
 
 RESOURCES += seabattle.qrc
 TRANSLATIONS = seabattle_de.ts

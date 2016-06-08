@@ -16,6 +16,7 @@ public:
     ~GameCreateDialog();
 
     int selection() const;
+    bool isPublic() const;
     QString server() const;
 
 private:
