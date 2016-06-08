@@ -128,7 +128,7 @@
     <message>
         <location filename="game/gamecreatedialog.ui"/>
         <source>Allows players to join your server without entering the full address</source>
-        <translation>Ermöglicht Spielern dem Spiel ohne die vollständige Addresse beizutreten</translation>
+        <translation>Ermöglicht Spielern dem Spiel ohne die vollständige Adresse beizutreten</translation>
     </message>
     <message>
         <location filename="game/gamecreatedialog.ui"/>
