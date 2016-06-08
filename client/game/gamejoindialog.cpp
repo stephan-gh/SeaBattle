@@ -10,6 +10,8 @@ GameJoinDialog::GameJoinDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    ui->progressBarLan->setVisible(false);
+
     connect(ui->radioButtonAddress, &QRadioButton::toggled, [this] (bool state) {
         ui->lineEditAddress->setEnabled(state);
         if (state) {
@@ -19,6 +21,7 @@ GameJoinDialog::GameJoinDialog(QWidget *parent) :
     connect(ui->radioButtonLan, &QRadioButton::toggled, [this] (bool state) {
         ui->listViewLan->setEnabled(state);
         ui->progressBarLan->setEnabled(state);
+        ui->progressBarLan->setVisible(state);
 
         if (state) {
             if (listener == nullptr) {
