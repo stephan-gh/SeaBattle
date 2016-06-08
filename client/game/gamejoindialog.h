@@ -19,6 +19,8 @@ public:
     QUrl address() const;
 
 private:
+    void validateInput();
+
     Ui::GameJoinDialog *ui;
     GameListener *listener;
 };
