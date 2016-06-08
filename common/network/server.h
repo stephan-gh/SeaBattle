@@ -16,7 +16,7 @@ class Server : public QObject
     Q_OBJECT
 
 public:
-    explicit Server(QObject *parent);
+    explicit Server(QObject *parent, const QString &host);
 
     bool start(unsigned int port = 43560);
 

@@ -113,7 +113,16 @@ MainWindow::~MainWindow()
 QUrl MainWindow::startServer()
 {
     if (server == nullptr) {
-        server = new Network::Server{this};
+        // TODO: Detect IP address
+        /*for (const auto &address : QNetworkInterface::allAddresses()) {
+            if (address.protocol() == QAbstractSocket::IPv4Protocol && address != QHostAddress{QHostAddress::LocalHost}) {
+                host = address.toString();
+                qDebug() << "Found IP address" << address;
+                break;
+            }
+        }*/
+
+        server = new Network::Server{this, ""};
     }
 
     if (!server->isStarted()) {

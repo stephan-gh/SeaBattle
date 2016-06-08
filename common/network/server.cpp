@@ -7,18 +7,11 @@
 namespace SeaBattle {
 namespace Network {
 
-Server::Server(QObject *parent) :
+Server::Server(QObject *parent, const QString &host) :
     QObject(parent),
-    socket(new QWebSocketServer(QStringLiteral("SeaBattle"), QWebSocketServer::NonSecureMode, this))
+    socket(new QWebSocketServer(QStringLiteral("SeaBattle"), QWebSocketServer::NonSecureMode, this)),
+    host(host)
 {
-    // Detect IP address
-    /*for (const auto &address : QNetworkInterface::allAddresses()) {
-        if (address.protocol() == QAbstractSocket::IPv4Protocol && address != QHostAddress{QHostAddress::LocalHost}) {
-            host = address.toString();
-            qDebug() << "Found IP address" << address;
-            break;
-        }
-    }*/
 }
 
 bool Server::start(unsigned int port)

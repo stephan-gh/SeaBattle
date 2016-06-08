@@ -17,7 +17,8 @@ int main(int argc, char *argv[])
     parser.addVersionOption();
 
     parser.addOptions({
-        {{"p", "port"}, "The port to bind the server to (Default: 43560)", "port", "43560"}
+        {{"p", "port"}, "The port to bind the server to (Default: 43560)", "port", "43560"},
+        {"host", "The hostname to use in the address sent to the client (Default: 127.0.0.1)", "host"},
     });
 
     // Parse command line options
@@ -30,12 +31,12 @@ int main(int argc, char *argv[])
         return 1;
     }
 
-    auto server = new SeaBattle::Network::Server(&app);
+    auto server = new SeaBattle::Network::Server(&app, parser.value("host"));
     if (!server->start(port)) {
         return 2;
     }
 
-    qInfo() << "Server started on:" << server->url();
+    qInfo() << "Server started on:" << server->externalUrl();
 
     QObject::connect(server, &SeaBattle::Network::Server::closed, &app, &QCoreApplication::quit);
     return app.exec();
