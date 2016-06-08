@@ -9,18 +9,16 @@ namespace Network {
 
 Server::Server(QObject *parent) :
     QObject(parent),
-    socket(new QWebSocketServer(QStringLiteral("SeaBattle"), QWebSocketServer::NonSecureMode, this)),
-    players(),
-    games()
+    socket(new QWebSocketServer(QStringLiteral("SeaBattle"), QWebSocketServer::NonSecureMode, this))
 {
     // Detect IP address
-    for (const auto &address : QNetworkInterface::allAddresses()) {
+    /*for (const auto &address : QNetworkInterface::allAddresses()) {
         if (address.protocol() == QAbstractSocket::IPv4Protocol && address != QHostAddress{QHostAddress::LocalHost}) {
             host = address.toString();
             qDebug() << "Found IP address" << address;
             break;
         }
-    }
+    }*/
 }
 
 bool Server::start(unsigned int port)
