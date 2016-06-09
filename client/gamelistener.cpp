@@ -15,7 +15,7 @@ QUrl GameListener::url(int i) const
 void GameListener::enable()
 {
     socket = new QUdpSocket{this};
-    if (!socket->bind(QHostAddress{QHostAddress::Broadcast}, 43560)) {
+    if (!socket->bind(QHostAddress{QHostAddress::Any}, 43560)) {
         qCritical() << "Failed to bind to broadcast address:" << socket->errorString();
         return;
     }
@@ -36,6 +36,16 @@ void GameListener::enable()
 
         this->beginInsertRows({}, urls.size(), urls.size());
         QUrl url{data};
+
+        if (address.protocol() == QAbstractSocket::IPv6Protocol) {
+            // Try to convert to IPv4 (if possible)
+            bool ok;
+            auto ipv4 = address.toIPv4Address(&ok);
+            if (ok) {
+                address.setAddress(ipv4);
+            }
+        }
+
         url.setHost(address.toString());
 
         qDebug() << "Found local server" << url;
